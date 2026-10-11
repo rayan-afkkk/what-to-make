@@ -8,7 +8,7 @@ data class StepTimer(
 
 object StepTimerParser {
 
-    private val DURATION = Regex(
+    internal val DURATION = Regex(
         "(\\d+(?:\\.\\d+)?)(?:\\s*(?:-|–|to)\\s*(\\d+(?:\\.\\d+)?))?\\s*" +
             "(hours?|hrs?|minutes?|mins?|seconds?|secs?)\\b",
         RegexOption.IGNORE_CASE,

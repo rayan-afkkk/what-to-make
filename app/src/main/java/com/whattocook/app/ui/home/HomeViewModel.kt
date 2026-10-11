@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.whattocook.app.data.catalog.IngredientCatalog
 import com.whattocook.app.data.repository.PantryRepository
 import com.whattocook.app.data.repository.RecipeRepository
+import com.whattocook.app.data.repository.UsageRepository
+import com.whattocook.app.domain.UsageLimit
 import com.whattocook.app.domain.model.AppError
+import com.whattocook.app.domain.model.Plan
 import com.whattocook.app.domain.model.RecipeOrigin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,6 +21,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 enum class HomeFilter { ALL, RECIPES, SAVED }
 
@@ -43,8 +47,10 @@ data class HomeUiState(
     val showAddIngredientsCard: Boolean = false,
     val showFirstRecipeCard: Boolean = false,
     val showSaveCard: Boolean = false,
-    val showImportCard: Boolean = false,
-    val showLibraryCard: Boolean = false,
+    val isPro: Boolean = false,
+    /** Recipes left this week, or null until usage is known. */
+    val recipesLeft: Int? = null,
+    val weeklyLimit: Int = 0,
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -53,6 +59,7 @@ class HomeViewModel @Inject constructor(
     recipeRepository: RecipeRepository,
     pantryRepository: PantryRepository,
     catalog: IngredientCatalog,
+    private val usageRepository: UsageRepository,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -64,7 +71,9 @@ class HomeViewModel @Inject constructor(
             recipeRepository.observeAll(),
             pantryRepository.observeItems(),
             filter,
-        ) { allRecipes, pantry, filterName ->
+            usageRepository.usage,
+        ) { allRecipes, pantry, filterName, usage ->
+            val summary = usage?.let { UsageLimit.summarize(it, System.currentTimeMillis()) }
             // Library dishes only appear on Home once the user saves them.
             val recipes = allRecipes.filter { it.origin != RecipeOrigin.LIBRARY || it.isSaved }
             val matcher = catalog.matcher()
@@ -97,13 +106,18 @@ class HomeViewModel @Inject constructor(
                 showAddIngredientsCard = pantry.isEmpty(),
                 showFirstRecipeCard = recipes.isEmpty(),
                 showSaveCard = recipes.isNotEmpty() && recipes.none { it.isSaved },
-                showImportCard = allRecipes.none { it.origin == RecipeOrigin.LINK },
-                showLibraryCard = allRecipes.none { it.origin == RecipeOrigin.LIBRARY },
+                isPro = summary?.plan == Plan.PRO,
+                recipesLeft = summary?.remaining,
+                weeklyLimit = summary?.limit ?: 0,
             )
         }
     }
         .catch { emit(HomeUiState(isLoading = false, error = AppError.Unknown(it.message))) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
+
+    init {
+        if (usageRepository.usage.value == null) viewModelScope.launch { usageRepository.refresh() }
+    }
 
     fun setFilter(filter: HomeFilter) {
         savedStateHandle[KEY_FILTER] = filter.name
