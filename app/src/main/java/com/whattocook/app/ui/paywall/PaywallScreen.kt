@@ -29,6 +29,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -59,6 +60,7 @@ import com.whattocook.app.BuildConfig
 import com.whattocook.app.R
 import com.whattocook.app.data.billing.PlanOffer
 import com.whattocook.app.data.billing.PlanPeriod
+import com.whattocook.app.domain.LibraryAccess
 import com.whattocook.app.domain.model.Plan
 import com.whattocook.app.ui.components.AccentButton
 import com.whattocook.app.ui.components.AppCard
@@ -128,7 +130,10 @@ fun PaywallScreen(
                 color = colors.textSecondary,
             )
 
-            if (state.limitReached && state.plan == Plan.FREE) {
+            if (state.fromLibrary && state.plan == Plan.FREE) {
+                Spacer(Modifier.height(Spacing.xl))
+                LibraryBanner()
+            } else if (state.limitReached && state.plan == Plan.FREE) {
                 Spacer(Modifier.height(Spacing.xl))
                 LimitBanner(weeklyLimit = state.weeklyLimit, resetsAtMillis = state.resetsAtMillis)
             }
@@ -250,10 +255,44 @@ private fun LimitBanner(weeklyLimit: Int, resetsAtMillis: Long) {
 }
 
 @Composable
+private fun LibraryBanner() {
+    val purple = AppTheme.colors.pastels.purple
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+            .background(purple.container)
+            .padding(18.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(Icons.Filled.Lock, contentDescription = null, tint = purple.content)
+        Spacer(Modifier.width(12.dp))
+        Column {
+            Text(
+                stringResource(R.string.paywall_library_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = purple.content,
+            )
+            Text(
+                stringResource(R.string.paywall_library_message, LibraryAccess.FREE_PER_CATEGORY),
+                style = MaterialTheme.typography.bodyMedium,
+                color = purple.content,
+            )
+        }
+    }
+}
+
+@Composable
 private fun ComparisonTable(weeklyLimit: Int) {
     val colors = AppTheme.colors
     val rows = listOf(
         Triple(stringResource(R.string.paywall_row_recipes), stringResource(R.string.paywall_row_recipes_free, weeklyLimit), stringResource(R.string.paywall_row_recipes_pro)),
+        Triple(
+            stringResource(R.string.paywall_row_library),
+            stringResource(R.string.paywall_row_library_free, LibraryAccess.FREE_PER_CATEGORY),
+            stringResource(R.string.paywall_row_library_pro),
+        ),
         Triple(stringResource(R.string.paywall_row_pantry), CHECK, CHECK),
         Triple(stringResource(R.string.paywall_row_cook_mode), CHECK, CHECK),
         Triple(stringResource(R.string.paywall_row_no_ads), CHECK, CHECK),

@@ -41,4 +41,9 @@
         <item quantity="one">%1$d dish</item>
         <item quantity="other">%1$d dishes</item>
     </plurals>
+    <!-- "5 free · 18 more with Pro" (quantity = number of locked dishes) -->
+    <plurals name="library_count_locked">
+        <item quantity="one">%1$d free · %2$d more with Pro</item>
+        <item quantity="other">%1$d free · %2$d more with Pro</item>
+    </plurals>
 </resources>

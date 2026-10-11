@@ -155,6 +155,7 @@ fun AppRoot(
                     onStartRequest = { route -> navController.navigate(route) },
                     onOpenRecipe = { navController.navigate(Routes.recipe(it)) },
                     onOpenLibrary = { source, title -> navController.navigate(Routes.library(source, title)) },
+                    onLockedDish = { navController.navigate(Routes.paywall(reason = Routes.REASON_LIBRARY)) },
                 )
             }
             composable(Routes.SHOPPING) {
@@ -204,6 +205,7 @@ fun AppRoot(
                 LibraryListScreen(
                     onBack = { navController.popBackStack() },
                     onOpenRecipe = { navController.navigate(Routes.recipe(it)) },
+                    onLockedDish = { navController.navigate(Routes.paywall(reason = Routes.REASON_LIBRARY)) },
                 )
             }
             composable(
@@ -254,7 +256,10 @@ fun AppRoot(
             }
             composable(
                 route = Routes.PAYWALL,
-                arguments = listOf(navArgument(Routes.ARG_RESETS_AT) { type = NavType.LongType; defaultValue = 0L }),
+                arguments = listOf(
+                    navArgument(Routes.ARG_RESETS_AT) { type = NavType.LongType; defaultValue = 0L },
+                    navArgument(Routes.ARG_REASON) { type = NavType.StringType; nullable = true; defaultValue = null },
+                ),
                 enterTransition = sheetEnter,
                 popExitTransition = sheetExit,
             ) {

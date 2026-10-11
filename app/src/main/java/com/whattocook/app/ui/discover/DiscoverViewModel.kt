@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.whattocook.app.data.repository.LibraryRepository
 import com.whattocook.app.data.repository.PantryRepository
+import com.whattocook.app.data.repository.UsageRepository
 import com.whattocook.app.domain.LibraryDish
 import com.whattocook.app.domain.model.AppError
 import com.whattocook.app.domain.model.AppResult
+import com.whattocook.app.domain.model.Plan
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +33,8 @@ data class DiscoverUiState(
     val mode: DiscoverMode = DiscoverMode.PANTRY,
     val pantryCount: Int = 0,
     val rows: Map<String, RowState> = emptyMap(),
+    /** Pro users can open every library dish; free users the first few per row. */
+    val isPro: Boolean = false,
     val randomLoading: Boolean = false,
     val randomError: AppError? = null,
     /** Recipe id to open (random dish); cleared once the screen navigates. */
@@ -47,6 +51,7 @@ private data class RandomState(
 class DiscoverViewModel @Inject constructor(
     pantryRepository: PantryRepository,
     private val libraryRepository: LibraryRepository,
+    private val usageRepository: UsageRepository,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -59,17 +64,24 @@ class DiscoverViewModel @Inject constructor(
         pantryRepository.observeItems(),
         rows,
         random,
-    ) { mode, items, rows, random ->
+        usageRepository.usage,
+    ) { mode, items, rows, random, usage ->
         DiscoverUiState(
             isLoading = false,
             mode = DiscoverMode.valueOf(mode),
             pantryCount = items.size,
             rows = rows,
+            isPro = usage?.plan == Plan.PRO,
             randomLoading = random.loading,
             randomError = random.error,
             openRecipeId = random.openRecipeId,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), DiscoverUiState())
+
+    init {
+        // Know the plan early so Pro users never see locks.
+        if (usageRepository.usage.value == null) viewModelScope.launch { usageRepository.refresh() }
+    }
 
     fun setMode(mode: DiscoverMode) {
         savedStateHandle[KEY_MODE] = mode.name
@@ -82,7 +94,8 @@ class DiscoverViewModel @Inject constructor(
         rows.update { it + (row.key to RowState.Loading) }
         viewModelScope.launch {
             val state = when (val result = libraryRepository.dishes(row.source)) {
-                is AppResult.Success -> RowState.Loaded(result.data.shuffled())
+                // Keep the library's own order so the free dishes are the same everywhere.
+                is AppResult.Success -> RowState.Loaded(result.data)
                 is AppResult.Failure -> RowState.Failed(result.error)
             }
             rows.update { it + (row.key to state) }

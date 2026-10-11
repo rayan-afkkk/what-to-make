@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.RestaurantMenu
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whattocook.app.R
+import com.whattocook.app.domain.LibraryAccess
 import com.whattocook.app.ui.components.DishCard
 import com.whattocook.app.ui.components.DishCardPlaceholder
 import com.whattocook.app.ui.components.EmptyState
@@ -38,9 +39,11 @@ import com.whattocook.app.ui.theme.Spacing
 fun LibraryListScreen(
     onBack: () -> Unit,
     onOpenRecipe: (String) -> Unit,
+    onLockedDish: () -> Unit,
     viewModel: LibraryListViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val isPro by viewModel.isPro.collectAsStateWithLifecycle()
 
     Column(Modifier.fillMaxSize()) {
         DetailTopBar(title = viewModel.title, onBack = onBack)
@@ -65,16 +68,23 @@ fun LibraryListScreen(
                 } else {
                     DishGrid {
                         item(span = { GridItemSpan(maxLineSpan) }) {
+                            val locked = LibraryAccess.lockedCount(current.dishes.size, isPro)
                             Text(
-                                quantityString(R.plurals.library_count, current.dishes.size, current.dishes.size),
+                                if (locked > 0) {
+                                    quantityString(R.plurals.library_count_locked, locked, LibraryAccess.FREE_PER_CATEGORY, locked)
+                                } else {
+                                    quantityString(R.plurals.library_count, current.dishes.size, current.dishes.size)
+                                },
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = AppTheme.colors.textSecondary,
                             )
                         }
-                        items(current.dishes, key = { it.recipeId }) { dish ->
+                        itemsIndexed(current.dishes, key = { _, dish -> dish.recipeId }) { index, dish ->
+                            val locked = LibraryAccess.isLocked(index, isPro)
                             DishCard(
                                 dish = dish,
-                                onClick = { onOpenRecipe(dish.recipeId) },
+                                locked = locked,
+                                onClick = { if (locked) onLockedDish() else onOpenRecipe(dish.recipeId) },
                                 modifier = Modifier.animateItem(),
                             )
                         }

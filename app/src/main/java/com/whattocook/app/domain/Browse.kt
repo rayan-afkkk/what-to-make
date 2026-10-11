@@ -24,3 +24,12 @@ object LibraryIds {
     /** The library meal id if [recipeId] is a library recipe, otherwise null. */
     fun mealId(recipeId: String): String? = recipeId.removePrefix(PREFIX).takeIf { recipeId.startsWith(PREFIX) }
 }
+
+/** Free users can open the first [FREE_PER_CATEGORY] dishes of each library list; the rest need Pro. */
+object LibraryAccess {
+    const val FREE_PER_CATEGORY = 5
+
+    fun isLocked(index: Int, isPro: Boolean): Boolean = !isPro && index >= FREE_PER_CATEGORY
+
+    fun lockedCount(total: Int, isPro: Boolean): Int = if (isPro) 0 else (total - FREE_PER_CATEGORY).coerceAtLeast(0)
+}

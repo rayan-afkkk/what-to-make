@@ -39,6 +39,8 @@ data class PaywallUiState(
     val selected: PlanPeriod = PlanPeriod.YEARLY,
     val plan: Plan = Plan.FREE,
     val limitReached: Boolean = false,
+    /** Opened by tapping a locked library dish. */
+    val fromLibrary: Boolean = false,
     val resetsAtMillis: Long = 0L,
     val weeklyLimit: Int = UsageLimit.FREE_WEEKLY_LIMIT,
     /** Yearly savings vs. 12 monthly payments, computed from Play's real prices. */
@@ -55,6 +57,7 @@ class PaywallViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val argResetsAt = savedStateHandle.get<Long>(Routes.ARG_RESETS_AT) ?: 0L
+    private val fromLibrary = savedStateHandle.get<String>(Routes.ARG_REASON) == Routes.REASON_LIBRARY
     private val selected = savedStateHandle.getStateFlow(KEY_SELECTED, PlanPeriod.YEARLY.name)
     private val restoring = MutableStateFlow(false)
     private val message = MutableStateFlow<PaywallMessage?>(null)
@@ -73,6 +76,7 @@ class PaywallViewModel @Inject constructor(
             selected = PlanPeriod.valueOf(period),
             plan = usage?.plan ?: Plan.FREE,
             limitReached = argResetsAt > 0 || (usage != null && !UsageLimit.canRequest(usage, now)),
+            fromLibrary = fromLibrary,
             resetsAtMillis = resetsAt,
             weeklyLimit = usage?.takeIf { it.plan == Plan.FREE }?.limit ?: UsageLimit.FREE_WEEKLY_LIMIT,
             yearlySavingsPercent = savings(billing),

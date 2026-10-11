@@ -25,6 +25,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -85,6 +86,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whattocook.app.R
 import com.whattocook.app.domain.BrowseSource
+import com.whattocook.app.domain.LibraryAccess
 import com.whattocook.app.domain.Cuisine
 import com.whattocook.app.domain.Mood
 import com.whattocook.app.ui.components.DishCard
@@ -139,6 +141,7 @@ fun DiscoverScreen(
     onStartRequest: (route: String) -> Unit,
     onOpenRecipe: (recipeId: String) -> Unit,
     onOpenLibrary: (source: BrowseSource, title: String) -> Unit,
+    onLockedDish: () -> Unit,
     viewModel: DiscoverViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -277,8 +280,10 @@ fun DiscoverScreen(
                 LibraryRowSection(
                     title = title,
                     state = state.rows[row.key] ?: RowState.Loading,
+                    isPro = state.isPro,
                     onSeeAll = { onOpenLibrary(row.source, title) },
                     onOpenDish = onOpenRecipe,
+                    onLockedDish = onLockedDish,
                     onRetry = { viewModel.loadRow(row, force = true) },
                 )
             }
@@ -335,8 +340,10 @@ private fun LibraryHeader(
 private fun LibraryRowSection(
     title: String,
     state: RowState,
+    isPro: Boolean,
     onSeeAll: () -> Unit,
     onOpenDish: (String) -> Unit,
+    onLockedDish: () -> Unit,
     onRetry: () -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -389,10 +396,12 @@ private fun LibraryRowSection(
                 contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = Spacing.sm),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.md),
             ) {
-                items(state.dishes.take(MAX_ROW_ITEMS), key = { it.recipeId }) { dish ->
+                itemsIndexed(state.dishes.take(MAX_ROW_ITEMS), key = { _, dish -> dish.recipeId }) { index, dish ->
+                    val locked = LibraryAccess.isLocked(index, isPro)
                     DishCard(
                         dish = dish,
-                        onClick = { onOpenDish(dish.recipeId) },
+                        locked = locked,
+                        onClick = { if (locked) onLockedDish() else onOpenDish(dish.recipeId) },
                         modifier = Modifier.width(DishCardWidth),
                     )
                 }

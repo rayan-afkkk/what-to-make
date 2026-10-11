@@ -257,11 +257,13 @@
 
     <!-- Recipe library (Discover) -->
     <string name="library_title">Recipe library</string>
-    <string name="library_subtitle">Real dishes with photos. Free, they don’t use your weekly recipes.</string>
+    <string name="library_subtitle">Real dishes with photos. They don’t use your weekly AI recipes.</string>
     <string name="library_search_hint">Search dishes, e.g. biryani</string>
     <string name="library_random">Pick a random dish</string>
     <string name="library_random_loading">Picking a dish…</string>
     <string name="library_see_all">See all</string>
+    <string name="library_locked_cd">%1$s, locked. Available with Pro</string>
+    <string name="library_unlock_action">See Pro plans</string>
     <string name="library_empty_title">No dishes found</string>
     <string name="library_empty_message">Try another search or category.</string>
     <string name="library_desi">Desi favourites</string>
@@ -353,6 +355,11 @@
     <string name="paywall_row_recipes">AI recipes</string>
     <string name="paywall_row_recipes_free">%1$d / week</string>
     <string name="paywall_row_recipes_pro">More every week</string>
+    <string name="paywall_row_library">Recipe library</string>
+    <string name="paywall_row_library_free">%1$d per category</string>
+    <string name="paywall_row_library_pro">Every dish</string>
+    <string name="paywall_library_title">Unlock the whole recipe library</string>
+    <string name="paywall_library_message">Free includes %1$d dishes in every category. Pro opens all of them.</string>
     <string name="paywall_row_pantry">Pantry &amp; shopping list</string>
     <string name="paywall_row_cook_mode">Cook mode &amp; timers</string>
     <string name="paywall_row_no_ads">No ads</string>

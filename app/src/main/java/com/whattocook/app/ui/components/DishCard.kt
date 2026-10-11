@@ -10,48 +10,115 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.whattocook.app.R
 import com.whattocook.app.domain.LibraryDish
 import com.whattocook.app.ui.theme.AppTheme
 
 private val PhotoShape = RoundedCornerShape(18.dp)
 
-/** Photo + name card for a library dish. */
+/**
+ * Photo + name card for a library dish. A [locked] dish stays visible (dimmed, with a lock
+ * and a "Pro" badge) and its click should open the paywall.
+ */
 @Composable
 fun DishCard(
     dish: LibraryDish,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    locked: Boolean = false,
 ) {
-    Column(modifier.pressClickable(onClick = onClick, role = Role.Button, pressedScale = 0.96f)) {
-        RecipePhoto(
-            url = dish.imageUrl,
-            contentDescription = null,
-            thumbnail = true,
-            modifier = Modifier
+    val colors = AppTheme.colors
+    val lockedLabel = stringResource(R.string.library_locked_cd, dish.title)
+    Column(
+        modifier
+            .pressClickable(
+                onClick = onClick,
+                role = Role.Button,
+                pressedScale = 0.96f,
+                onClickLabel = if (locked) stringResource(R.string.library_unlock_action) else null,
+            )
+            .then(if (locked) Modifier.semantics(mergeDescendants = true) { contentDescription = lockedLabel } else Modifier),
+    ) {
+        Box(
+            Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
                 .clip(PhotoShape),
-        )
+        ) {
+            RecipePhoto(
+                url = dish.imageUrl,
+                contentDescription = null,
+                thumbnail = true,
+                modifier = Modifier.fillMaxSize(),
+            )
+            if (locked) {
+                // Dim the photo so it reads as "preview only".
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.55f)),
+                )
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(colors.textPrimary.copy(alpha = 0.92f)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        Icons.Filled.Lock,
+                        contentDescription = null,
+                        tint = colors.background,
+                        modifier = Modifier.size(22.dp),
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.plan_pro),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = colors.onAccent,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp)
+                        .clip(CircleShape)
+                        .background(colors.accent)
+                        .padding(horizontal = 8.dp, vertical = 3.dp),
+                )
+            }
+        }
         Spacer(Modifier.height(8.dp))
         Text(
             text = dish.title,
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
-            color = AppTheme.colors.textPrimary,
+            color = if (locked) colors.textSecondary else colors.textPrimary,
             minLines = 2,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,

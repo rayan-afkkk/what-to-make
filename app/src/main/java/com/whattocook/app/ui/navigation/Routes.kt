@@ -45,7 +45,9 @@ object Routes {
     const val IMPORT = "import?$ARG_URL={$ARG_URL}"
 
     const val ARG_RESETS_AT = "resetsAt"
-    const val PAYWALL = "paywall?$ARG_RESETS_AT={$ARG_RESETS_AT}"
+    const val ARG_REASON = "reason"
+    const val PAYWALL = "paywall?$ARG_RESETS_AT={$ARG_RESETS_AT}&$ARG_REASON={$ARG_REASON}"
+    const val REASON_LIBRARY = "library"
 
     fun recipe(id: String) = "recipe/${Uri.encode(id)}"
     fun cook(id: String) = "cook/${Uri.encode(id)}"
@@ -61,7 +63,8 @@ object Routes {
         if (cuisine != null) append("&$ARG_CUISINE=${Uri.encode(cuisine)}")
     }
 
-    fun paywall(resetsAtMillis: Long = 0L) = "paywall?$ARG_RESETS_AT=$resetsAtMillis"
+    fun paywall(resetsAtMillis: Long = 0L, reason: String? = null) =
+        "paywall?$ARG_RESETS_AT=$resetsAtMillis" + (reason?.let { "&$ARG_REASON=$it" } ?: "")
 
     fun library(source: BrowseSource, title: String) =
         "library/${source.type.name}/${Uri.encode(source.value)}?$ARG_TITLE=${Uri.encode(title)}"
