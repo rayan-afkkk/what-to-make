@@ -1,8 +1,6 @@
 package com.whattocook.app.ui.components
 
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,6 +18,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.whattocook.app.ui.theme.Motion
 
 /**
  * Click with a gentle press-scale: the element shrinks slightly while pressed
@@ -31,13 +30,13 @@ fun Modifier.pressClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = Role.Button,
-    pressedScale: Float = 0.96f,
+    pressedScale: Float = 0.97f,
 ): Modifier {
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
         targetValue = if (pressed && enabled) pressedScale else 1f,
-        animationSpec = spring(dampingRatio = 0.55f, stiffness = Spring.StiffnessMediumLow),
+        animationSpec = Motion.gentleSpring(),
         label = "pressScale",
     )
     return this

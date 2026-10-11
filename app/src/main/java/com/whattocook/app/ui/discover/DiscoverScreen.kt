@@ -259,7 +259,7 @@ private fun AutoScrollingChipRow(
     LazyRow(
         state = listState,
         userScrollEnabled = !animate,
-        contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = 14.dp),
+        contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(Spacing.md),
     ) {
         val count = if (animate) Int.MAX_VALUE else chips.size
@@ -288,7 +288,7 @@ private fun CuisineCard(
     val top = lerp(pastel.container, Color.White, 0.25f)
     Box(
         modifier = modifier
-            .heightIn(min = 96.dp)
+            .heightIn(min = 82.dp)
             .pressClickable(onClick = onClick, pressedScale = 0.95f)
             .clip(shape)
             .background(Brush.verticalGradient(listOf(top, pastel.container)))
@@ -300,23 +300,23 @@ private fun CuisineCard(
                 drawCircle(stud, r, Offset(inset, inset))
                 drawCircle(stud, r, Offset(size.width - inset, size.height - inset))
             }
-            .padding(horizontal = 16.dp, vertical = 20.dp),
+            .padding(horizontal = 14.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 Modifier
-                    .size(36.dp)
+                    .size(32.dp)
                     .clip(CircleShape)
                     .background(pastel.content.copy(alpha = 0.12f)),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(icon, contentDescription = null, tint = pastel.content, modifier = Modifier.size(22.dp))
+                Icon(icon, contentDescription = null, tint = pastel.content, modifier = Modifier.size(19.dp))
             }
             Spacer(Modifier.size(10.dp))
             Text(
                 text = label,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = pastel.content,
                 maxLines = 1,

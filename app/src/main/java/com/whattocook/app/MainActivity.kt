@@ -1,5 +1,7 @@
 package com.whattocook.app
 
+import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,6 +25,7 @@ import com.whattocook.app.ui.AppViewModel
 import com.whattocook.app.ui.navigation.AppRoot
 import com.whattocook.app.ui.onboarding.OnboardingScreen
 import com.whattocook.app.ui.theme.AppTheme
+import com.whattocook.app.ui.theme.MAX_FONT_SCALE
 import com.whattocook.app.ui.theme.WhatToCookTheme
 import com.whattocook.app.ui.theme.isAppInDarkTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +34,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val appViewModel: AppViewModel by viewModels()
+
+    /**
+     * Caps the system font size so text, cards and buttons keep the same proportions even
+     * when the phone's font size is maxed out. Applied to the activity context so dialogs and
+     * bottom sheets (which live in their own windows) follow it too.
+     */
+    override fun attachBaseContext(newBase: Context) {
+        val configuration = newBase.resources.configuration
+        if (configuration.fontScale > MAX_FONT_SCALE) {
+            val capped = Configuration(configuration).apply { fontScale = MAX_FONT_SCALE }
+            super.attachBaseContext(newBase.createConfigurationContext(capped))
+        } else {
+            super.attachBaseContext(newBase)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

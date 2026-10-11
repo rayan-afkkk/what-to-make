@@ -278,17 +278,17 @@ private fun ProfileCard(plan: Plan, signedIn: Boolean, configured: Boolean) {
     val colors = AppTheme.colors
     AppCard(Modifier.fillMaxWidth()) {
         Row(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
                 modifier = Modifier
-                    .size(64.dp)
-                    .clip(RoundedCornerShape(18.dp))
+                    .size(54.dp)
+                    .clip(RoundedCornerShape(16.dp))
                     .background(colors.pastels.amber.container),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(Icons.Filled.Person, contentDescription = null, tint = colors.pastels.amber.content, modifier = Modifier.size(36.dp))
+                Icon(Icons.Filled.Person, contentDescription = null, tint = colors.pastels.amber.content, modifier = Modifier.size(30.dp))
             }
             Spacer(Modifier.width(16.dp))
             Column(Modifier.weight(1f)) {
@@ -329,7 +329,7 @@ private fun UsageCard(
     AppCard(Modifier.fillMaxWidth()) {
         Column(
             Modifier
-                .padding(20.dp)
+                .padding(18.dp)
                 .animateContentSize(),
         ) {
             when {
@@ -356,7 +356,7 @@ private fun UsageCard(
                         )
                     }
                     Spacer(Modifier.height(Spacing.sm))
-                    AnimatedProgressBar(progress = usage.remainingFraction, height = 10.dp)
+                    AnimatedProgressBar(progress = usage.remainingFraction, height = 8.dp)
                     Spacer(Modifier.height(Spacing.sm))
                     Text(
                         text = resetText(usage),

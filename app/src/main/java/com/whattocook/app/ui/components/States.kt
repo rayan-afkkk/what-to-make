@@ -116,7 +116,7 @@ fun EmptyState(
     ) {
         Box(
             modifier = Modifier
-                .size(72.dp)
+                .size(64.dp)
                 .clip(CircleShape)
                 .background(AppTheme.colors.card),
             contentAlignment = Alignment.Center,
@@ -160,7 +160,7 @@ fun ErrorState(
     ) {
         Box(
             modifier = Modifier
-                .size(72.dp)
+                .size(64.dp)
                 .clip(CircleShape)
                 .background(AppTheme.colors.accentSoft),
             contentAlignment = Alignment.Center,

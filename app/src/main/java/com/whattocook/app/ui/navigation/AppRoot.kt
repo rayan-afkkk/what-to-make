@@ -4,9 +4,12 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.WindowInsets
@@ -35,22 +38,48 @@ import com.whattocook.app.ui.recipe.GenerateScreen
 import com.whattocook.app.ui.recipe.RecipeDetailScreen
 import com.whattocook.app.ui.shopping.ShoppingScreen
 import com.whattocook.app.ui.theme.AppTheme
+import com.whattocook.app.ui.theme.Motion
 
-private const val FADE_MS = 220
-private const val SLIDE_MS = 320
+// Material "fade through" between tabs: the old screen fades out quickly, then the new one
+// fades in while growing slightly. Pushed screens use a short shared-axis slide.
+private const val FADE_OUT_MS = 90
+private const val FADE_IN_MS = 210
 
-private val tabEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition =
-    { fadeIn(tween(FADE_MS)) }
-private val tabExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition =
-    { fadeOut(tween(FADE_MS)) }
-private val pushEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition =
-    { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(SLIDE_MS)) + fadeIn(tween(SLIDE_MS)) }
-private val popExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition =
-    { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(SLIDE_MS)) + fadeOut(tween(SLIDE_MS)) }
-private val sheetEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition =
-    { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, tween(SLIDE_MS)) + fadeIn(tween(SLIDE_MS)) }
-private val sheetExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition =
-    { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, tween(SLIDE_MS)) + fadeOut(tween(SLIDE_MS)) }
+private val tabEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = {
+    fadeIn(tween(FADE_IN_MS, delayMillis = FADE_OUT_MS, easing = LinearOutSlowInEasing)) +
+        scaleIn(tween(FADE_IN_MS, delayMillis = FADE_OUT_MS, easing = Motion.EmphasizedDecelerate), initialScale = 0.97f)
+}
+private val tabExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = {
+    fadeOut(tween(FADE_OUT_MS, easing = FastOutLinearInEasing))
+}
+private val pushEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = {
+    slideIntoContainer(
+        AnimatedContentTransitionScope.SlideDirection.Start,
+        tween(Motion.MEDIUM, easing = Motion.Emphasized),
+        initialOffset = { it / 5 },
+    ) + fadeIn(tween(FADE_IN_MS, delayMillis = FADE_OUT_MS, easing = LinearOutSlowInEasing))
+}
+private val popExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = {
+    slideOutOfContainer(
+        AnimatedContentTransitionScope.SlideDirection.End,
+        tween(Motion.MEDIUM, easing = Motion.Emphasized),
+        targetOffset = { it / 5 },
+    ) + fadeOut(tween(FADE_OUT_MS * 2, easing = FastOutLinearInEasing))
+}
+private val sheetEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = {
+    slideIntoContainer(
+        AnimatedContentTransitionScope.SlideDirection.Up,
+        tween(Motion.LONG, easing = Motion.EmphasizedDecelerate),
+        initialOffset = { it / 3 },
+    ) + fadeIn(tween(FADE_IN_MS, easing = LinearOutSlowInEasing))
+}
+private val sheetExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = {
+    slideOutOfContainer(
+        AnimatedContentTransitionScope.SlideDirection.Down,
+        tween(250, easing = Motion.EmphasizedAccelerate),
+        targetOffset = { it / 3 },
+    ) + fadeOut(tween(200, easing = FastOutLinearInEasing))
+}
 
 fun NavHostController.navigateToTab(route: String) {
     navigate(route) {
@@ -74,8 +103,10 @@ fun AppRoot() {
         bottomBar = {
             AnimatedVisibility(
                 visible = currentTab != null,
-                enter = slideInVertically { it } + fadeIn(),
-                exit = slideOutVertically { it } + fadeOut(),
+                enter = slideInVertically(tween(Motion.MEDIUM, easing = Motion.EmphasizedDecelerate)) { it } +
+                    fadeIn(tween(Motion.MEDIUM)),
+                exit = slideOutVertically(tween(200, easing = Motion.EmphasizedAccelerate)) { it } +
+                    fadeOut(tween(200)),
             ) {
                 BottomBar(
                     current = currentTab,

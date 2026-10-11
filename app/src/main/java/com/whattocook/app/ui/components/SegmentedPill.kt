@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.whattocook.app.ui.theme.AppTheme
+import com.whattocook.app.ui.theme.Motion
 
 data class SegmentOption<T>(
     val value: T,
@@ -55,7 +57,7 @@ fun <T> SegmentedPill(
     val selectedIndex = options.indexOfFirst { it.value == selected }.coerceAtLeast(0)
     val indicatorPosition by animateFloatAsState(
         targetValue = selectedIndex.toFloat(),
-        animationSpec = spring(dampingRatio = 0.75f, stiffness = Spring.StiffnessMediumLow),
+        animationSpec = spring(dampingRatio = 0.9f, stiffness = Spring.StiffnessMediumLow),
         label = "segmentIndicator",
     )
     val count = options.size.coerceAtLeast(1)
@@ -66,7 +68,7 @@ fun <T> SegmentedPill(
             .clip(CircleShape)
             .background(colors.card)
             .border(1.dp, colors.cardBorder, CircleShape)
-            .padding(5.dp)
+            .padding(4.dp)
             .drawBehind {
                 val segmentWidth = size.width / count
                 val radius = CornerRadius(size.height / 2f)
@@ -87,12 +89,13 @@ fun <T> SegmentedPill(
             val isSelected = index == selectedIndex
             val contentColor by animateColorAsState(
                 targetValue = if (isSelected) colors.textPrimary else colors.textSecondary,
+                animationSpec = tween(Motion.MEDIUM, easing = Motion.Emphasized),
                 label = "segmentColor",
             )
             Row(
                 modifier = Modifier
                     .weight(1f)
-                    .heightIn(min = 48.dp)
+                    .heightIn(min = 44.dp)
                     .clip(CircleShape)
                     .selectable(
                         selected = isSelected,
@@ -104,8 +107,8 @@ fun <T> SegmentedPill(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (option.icon != null) {
-                    Icon(option.icon, contentDescription = null, tint = contentColor, modifier = Modifier.size(20.dp))
-                    Spacer(Modifier.width(8.dp))
+                    Icon(option.icon, contentDescription = null, tint = contentColor, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(6.dp))
                 }
                 Text(
                     text = option.label,

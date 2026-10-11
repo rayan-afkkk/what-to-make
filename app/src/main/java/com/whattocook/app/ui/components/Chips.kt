@@ -44,13 +44,13 @@ fun TiltedPastelChip(
             .pressClickable(onClick = onClick, pressedScale = 0.92f)
             .clip(shape)
             .background(pastel.container)
-            .heightIn(min = 56.dp)
-            .padding(horizontal = 22.dp, vertical = 14.dp),
+            .heightIn(min = 48.dp)
+            .padding(horizontal = 18.dp, vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (icon != null) {
-            Icon(icon, contentDescription = null, tint = pastel.content, modifier = Modifier.size(22.dp))
-            Spacer(Modifier.width(10.dp))
+            Icon(icon, contentDescription = null, tint = pastel.content, modifier = Modifier.size(19.dp))
+            Spacer(Modifier.width(8.dp))
         }
         Text(
             text = label,
@@ -76,7 +76,7 @@ fun IngredientChip(
             .clip(CircleShape)
             .background(container)
             .border(1.dp, AppTheme.colors.cardBorder, CircleShape)
-            .padding(start = 16.dp),
+            .padding(start = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -88,7 +88,7 @@ fun IngredientChip(
         // 48dp touch target for the remove button.
         androidx.compose.foundation.layout.Box(
             modifier = Modifier
-                .size(48.dp)
+                .size(42.dp)
                 .pressClickable(onClick = onRemove, onClickLabel = removeDescription, pressedScale = 0.85f),
             contentAlignment = Alignment.Center,
         ) {
@@ -96,7 +96,7 @@ fun IngredientChip(
                 Icons.Filled.Close,
                 contentDescription = removeDescription,
                 tint = AppTheme.colors.textSecondary,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(16.dp),
             )
         }
     }

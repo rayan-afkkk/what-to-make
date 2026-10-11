@@ -117,7 +117,7 @@ fun PantryScreen(
                         Icons.Outlined.CreateNewFolder,
                         contentDescription = stringResource(R.string.pantry_create_group),
                         tint = colors.textPrimary,
-                        modifier = Modifier.size(28.dp),
+                        modifier = Modifier.size(24.dp),
                     )
                 }
             }
@@ -155,7 +155,7 @@ fun PantryScreen(
                 Spacer(Modifier.width(Spacing.md))
                 Box(
                     modifier = Modifier
-                        .size(60.dp)
+                        .size(52.dp)
                         .clip(CircleShape)
                         .background(colors.card)
                         .border(1.dp, colors.cardBorder, CircleShape)
@@ -305,6 +305,7 @@ private fun PantryContent(
         items(state.sections, key = { it.key }) { section ->
             Column(
                 Modifier
+                    .animateItem()
                     .padding(top = Spacing.xl)
                     .animateContentSize(),
             ) {
@@ -399,9 +400,9 @@ private fun SuggestionRow(title: String, subtitle: String?, onClick: () -> Unit)
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 52.dp)
+            .heightIn(min = 46.dp)
             .pressClickable(onClick = onClick, pressedScale = 0.98f)
-            .padding(horizontal = 18.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(Icons.Filled.Add, contentDescription = null, tint = colors.accent, modifier = Modifier.size(20.dp))
@@ -423,12 +424,12 @@ fun SelectChip(
     val colors = AppTheme.colors
     Box(
         modifier = modifier
-            .heightIn(min = 48.dp)
+            .heightIn(min = 42.dp)
             .pressClickable(onClick = onClick, role = Role.RadioButton, pressedScale = 0.94f)
             .clip(CircleShape)
             .background(if (selected) colors.accent else colors.card)
             .border(1.dp, if (selected) colors.accent else colors.cardBorder, CircleShape)
-            .padding(horizontal = 18.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(

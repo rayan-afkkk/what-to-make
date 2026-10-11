@@ -31,7 +31,7 @@ fun ScreenHeader(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = Spacing.screen, end = Spacing.md, top = Spacing.lg, bottom = Spacing.md),
+                .padding(start = Spacing.screen, end = Spacing.sm, top = Spacing.md, bottom = Spacing.sm),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {

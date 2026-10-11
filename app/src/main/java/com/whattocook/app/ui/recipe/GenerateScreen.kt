@@ -167,7 +167,7 @@ private fun ResultsList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = Spacing.lg),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
             Text(
@@ -178,16 +178,18 @@ private fun ResultsList(
         }
         items(recipes, key = { it.id }) { recipe ->
             AppCard(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .animateItem()
+                    .fillMaxWidth(),
                 onClick = { onOpenRecipe(recipe.id) },
                 onClickLabel = stringResource(R.string.home_open_recipe),
             ) {
-                Column(Modifier.padding(20.dp)) {
+                Column(Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.Top) {
-                        RecipeGlyph(kind = glyphFor(recipe.title), color = colors.textPrimary, size = 44.dp)
+                        RecipeGlyph(kind = glyphFor(recipe.title), color = colors.textPrimary, size = 38.dp)
                         Spacer(Modifier.width(14.dp))
                         Column(Modifier.weight(1f)) {
-                            Text(recipe.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+                            Text(recipe.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = colors.textPrimary)
                             Spacer(Modifier.height(4.dp))
                             Text(recipe.summary, style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
                         }

@@ -7,8 +7,8 @@ import androidx.compose.ui.unit.dp
 object Radii {
     val small = 12.dp
     val medium = 16.dp
-    val large = 20.dp
-    val xLarge = 24.dp
+    val large = 18.dp
+    val xLarge = 20.dp
 }
 
 val AppShapes = Shapes(
@@ -28,5 +28,5 @@ object Spacing {
     val xl = 24.dp
     val xxl = 32.dp
     /** Horizontal screen gutter. */
-    val screen = 20.dp
+    val screen = 18.dp
 }

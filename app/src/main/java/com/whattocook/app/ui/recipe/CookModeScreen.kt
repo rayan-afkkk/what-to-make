@@ -181,8 +181,8 @@ private fun CookPager(
                     text = state.steps[page],
                     fontFamily = Sans,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 30.sp,
-                    lineHeight = 40.sp,
+                    fontSize = 26.sp,
+                    lineHeight = 35.sp,
                     color = colors.textPrimary,
                     modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
                 )

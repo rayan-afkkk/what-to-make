@@ -112,13 +112,13 @@ private fun PillButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 60.dp)
+            .heightIn(min = 52.dp)
             .pressClickable(onClick = onClick, enabled = enabled && !loading)
             .alpha(if (enabled) 1f else 0.5f)
             .clip(CircleShape)
             .background(container)
             .then(borderModifier)
-            .padding(horizontal = 24.dp, vertical = 14.dp),
+            .padding(horizontal = 20.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -129,19 +129,19 @@ private fun PillButton(
         ) { isLoading ->
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(22.dp),
+                    modifier = Modifier.size(20.dp),
                     color = content,
                     strokeWidth = 2.5.dp,
                 )
             } else {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (icon != null) {
-                        Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(22.dp))
-                        Spacer(Modifier.width(10.dp))
+                        Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(8.dp))
                     }
                     Text(
                         text = text,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = content,
                         textAlign = TextAlign.Center,
                     )

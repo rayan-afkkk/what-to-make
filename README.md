@@ -215,6 +215,20 @@ Unit tests live in `app/src/test` (ingredient matching, serving scaler, usage-li
 - Both color schemes live in `ui/theme/Color.kt` and `Theme.kt`.
 - Onboarding shows once (DataStore flag set on finish or skip) and can be reopened from
   Account > View onboarding. It respects the system "Remove animations" setting.
+- **Font size cap:** the app follows the phone's font size only up to `MAX_FONT_SCALE`
+  (`ui/theme/Theme.kt`, default `1.0`), so layouts stay identical even at the largest system font.
+  Raise it (e.g. `1.15f`) to allow some growth for accessibility.
+- **Motion:** shared easing curves and durations live in `ui/theme/Motion.kt`. Tabs use a
+  "fade through", pushed screens a short slide, and cook mode / paywall slide up.
+- Test smoothness on a **release** build (`./gradlew installRelease` with a signing config, or a Play
+  internal-testing build). Debug builds of Compose apps are much slower.
+
+## Backend (optional starter)
+
+`backend/` contains a ready Cloudflare Worker + Turso implementation of the contract below
+(guest sign-in, Gemini recipes, weekly usage, Play verification, account deletion). From that folder run
+`npm run setup`; it installs packages, creates the tables, logs in to Cloudflare, deploys and stores the
+secrets. Delete the folder if you build the backend another way.
 
 ## Before release
 

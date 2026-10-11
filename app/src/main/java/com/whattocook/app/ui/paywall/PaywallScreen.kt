@@ -400,12 +400,12 @@ private fun PlanOptionCard(
             .background(colors.card)
             .border(if (selected) 2.dp else 1.dp, border, shape)
             .selectable(selected = selected, onClick = onClick, role = Role.RadioButton)
-            .padding(20.dp),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier
-                .size(24.dp)
+                .size(22.dp)
                 .clip(CircleShape)
                 .border(2.dp, if (selected) colors.accent else colors.textMuted, CircleShape)
                 .padding(5.dp)
@@ -415,7 +415,7 @@ private fun PlanOptionCard(
         Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+                Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = colors.textPrimary)
                 if (badge != null) {
                     Spacer(Modifier.width(8.dp))
                     Tag(text = badge, container = colors.accentSoft, content = colors.accent)

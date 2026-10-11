@@ -77,7 +77,7 @@ fun HomeScreen(
                     Icons.Filled.Add,
                     contentDescription = stringResource(R.string.home_new_recipe),
                     tint = colors.textPrimary,
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(26.dp),
                 )
             }
             IconButton(onClick = { viewModel.setFilter(HomeFilter.SAVED) }) {
@@ -85,7 +85,7 @@ fun HomeScreen(
                     if (state.filter == HomeFilter.SAVED) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                     contentDescription = stringResource(R.string.home_show_saved),
                     tint = if (state.filter == HomeFilter.SAVED) colors.accent else colors.textPrimary,
-                    modifier = Modifier.size(28.dp),
+                    modifier = Modifier.size(24.dp),
                 )
             }
         }
@@ -127,11 +127,15 @@ private fun HomeGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = Spacing.lg),
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(state.recipes, key = { it.id }) { recipe ->
-            RecipeGridCard(recipe = recipe, onClick = { onOpenRecipe(recipe.id) })
+            RecipeGridCard(
+                recipe = recipe,
+                onClick = { onOpenRecipe(recipe.id) },
+                modifier = Modifier.animateItem(),
+            )
         }
 
         if (state.recipes.isEmpty()) {
@@ -184,21 +188,21 @@ private fun HomeGrid(
 }
 
 @Composable
-private fun RecipeGridCard(recipe: RecipeCardUi, onClick: () -> Unit) {
+private fun RecipeGridCard(recipe: RecipeCardUi, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val colors = AppTheme.colors
     val tint = colors.recipeTints[recipe.id.hashCode().absoluteValue % colors.recipeTints.size]
     AppCard(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         color = tint,
         onClick = onClick,
         onClickLabel = stringResource(R.string.home_open_recipe),
     ) {
-        Column(Modifier.padding(18.dp)) {
-            RecipeGlyph(kind = glyphFor(recipe.title), color = colors.textPrimary, size = 48.dp)
-            Spacer(Modifier.height(14.dp))
+        Column(Modifier.padding(16.dp)) {
+            RecipeGlyph(kind = glyphFor(recipe.title), color = colors.textPrimary, size = 40.dp)
+            Spacer(Modifier.height(12.dp))
             Text(
                 text = recipe.title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = colors.textPrimary,
                 minLines = 2,
@@ -208,13 +212,13 @@ private fun RecipeGridCard(recipe: RecipeCardUi, onClick: () -> Unit) {
             Spacer(Modifier.height(4.dp))
             Text(
                 text = recipe.summary,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodySmall,
                 color = colors.textSecondary,
                 minLines = 2,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
-            Spacer(Modifier.height(14.dp))
+            Spacer(Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Tag(
                     text = stringResource(R.string.home_ingredient_progress, recipe.haveCount, recipe.totalCount),
@@ -244,22 +248,22 @@ private fun GetStartedCard(
         modifier = Modifier
             .fillMaxWidth()
             .pressClickable(onClick = onClick, pressedScale = 0.97f)
-            .dashedBorder(colors.cardBorder)
-            .padding(20.dp),
+            .dashedBorder(colors.cardBorder, cornerRadius = 20.dp)
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier
-                .size(56.dp)
+                .size(46.dp)
                 .clip(CircleShape)
                 .background(colors.accentSoft),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(Icons.Filled.Add, contentDescription = null, tint = colors.accent, modifier = Modifier.size(30.dp))
+            Icon(Icons.Filled.Add, contentDescription = null, tint = colors.accent, modifier = Modifier.size(24.dp))
         }
-        Spacer(Modifier.width(18.dp))
+        Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = colors.textPrimary)
             Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
         }
     }

@@ -209,7 +209,7 @@ private fun RecipeContent(
                 Column(Modifier.padding(top = Spacing.xl).animateContentSize()) {
                     SectionLabel(stringResource(R.string.recipe_missing), Modifier.padding(bottom = Spacing.sm))
                     AppCard(Modifier.fillMaxWidth()) {
-                        Column(Modifier.padding(18.dp)) {
+                        Column(Modifier.padding(16.dp)) {
                             state.missing.forEachIndexed { index, missing ->
                                 if (index > 0) Spacer(Modifier.height(14.dp))
                                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -266,7 +266,7 @@ private fun RecipeContent(
             Row(Modifier.padding(vertical = 10.dp)) {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(28.dp)
                         .clip(CircleShape)
                         .background(colors.cardRaised),
                     contentAlignment = Alignment.Center,
@@ -293,21 +293,21 @@ private fun IngredientRow(row: IngredientRowUi) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 48.dp)
+            .heightIn(min = 42.dp)
             .semantics(mergeDescendants = true) { stateDescription = stateText }
             .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier
-                .size(24.dp)
+                .size(22.dp)
                 .clip(CircleShape)
                 .background(circleColor)
                 .border(1.5.dp, if (row.inPantry) colors.accent else colors.textMuted, CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             if (row.inPantry) {
-                Icon(Icons.Filled.Check, contentDescription = null, tint = colors.onAccent, modifier = Modifier.size(16.dp))
+                Icon(Icons.Filled.Check, contentDescription = null, tint = colors.onAccent, modifier = Modifier.size(14.dp))
             }
         }
         Spacer(Modifier.width(14.dp))

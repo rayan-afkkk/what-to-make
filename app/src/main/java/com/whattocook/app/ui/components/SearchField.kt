@@ -64,15 +64,15 @@ fun PillTextField(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 56.dp)
+                    .heightIn(min = 50.dp)
                     .background(colors.card, CircleShape)
                     .border(1.dp, colors.cardBorder, CircleShape)
                     .padding(start = 18.dp, end = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(leadingIcon, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(22.dp))
-                Spacer(Modifier.width(12.dp))
-                Box(Modifier.weight(1f).padding(vertical = 14.dp)) {
+                Icon(leadingIcon, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(20.dp))
+                Spacer(Modifier.width(10.dp))
+                Box(Modifier.weight(1f).padding(vertical = 12.dp)) {
                     if (value.isEmpty()) {
                         Text(placeholder, style = MaterialTheme.typography.bodyLarge, color = colors.textMuted, maxLines = 1)
                     }

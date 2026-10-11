@@ -1,7 +1,6 @@
 package com.whattocook.app.ui.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.whattocook.app.ui.theme.AppTheme
+import com.whattocook.app.ui.theme.Motion
 
 /** Rounded progress bar that animates from empty to [progress] and between values. */
 @Composable
@@ -33,7 +33,7 @@ fun AnimatedProgressBar(
     val target = progress.coerceIn(0f, 1f)
     val animated = remember { Animatable(0f) }
     LaunchedEffect(target) {
-        animated.animateTo(target, tween(durationMillis, easing = FastOutSlowInEasing))
+        animated.animateTo(target, tween(durationMillis, easing = Motion.Emphasized))
     }
     Canvas(
         modifier = modifier

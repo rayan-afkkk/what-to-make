@@ -91,7 +91,7 @@ fun ShoppingScreen(viewModel: ShoppingViewModel = hiltViewModel()) {
             Spacer(Modifier.width(Spacing.md))
             Box(
                 modifier = Modifier
-                    .size(56.dp)
+                    .size(50.dp)
                     .pressClickable(
                         onClick = viewModel::addFromInput,
                         enabled = state.input.isNotBlank(),
@@ -174,26 +174,26 @@ private fun ShoppingRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 56.dp),
+            .heightIn(min = 50.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(
             modifier = Modifier
                 .weight(1f)
-                .heightIn(min = 56.dp)
+                .heightIn(min = 50.dp)
                 .toggleable(value = item.checked, role = Role.Checkbox, onValueChange = { onToggle() }),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
                 modifier = Modifier
-                    .size(26.dp)
+                    .size(22.dp)
                     .clip(CircleShape)
                     .background(circle)
                     .border(1.5.dp, if (item.checked) colors.accent else colors.textMuted, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 if (item.checked) {
-                    Icon(Icons.Filled.Check, contentDescription = null, tint = colors.onAccent, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Filled.Check, contentDescription = null, tint = colors.onAccent, modifier = Modifier.size(14.dp))
                 }
             }
             Spacer(Modifier.width(14.dp))

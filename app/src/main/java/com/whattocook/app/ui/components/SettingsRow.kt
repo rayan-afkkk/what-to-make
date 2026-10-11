@@ -40,15 +40,15 @@ fun SettingsRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 64.dp)
+                .heightIn(min = 56.dp)
                 .pressClickable(onClick = onClick, pressedScale = 0.98f)
-                .padding(vertical = 14.dp),
+                .padding(vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(26.dp))
-            Spacer(Modifier.width(18.dp))
+            Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(22.dp))
+            Spacer(Modifier.width(16.dp))
             Column(Modifier.weight(1f)) {
-                Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Medium, color = titleColor)
+                Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Medium, color = titleColor)
                 if (subtitle != null) {
                     Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
                 }
@@ -57,7 +57,7 @@ fun SettingsRow(
                 Icons.Outlined.ChevronRight,
                 contentDescription = null,
                 tint = colors.textMuted,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(22.dp),
             )
         }
         if (showDivider) HorizontalDivider(color = colors.divider, thickness = 1.dp)

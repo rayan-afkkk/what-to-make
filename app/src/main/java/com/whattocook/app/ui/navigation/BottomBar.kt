@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.whattocook.app.ui.theme.AppTheme
+import com.whattocook.app.ui.theme.Motion
 
 /** Five-tab bar: the selected tab gets a filled icon and a bright label, the rest are muted. */
 @Composable
@@ -47,7 +49,7 @@ fun BottomBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .heightIn(min = 72.dp)
+                .heightIn(min = 64.dp)
                 .selectableGroup(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
@@ -56,17 +58,18 @@ fun BottomBar(
                 val selected = destination == current
                 val tint by animateColorAsState(
                     targetValue = if (selected) colors.textPrimary else colors.textMuted,
+                    animationSpec = tween(Motion.MEDIUM, easing = Motion.Emphasized),
                     label = "tabTint",
                 )
                 val scale by animateFloatAsState(
-                    targetValue = if (selected) 1.08f else 1f,
-                    animationSpec = spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMediumLow),
+                    targetValue = if (selected) 1.06f else 1f,
+                    animationSpec = spring(dampingRatio = 0.7f, stiffness = Spring.StiffnessMediumLow),
                     label = "tabScale",
                 )
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .heightIn(min = 64.dp)
+                        .heightIn(min = 56.dp)
                         .selectable(
                             selected = selected,
                             onClick = { onSelect(destination) },
@@ -81,16 +84,16 @@ fun BottomBar(
                         contentDescription = null,
                         tint = tint,
                         modifier = Modifier
-                            .size(26.dp)
+                            .size(24.dp)
                             .graphicsLayer {
                                 scaleX = scale
                                 scaleY = scale
                             },
                     )
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(3.dp))
                     Text(
                         text = stringResource(destination.label),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelSmall,
                         fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
                         color = tint,
                         maxLines = 1,
