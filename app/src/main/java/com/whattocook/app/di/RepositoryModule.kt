@@ -13,6 +13,8 @@ import com.whattocook.app.data.repository.DefaultShoppingRepository
 import com.whattocook.app.data.repository.DefaultUsageRepository
 import com.whattocook.app.data.repository.FakeRecipeRepository
 import com.whattocook.app.data.repository.FakeUsageRepository
+import com.whattocook.app.data.repository.LibraryRepository
+import com.whattocook.app.data.repository.MealDbLibraryRepository
 import com.whattocook.app.data.repository.PantryRepository
 import com.whattocook.app.data.repository.RecipeRepository
 import com.whattocook.app.data.repository.ShoppingRepository
@@ -44,6 +46,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAccountRepository(impl: DefaultAccountRepository): AccountRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLibraryRepository(impl: MealDbLibraryRepository): LibraryRepository
 
     @Binds
     @Singleton

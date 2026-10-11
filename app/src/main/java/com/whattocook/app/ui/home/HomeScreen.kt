@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
@@ -48,6 +49,7 @@ import com.whattocook.app.ui.components.EmptyState
 import com.whattocook.app.ui.components.ErrorState
 import com.whattocook.app.ui.components.LoadingState
 import com.whattocook.app.ui.components.RecipeGlyph
+import com.whattocook.app.ui.components.RecipePhoto
 import com.whattocook.app.ui.components.ScreenHeader
 import com.whattocook.app.ui.components.SegmentOption
 import com.whattocook.app.ui.components.SegmentedPill
@@ -65,6 +67,8 @@ fun HomeScreen(
     onOpenRecipe: (String) -> Unit,
     onOpenPantry: () -> Unit,
     onFindRecipes: () -> Unit,
+    onImport: () -> Unit,
+    onOpenDiscover: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -72,10 +76,10 @@ fun HomeScreen(
 
     Column(Modifier.fillMaxSize()) {
         ScreenHeader(title = stringResource(R.string.home_title), showDivider = false) {
-            IconButton(onClick = onFindRecipes) {
+            IconButton(onClick = onImport) {
                 Icon(
                     Icons.Filled.Add,
-                    contentDescription = stringResource(R.string.home_new_recipe),
+                    contentDescription = stringResource(R.string.home_add_recipe),
                     tint = colors.textPrimary,
                     modifier = Modifier.size(26.dp),
                 )
@@ -111,6 +115,8 @@ fun HomeScreen(
                 onOpenRecipe = onOpenRecipe,
                 onOpenPantry = onOpenPantry,
                 onFindRecipes = onFindRecipes,
+                onImport = onImport,
+                onOpenDiscover = onOpenDiscover,
             )
         }
     }
@@ -122,6 +128,8 @@ private fun HomeGrid(
     onOpenRecipe: (String) -> Unit,
     onOpenPantry: () -> Unit,
     onFindRecipes: () -> Unit,
+    onImport: () -> Unit,
+    onOpenDiscover: () -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -156,6 +164,24 @@ private fun HomeGrid(
             }
         }
 
+        if (state.showImportCard) {
+            item(span = { GridItemSpan(maxLineSpan) }, key = "start_import") {
+                GetStartedCard(
+                    title = stringResource(R.string.home_start_import_title),
+                    subtitle = stringResource(R.string.home_start_import_subtitle),
+                    onClick = onImport,
+                )
+            }
+        }
+        if (state.showLibraryCard) {
+            item(span = { GridItemSpan(maxLineSpan) }, key = "start_library") {
+                GetStartedCard(
+                    title = stringResource(R.string.home_start_library_title),
+                    subtitle = stringResource(R.string.home_start_library_subtitle),
+                    onClick = onOpenDiscover,
+                )
+            }
+        }
         if (state.showAddIngredientsCard) {
             item(span = { GridItemSpan(maxLineSpan) }, key = "start_pantry") {
                 GetStartedCard(
@@ -198,7 +224,20 @@ private fun RecipeGridCard(recipe: RecipeCardUi, onClick: () -> Unit, modifier: 
         onClickLabel = stringResource(R.string.home_open_recipe),
     ) {
         Column(Modifier.padding(16.dp)) {
-            RecipeGlyph(kind = glyphFor(recipe.title), color = colors.textPrimary, size = 40.dp)
+            val imageUrl = recipe.imageUrl
+            if (imageUrl != null) {
+                RecipePhoto(
+                    url = imageUrl,
+                    contentDescription = null,
+                    thumbnail = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(96.dp)
+                        .clip(RoundedCornerShape(14.dp)),
+                )
+            } else {
+                RecipeGlyph(kind = glyphFor(recipe.title), color = colors.textPrimary, size = 40.dp)
+            }
             Spacer(Modifier.height(12.dp))
             Text(
                 text = recipe.title,

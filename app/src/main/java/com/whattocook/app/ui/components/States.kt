@@ -194,7 +194,7 @@ private fun AppError.icon(): ImageVector = when (this) {
     AppError.Unauthorized, AppError.NotConfigured -> Icons.Outlined.Lock
     is AppError.Server -> Icons.Outlined.CloudOff
     is AppError.LimitReached -> Icons.Outlined.Lock
-    is AppError.Unknown -> Icons.Outlined.ErrorOutline
+    is AppError.Unprocessable, is AppError.Unknown -> Icons.Outlined.ErrorOutline
 }
 
 @Composable
@@ -206,6 +206,12 @@ fun errorTitle(error: AppError): String = stringResource(
         AppError.NotConfigured -> R.string.error_not_configured_title
         is AppError.LimitReached -> R.string.error_limit_title
         is AppError.Server -> R.string.error_server_title
+        is AppError.Unprocessable -> when (error.reason) {
+            "no_recipe_found" -> R.string.error_no_recipe_title
+            "unsupported_link", "invalid_link" -> R.string.error_bad_link_title
+            "not_found" -> R.string.error_not_found_title
+            else -> R.string.error_unknown_title
+        }
         is AppError.Unknown -> R.string.error_unknown_title
     },
 )
@@ -218,5 +224,13 @@ fun errorMessage(error: AppError): String = when (error) {
     AppError.NotConfigured -> stringResource(R.string.error_not_configured_message)
     is AppError.LimitReached -> stringResource(R.string.error_limit_message)
     is AppError.Server -> stringResource(R.string.error_server_message, error.code)
+    is AppError.Unprocessable -> stringResource(
+        when (error.reason) {
+            "no_recipe_found" -> R.string.error_no_recipe_message
+            "unsupported_link", "invalid_link" -> R.string.error_bad_link_message
+            "not_found" -> R.string.error_not_found_message
+            else -> R.string.error_unknown_message
+        },
+    )
     is AppError.Unknown -> stringResource(R.string.error_unknown_message)
 }

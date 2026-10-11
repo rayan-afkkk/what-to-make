@@ -29,6 +29,7 @@ data class RecipeDto(
     val steps: List<String> = emptyList(),
     val missing: List<String> = emptyList(),
     val substitutions: List<SubstitutionDto> = emptyList(),
+    val imageUrl: String? = null,
 )
 
 @Serializable
@@ -82,4 +83,20 @@ data class VerifyPurchaseResponseDto(
 data class GuestSessionDto(
     val userId: String,
     val token: String,
+)
+
+@Serializable
+data class ImportRequestDto(
+    val url: String,
+)
+
+@Serializable
+data class ImportResponseDto(
+    val recipe: RecipeDto,
+    val usage: UsageDto? = null,
+)
+
+@Serializable
+data class ErrorDto(
+    val error: String = "",
 )

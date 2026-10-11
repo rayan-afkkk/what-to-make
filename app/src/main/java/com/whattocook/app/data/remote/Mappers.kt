@@ -4,6 +4,7 @@ import com.whattocook.app.data.remote.dto.RecipeDto
 import com.whattocook.app.data.remote.dto.RecipeRequestDto
 import com.whattocook.app.domain.model.Recipe
 import com.whattocook.app.domain.model.RecipeIngredient
+import com.whattocook.app.domain.model.RecipeOrigin
 import com.whattocook.app.domain.model.RecipeRequest
 import com.whattocook.app.domain.model.Substitution
 import java.util.UUID
@@ -21,7 +22,11 @@ fun RecipeRequest.toDto() = RecipeRequestDto(
  * Local ids are generated on the device so a backend that reuses ids between
  * requests can never overwrite earlier recipes in the history.
  */
-fun RecipeDto.toDomain(createdAt: Long) = Recipe(
+fun RecipeDto.toDomain(
+    createdAt: Long,
+    origin: RecipeOrigin = RecipeOrigin.AI,
+    sourceUrl: String? = null,
+) = Recipe(
     id = UUID.randomUUID().toString(),
     title = title,
     summary = summary,
@@ -33,4 +38,7 @@ fun RecipeDto.toDomain(createdAt: Long) = Recipe(
     substitutions = substitutions.map { Substitution(it.missing, it.swap) },
     createdAt = createdAt,
     isSaved = false,
+    imageUrl = imageUrl,
+    sourceUrl = sourceUrl,
+    origin = origin,
 )

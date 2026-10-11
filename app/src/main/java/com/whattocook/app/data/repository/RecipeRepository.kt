@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 interface RecipeRepository {
     /** Asks the backend for recipes, stores them in the local history and returns them. */
     suspend fun generate(request: RecipeRequest): AppResult<List<Recipe>>
+
+    /** Sends a reel / video / recipe link to the backend and stores the recipe it finds. */
+    suspend fun importFromLink(url: String): AppResult<Recipe>
     fun observeAll(): Flow<List<Recipe>>
     fun observeRecipe(id: String): Flow<Recipe?>
     fun observeRecipes(ids: List<String>): Flow<List<Recipe>>

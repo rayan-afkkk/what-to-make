@@ -56,7 +56,7 @@ fun PillTextField(
             capitalization = KeyboardCapitalization.Sentences,
             imeAction = imeAction,
         ),
-        keyboardActions = KeyboardActions(onDone = { onSubmit() }, onSearch = { onSubmit() }),
+        keyboardActions = KeyboardActions(onDone = { onSubmit() }, onSearch = { onSubmit() }, onGo = { onSubmit() }),
         modifier = modifier
             .fillMaxWidth()
             .semantics { contentDescription = placeholder },

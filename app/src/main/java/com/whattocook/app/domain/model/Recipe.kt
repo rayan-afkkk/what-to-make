@@ -15,7 +15,27 @@ data class Recipe(
     val substitutions: List<Substitution>,
     val createdAt: Long = 0L,
     val isSaved: Boolean = false,
+    /** Photo of the dish (library recipes, and reel imports when the backend sends one). */
+    val imageUrl: String? = null,
+    /** Original reel, video or web page the recipe came from. */
+    val sourceUrl: String? = null,
+    val origin: RecipeOrigin = RecipeOrigin.AI,
+    /** Short labels such as "Chicken" or "Indian". */
+    val tags: List<String> = emptyList(),
 )
+
+/** Where a recipe came from. */
+@Serializable
+enum class RecipeOrigin {
+    /** Generated from the pantry by AI. */
+    AI,
+
+    /** Broken down from a shared reel or link. */
+    LINK,
+
+    /** Opened from the built-in recipe library on Discover (free, not AI). */
+    LIBRARY,
+}
 
 @Serializable
 data class RecipeIngredient(

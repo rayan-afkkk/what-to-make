@@ -20,17 +20,21 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.LocalPizza
 import androidx.compose.material.icons.filled.RamenDining
 import androidx.compose.material.icons.filled.RiceBowl
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.BreakfastDining
@@ -50,10 +54,17 @@ import androidx.compose.material.icons.outlined.Weekend
 import androidx.compose.material.icons.outlined.Eco
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,13 +79,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whattocook.app.R
+import com.whattocook.app.domain.BrowseSource
 import com.whattocook.app.domain.Cuisine
 import com.whattocook.app.domain.Mood
+import com.whattocook.app.ui.components.DishCard
+import com.whattocook.app.ui.components.DishCardPlaceholder
+import com.whattocook.app.ui.components.PillTextField
 import com.whattocook.app.ui.components.PrimaryButton
+import com.whattocook.app.ui.components.SecondaryButton
+import com.whattocook.app.ui.components.errorMessage
 import com.whattocook.app.ui.components.SectionLabel
 import com.whattocook.app.ui.components.SegmentOption
 import com.whattocook.app.ui.components.SegmentedPill
@@ -119,110 +137,272 @@ private val ChipTilts = listOf(-3f, 2f, -1.5f, 3f, -2.5f, 1.5f)
 @Composable
 fun DiscoverScreen(
     onStartRequest: (route: String) -> Unit,
+    onOpenRecipe: (recipeId: String) -> Unit,
+    onOpenLibrary: (source: BrowseSource, title: String) -> Unit,
     viewModel: DiscoverViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val colors = AppTheme.colors
     val reducedMotion = rememberReducedMotion()
     val usePantry = state.mode == DiscoverMode.PANTRY
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .statusBarsPadding()
-            .padding(vertical = Spacing.xl),
-    ) {
-        Column(Modifier.padding(horizontal = Spacing.screen)) {
-            Text(
-                text = stringResource(R.string.discover_title),
-                style = MaterialTheme.typography.displayMedium,
-                color = colors.textPrimary,
-                modifier = Modifier.semantics { heading() },
-            )
-            Spacer(Modifier.height(Spacing.sm))
-            Text(
-                text = stringResource(R.string.discover_subtitle),
-                style = MaterialTheme.typography.bodyLarge,
-                color = colors.textPrimary,
-            )
-            Spacer(Modifier.height(Spacing.xl))
-            SegmentedPill(
-                options = listOf(
-                    SegmentOption(DiscoverMode.PANTRY, stringResource(R.string.discover_mode_pantry), Icons.Outlined.Kitchen),
-                    SegmentOption(DiscoverMode.ANYTHING, stringResource(R.string.discover_mode_anything), Icons.Outlined.Explore),
-                ),
-                selected = state.mode,
-                onSelect = viewModel::setMode,
-            )
-            Spacer(Modifier.height(Spacing.sm))
-            AnimatedContent(
-                targetState = Pair(state.mode, state.pantryCount),
-                transitionSpec = { fadeIn() togetherWith fadeOut() },
-                label = "modeHint",
-            ) { (mode, count) ->
-                Text(
-                    text = when {
-                        mode == DiscoverMode.ANYTHING -> stringResource(R.string.discover_hint_anything)
-                        count == 0 -> stringResource(R.string.discover_hint_empty_pantry)
-                        else -> quantityString(R.plurals.discover_hint_pantry, count, count)
+    LaunchedEffect(state.openRecipeId) {
+        state.openRecipeId?.let {
+            onOpenRecipe(it)
+            viewModel.onRandomHandled()
+        }
+    }
+    val randomErrorText = state.randomError?.let { errorMessage(it) }
+    LaunchedEffect(state.randomError) {
+        if (randomErrorText != null) {
+            snackbarHostState.showSnackbar(randomErrorText)
+            viewModel.onRandomHandled()
+        }
+    }
+
+    Box(Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(top = Spacing.xl, bottom = Spacing.xxl),
+        ) {
+            item(key = "header") {
+                Column(Modifier.statusBarsPadding().padding(horizontal = Spacing.screen)) {
+                    Text(
+                        text = stringResource(R.string.discover_title),
+                        style = MaterialTheme.typography.displayMedium,
+                        color = colors.textPrimary,
+                        modifier = Modifier.semantics { heading() },
+                    )
+                    Spacer(Modifier.height(Spacing.sm))
+                    Text(
+                        text = stringResource(R.string.discover_subtitle),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = colors.textPrimary,
+                    )
+                    Spacer(Modifier.height(Spacing.xl))
+                    SegmentedPill(
+                        options = listOf(
+                            SegmentOption(DiscoverMode.PANTRY, stringResource(R.string.discover_mode_pantry), Icons.Outlined.Kitchen),
+                            SegmentOption(DiscoverMode.ANYTHING, stringResource(R.string.discover_mode_anything), Icons.Outlined.Explore),
+                        ),
+                        selected = state.mode,
+                        onSelect = viewModel::setMode,
+                    )
+                    Spacer(Modifier.height(Spacing.sm))
+                    AnimatedContent(
+                        targetState = Pair(state.mode, state.pantryCount),
+                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                        label = "modeHint",
+                    ) { (mode, count) ->
+                        Text(
+                            text = when {
+                                mode == DiscoverMode.ANYTHING -> stringResource(R.string.discover_hint_anything)
+                                count == 0 -> stringResource(R.string.discover_hint_empty_pantry)
+                                else -> quantityString(R.plurals.discover_hint_pantry, count, count)
+                            },
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = colors.textSecondary,
+                        )
+                    }
+                }
+            }
+
+            item(key = "moods") {
+                Column(Modifier.padding(top = Spacing.xl)) {
+                    AutoScrollingChipRow(
+                        chips = MoodRowOne,
+                        pastelOffset = 0,
+                        reverse = false,
+                        animate = !reducedMotion,
+                        onClick = { onStartRequest(Routes.generate(mood = it.name, usePantry = usePantry)) },
+                    )
+                    AutoScrollingChipRow(
+                        chips = MoodRowTwo,
+                        pastelOffset = 2,
+                        reverse = true,
+                        animate = !reducedMotion,
+                        onClick = { onStartRequest(Routes.generate(mood = it.name, usePantry = usePantry)) },
+                    )
+                }
+            }
+
+            item(key = "cuisines") {
+                Column(Modifier.padding(horizontal = Spacing.screen).padding(top = Spacing.xl)) {
+                    SectionLabel(stringResource(R.string.discover_cuisine_label))
+                    Spacer(Modifier.height(Spacing.md))
+                    val cuisines = listOf(
+                        Triple(Cuisine.DESI, R.string.cuisine_desi, Icons.Filled.RiceBowl) to colors.pastels.pink,
+                        Triple(Cuisine.ITALIAN, R.string.cuisine_italian, Icons.Filled.LocalPizza) to colors.pastels.blue,
+                        Triple(Cuisine.ASIAN, R.string.cuisine_asian, Icons.Filled.RamenDining) to colors.pastels.purple,
+                        Triple(Cuisine.MEDITERRANEAN, R.string.cuisine_mediterranean, Icons.Filled.Eco) to colors.pastels.green,
+                    )
+                    cuisines.chunked(2).forEach { row ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
+                            row.forEach { (info, pastel) ->
+                                val (cuisine, label, icon) = info
+                                CuisineCard(
+                                    label = stringResource(label),
+                                    icon = icon,
+                                    pastel = pastel,
+                                    onClick = { onStartRequest(Routes.generate(cuisine = cuisine.name, usePantry = usePantry)) },
+                                    modifier = Modifier.weight(1f),
+                                )
+                            }
+                        }
+                        Spacer(Modifier.height(Spacing.md))
+                    }
+                    Spacer(Modifier.height(Spacing.xs))
+                    PrimaryButton(
+                        text = stringResource(R.string.discover_surprise),
+                        icon = Icons.Filled.Shuffle,
+                        onClick = { onStartRequest(Routes.generate(surprise = true, usePantry = usePantry)) },
+                    )
+                }
+            }
+
+            item(key = "library_header") {
+                LibraryHeader(
+                    randomLoading = state.randomLoading,
+                    onSearch = { query ->
+                        onOpenLibrary(BrowseSource(BrowseSource.Type.SEARCH, query), query)
                     },
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colors.textSecondary,
+                    onRandom = viewModel::openRandomDish,
+                )
+            }
+
+            items(LibraryRows, key = { "row_" + it.key }) { row ->
+                LaunchedEffect(row.key) { viewModel.loadRow(row) }
+                val title = stringResource(row.title)
+                LibraryRowSection(
+                    title = title,
+                    state = state.rows[row.key] ?: RowState.Loading,
+                    onSeeAll = { onOpenLibrary(row.source, title) },
+                    onOpenDish = onOpenRecipe,
+                    onRetry = { viewModel.loadRow(row, force = true) },
                 )
             }
         }
 
-        Spacer(Modifier.height(Spacing.xxl))
-        AutoScrollingChipRow(
-            chips = MoodRowOne,
-            pastelOffset = 0,
-            reverse = false,
-            animate = !reducedMotion,
-            onClick = { onStartRequest(Routes.generate(mood = it.name, usePantry = usePantry)) },
-        )
-        AutoScrollingChipRow(
-            chips = MoodRowTwo,
-            pastelOffset = 2,
-            reverse = true,
-            animate = !reducedMotion,
-            onClick = { onStartRequest(Routes.generate(mood = it.name, usePantry = usePantry)) },
-        )
+        SnackbarHost(snackbarHostState, Modifier.align(Alignment.BottomCenter).padding(Spacing.lg))
+    }
+}
 
-        Spacer(Modifier.height(Spacing.xxl))
-        Column(Modifier.padding(horizontal = Spacing.screen)) {
-            SectionLabel(stringResource(R.string.discover_cuisine_label))
-            Spacer(Modifier.height(Spacing.lg))
-            val cuisines = listOf(
-                Triple(Cuisine.DESI, R.string.cuisine_desi, Icons.Filled.RiceBowl) to colors.pastels.pink,
-                Triple(Cuisine.ITALIAN, R.string.cuisine_italian, Icons.Filled.LocalPizza) to colors.pastels.blue,
-                Triple(Cuisine.ASIAN, R.string.cuisine_asian, Icons.Filled.RamenDining) to colors.pastels.purple,
-                Triple(Cuisine.MEDITERRANEAN, R.string.cuisine_mediterranean, Icons.Filled.Eco) to colors.pastels.green,
+@Composable
+private fun LibraryHeader(
+    randomLoading: Boolean,
+    onSearch: (String) -> Unit,
+    onRandom: () -> Unit,
+) {
+    val colors = AppTheme.colors
+    var query by rememberSaveable { mutableStateOf("") }
+    Column(
+        Modifier
+            .padding(horizontal = Spacing.screen)
+            .padding(top = Spacing.xxl, bottom = Spacing.sm),
+    ) {
+        Text(
+            stringResource(R.string.library_title),
+            style = MaterialTheme.typography.headlineMedium,
+            color = colors.textPrimary,
+            modifier = Modifier.semantics { heading() },
+        )
+        Text(
+            stringResource(R.string.library_subtitle),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colors.textSecondary,
+        )
+        Spacer(Modifier.height(Spacing.md))
+        PillTextField(
+            value = query,
+            onValueChange = { query = it },
+            placeholder = stringResource(R.string.library_search_hint),
+            leadingIcon = Icons.Filled.Search,
+            onSubmit = { if (query.isNotBlank()) onSearch(query.trim()) },
+            imeAction = ImeAction.Search,
+        )
+        Spacer(Modifier.height(Spacing.sm))
+        SecondaryButton(
+            text = stringResource(if (randomLoading) R.string.library_random_loading else R.string.library_random),
+            icon = Icons.Filled.Casino,
+            onClick = onRandom,
+            enabled = !randomLoading,
+        )
+    }
+}
+
+@Composable
+private fun LibraryRowSection(
+    title: String,
+    state: RowState,
+    onSeeAll: () -> Unit,
+    onOpenDish: (String) -> Unit,
+    onRetry: () -> Unit,
+) {
+    val colors = AppTheme.colors
+    if (state is RowState.Loaded && state.dishes.isEmpty()) return
+    Column(Modifier.padding(top = Spacing.lg).animateContentSize()) {
+        Row(
+            modifier = Modifier.padding(start = Spacing.screen, end = Spacing.xs),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = colors.textPrimary,
+                modifier = Modifier.weight(1f).semantics { heading() },
             )
-            cuisines.chunked(2).forEach { row ->
-                Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
-                    row.forEach { (info, pastel) ->
-                        val (cuisine, label, icon) = info
-                        CuisineCard(
-                            label = stringResource(label),
-                            icon = icon,
-                            pastel = pastel,
-                            onClick = { onStartRequest(Routes.generate(cuisine = cuisine.name, usePantry = usePantry)) },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
+            if (state is RowState.Loaded) {
+                TextButton(onClick = onSeeAll) {
+                    Text(
+                        stringResource(R.string.library_see_all),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = colors.accent,
+                    )
                 }
-                Spacer(Modifier.height(Spacing.md))
             }
-            Spacer(Modifier.height(Spacing.sm))
-            PrimaryButton(
-                text = stringResource(R.string.discover_surprise),
-                icon = Icons.Filled.Shuffle,
-                onClick = { onStartRequest(Routes.generate(surprise = true, usePantry = usePantry)) },
-            )
+        }
+        when (state) {
+            RowState.Loading -> LazyRow(
+                contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = Spacing.sm),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.md),
+                userScrollEnabled = false,
+            ) {
+                items(4) { DishCardPlaceholder(Modifier.width(DishCardWidth)) }
+            }
+            is RowState.Failed -> Row(
+                modifier = Modifier.padding(horizontal = Spacing.screen),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    errorMessage(state.error),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.textSecondary,
+                    modifier = Modifier.weight(1f),
+                )
+                TextButton(onClick = onRetry) {
+                    Text(stringResource(R.string.action_try_again), color = colors.accent)
+                }
+            }
+            is RowState.Loaded -> LazyRow(
+                contentPadding = PaddingValues(horizontal = Spacing.screen, vertical = Spacing.sm),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.md),
+            ) {
+                items(state.dishes.take(MAX_ROW_ITEMS), key = { it.recipeId }) { dish ->
+                    DishCard(
+                        dish = dish,
+                        onClick = { onOpenDish(dish.recipeId) },
+                        modifier = Modifier.width(DishCardWidth),
+                    )
+                }
+            }
         }
     }
 }
+
+private const val MAX_ROW_ITEMS = 15
+private val DishCardWidth = 148.dp
 
 /**
  * A row of tilted pastel chips that drifts sideways forever. When animations are

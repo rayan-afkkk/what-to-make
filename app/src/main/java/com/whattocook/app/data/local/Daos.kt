@@ -21,6 +21,12 @@ interface RecipeDao {
     @Upsert
     suspend fun upsertAll(recipes: List<RecipeEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnore(recipe: RecipeEntity)
+
+    @Query("SELECT COUNT(*) FROM recipes WHERE id = :id")
+    suspend fun count(id: String): Int
+
     @Query("UPDATE recipes SET isSaved = :saved WHERE id = :id")
     suspend fun setSaved(id: String, saved: Boolean)
 }

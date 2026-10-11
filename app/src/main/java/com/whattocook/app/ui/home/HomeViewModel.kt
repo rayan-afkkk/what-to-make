@@ -7,6 +7,7 @@ import com.whattocook.app.data.catalog.IngredientCatalog
 import com.whattocook.app.data.repository.PantryRepository
 import com.whattocook.app.data.repository.RecipeRepository
 import com.whattocook.app.domain.model.AppError
+import com.whattocook.app.domain.model.RecipeOrigin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,6 +29,7 @@ data class RecipeCardUi(
     val totalCount: Int,
     val createdAt: Long,
     val isSaved: Boolean,
+    val imageUrl: String?,
 )
 
 data class HomeUiState(
@@ -41,6 +43,8 @@ data class HomeUiState(
     val showAddIngredientsCard: Boolean = false,
     val showFirstRecipeCard: Boolean = false,
     val showSaveCard: Boolean = false,
+    val showImportCard: Boolean = false,
+    val showLibraryCard: Boolean = false,
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -60,7 +64,9 @@ class HomeViewModel @Inject constructor(
             recipeRepository.observeAll(),
             pantryRepository.observeItems(),
             filter,
-        ) { recipes, pantry, filterName ->
+        ) { allRecipes, pantry, filterName ->
+            // Library dishes only appear on Home once the user saves them.
+            val recipes = allRecipes.filter { it.origin != RecipeOrigin.LIBRARY || it.isSaved }
             val matcher = catalog.matcher()
             val pantryNames = pantry.map { it.name }
             val currentFilter = HomeFilter.valueOf(filterName)
@@ -83,6 +89,7 @@ class HomeViewModel @Inject constructor(
                         totalCount = recipe.ingredients.size,
                         createdAt = recipe.createdAt,
                         isSaved = recipe.isSaved,
+                        imageUrl = recipe.imageUrl,
                     )
                 },
                 hasAnyRecipe = recipes.isNotEmpty(),
@@ -90,6 +97,8 @@ class HomeViewModel @Inject constructor(
                 showAddIngredientsCard = pantry.isEmpty(),
                 showFirstRecipeCard = recipes.isEmpty(),
                 showSaveCard = recipes.isNotEmpty() && recipes.none { it.isSaved },
+                showImportCard = allRecipes.none { it.origin == RecipeOrigin.LINK },
+                showLibraryCard = allRecipes.none { it.origin == RecipeOrigin.LIBRARY },
             )
         }
     }

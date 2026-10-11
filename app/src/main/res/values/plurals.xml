@@ -37,4 +37,8 @@
         <item quantity="one">Resets in %1$d day</item>
         <item quantity="other">Resets in %1$d days</item>
     </plurals>
+    <plurals name="library_count">
+        <item quantity="one">%1$d dish</item>
+        <item quantity="other">%1$d dishes</item>
+    </plurals>
 </resources>

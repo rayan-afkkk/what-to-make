@@ -4,10 +4,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.whattocook.app.data.catalog.IngredientCatalog
+import com.whattocook.app.data.repository.LibraryRepository
 import com.whattocook.app.data.repository.PantryRepository
 import com.whattocook.app.data.repository.RecipeRepository
 import com.whattocook.app.data.repository.ShoppingRepository
+import com.whattocook.app.domain.LibraryIds
+import com.whattocook.app.domain.RecipeText
 import com.whattocook.app.domain.ServingScaler
+import com.whattocook.app.domain.model.AppResult
 import com.whattocook.app.domain.model.AppError
 import com.whattocook.app.domain.model.Recipe
 import com.whattocook.app.ui.navigation.Routes
@@ -37,6 +41,12 @@ sealed interface DetailMessage {
     data class AddedToShopping(val count: Int) : DetailMessage
 }
 
+private sealed interface LibraryLoad {
+    data object Idle : LibraryLoad
+    data object Loading : LibraryLoad
+    data class Failed(val error: AppError) : LibraryLoad
+}
+
 data class RecipeDetailUiState(
     val isLoading: Boolean = true,
     val notFound: Boolean = false,
@@ -46,6 +56,8 @@ data class RecipeDetailUiState(
     val ingredients: List<IngredientRowUi> = emptyList(),
     val missing: List<MissingRowUi> = emptyList(),
     val message: DetailMessage? = null,
+    /** Heads-up when an ingredient looks like pork or alcohol. */
+    val mayNotBeHalal: Boolean = false,
 )
 
 @HiltViewModel
@@ -55,6 +67,7 @@ class RecipeDetailViewModel @Inject constructor(
     pantryRepository: PantryRepository,
     private val shoppingRepository: ShoppingRepository,
     private val catalog: IngredientCatalog,
+    private val libraryRepository: LibraryRepository,
 ) : ViewModel() {
 
     private val recipeId: String = checkNotNull(savedStateHandle.get<String>(Routes.ARG_ID))
@@ -63,13 +76,23 @@ class RecipeDetailViewModel @Inject constructor(
     private val servingsOverride = savedStateHandle.getStateFlow(KEY_SERVINGS, 0)
     private val message = MutableStateFlow<DetailMessage?>(null)
 
+    /** Library recipes are downloaded on first open; this tracks that download. */
+    private val libraryLoad = MutableStateFlow<LibraryLoad>(LibraryLoad.Idle)
+
     val uiState: StateFlow<RecipeDetailUiState> = combine(
         recipeRepository.observeRecipe(recipeId),
         pantryRepository.observeItems(),
         servingsOverride,
         message,
-    ) { recipe, pantry, override, msg ->
-        if (recipe == null) return@combine RecipeDetailUiState(isLoading = false, notFound = true)
+        libraryLoad,
+    ) { recipe, pantry, override, msg, load ->
+        if (recipe == null) {
+            return@combine when (load) {
+                LibraryLoad.Loading -> RecipeDetailUiState(isLoading = true)
+                is LibraryLoad.Failed -> RecipeDetailUiState(isLoading = false, error = load.error)
+                LibraryLoad.Idle -> RecipeDetailUiState(isLoading = false, notFound = true)
+            }
+        }
         val matcher = catalog.matcher()
         val pantryNames = pantry.map { it.name }
         val servings = if (override > 0) override else recipe.servings
@@ -104,10 +127,29 @@ class RecipeDetailViewModel @Inject constructor(
             ingredients = rows,
             missing = missing,
             message = msg,
+            mayNotBeHalal = RecipeText.mayNotBeHalal(recipe.ingredients.map { it.name } + recipe.title),
         )
     }
         .catch { emit(RecipeDetailUiState(isLoading = false, error = AppError.Unknown(it.message))) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), RecipeDetailUiState())
+
+    init {
+        if (LibraryIds.mealId(recipeId) != null) loadLibraryRecipe()
+    }
+
+    fun retry() {
+        if (LibraryIds.mealId(recipeId) != null) loadLibraryRecipe()
+    }
+
+    private fun loadLibraryRecipe() {
+        libraryLoad.value = LibraryLoad.Loading
+        viewModelScope.launch {
+            libraryLoad.value = when (val result = libraryRepository.ensureStored(recipeId)) {
+                is AppResult.Success -> LibraryLoad.Idle
+                is AppResult.Failure -> LibraryLoad.Failed(result.error)
+            }
+        }
+    }
 
     fun changeServings(delta: Int) {
         val current = uiState.value.servings.takeIf { it > 0 } ?: return

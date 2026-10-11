@@ -11,6 +11,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +37,8 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.outlined.AddShoppingCart
+import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material.icons.outlined.RestaurantMenu
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.SwapHoriz
@@ -43,6 +48,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,6 +58,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -61,11 +69,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whattocook.app.R
+import com.whattocook.app.domain.model.RecipeOrigin
 import com.whattocook.app.ui.components.AppCard
 import com.whattocook.app.ui.components.EmptyState
 import com.whattocook.app.ui.components.ErrorState
 import com.whattocook.app.ui.components.LoadingState
 import com.whattocook.app.ui.components.PrimaryButton
+import com.whattocook.app.ui.components.RecipePhoto
 import com.whattocook.app.ui.components.SecondaryButton
 import com.whattocook.app.ui.components.SectionLabel
 import com.whattocook.app.ui.components.Tag
@@ -129,7 +139,7 @@ fun RecipeDetailScreen(
             val error = state.error
             when {
                 state.isLoading -> LoadingState(stringResource(R.string.recipe_loading))
-                error != null -> ErrorState(error = error)
+                error != null -> ErrorState(error = error, onRetry = viewModel::retry)
                 state.notFound || recipe == null -> EmptyState(
                     icon = Icons.Outlined.RestaurantMenu,
                     title = stringResource(R.string.recipe_not_found_title),
@@ -168,6 +178,7 @@ fun RecipeDetailScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun RecipeContent(
     state: RecipeDetailUiState,
@@ -177,22 +188,71 @@ private fun RecipeContent(
 ) {
     val recipe = state.recipe ?: return
     val colors = AppTheme.colors
+    val uriHandler = LocalUriHandler.current
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(start = Spacing.screen, end = Spacing.screen, bottom = 120.dp),
     ) {
         item(key = "header") {
             Column {
+                val imageUrl = recipe.imageUrl
+                if (imageUrl != null) {
+                    RecipePhoto(
+                        url = imageUrl,
+                        contentDescription = recipe.title,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(4f / 3f)
+                            .clip(RoundedCornerShape(22.dp)),
+                    )
+                    Spacer(Modifier.height(Spacing.lg))
+                }
                 Text(recipe.title, style = MaterialTheme.typography.displaySmall, color = colors.textPrimary)
                 if (recipe.summary.isNotBlank()) {
                     Spacer(Modifier.height(Spacing.sm))
                     Text(recipe.summary, style = MaterialTheme.typography.bodyLarge, color = colors.textSecondary)
                 }
                 Spacer(Modifier.height(Spacing.lg))
+                if (recipe.tags.isNotEmpty() || state.mayNotBeHalal) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.sm),
+                        modifier = Modifier.padding(bottom = Spacing.md),
+                    ) {
+                        recipe.tags.forEach { Tag(text = it) }
+                        if (state.mayNotBeHalal) {
+                            Tag(
+                                text = stringResource(R.string.recipe_not_halal_warning),
+                                icon = Icons.Outlined.Warning,
+                                container = colors.pastels.amber.container,
+                                content = colors.pastels.amber.content,
+                            )
+                        }
+                    }
+                }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Tag(text = stringResource(R.string.recipe_minutes, recipe.timeMinutes), icon = Icons.Outlined.Schedule)
+                    if (recipe.timeMinutes > 0) {
+                        Tag(text = stringResource(R.string.recipe_minutes, recipe.timeMinutes), icon = Icons.Outlined.Schedule)
+                    }
                     Spacer(Modifier.weight(1f))
                     ServingsStepper(servings = state.servings, onChange = onServings)
+                }
+                val sourceUrl = recipe.sourceUrl
+                if (sourceUrl != null) {
+                    TextButton(
+                        onClick = { uriHandler.openSafely(sourceUrl) },
+                        modifier = Modifier.padding(top = Spacing.xs),
+                    ) {
+                        Icon(Icons.Outlined.OpenInNew, contentDescription = null, tint = colors.accent, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            stringResource(
+                                if (recipe.origin == RecipeOrigin.LINK) R.string.recipe_open_reel else R.string.recipe_open_source,
+                            ),
+                            color = colors.accent,
+                            style = MaterialTheme.typography.labelLarge,
+                        )
+                    }
                 }
             }
         }
@@ -282,6 +342,16 @@ private fun RecipeContent(
                 Text(step, style = MaterialTheme.typography.bodyLarge, color = colors.textPrimary, modifier = Modifier.weight(1f))
             }
         }
+    }
+}
+
+private fun UriHandler.openSafely(url: String) {
+    try {
+        openUri(url)
+    } catch (e: IllegalArgumentException) {
+        // No app can open this link.
+    } catch (e: android.content.ActivityNotFoundException) {
+        // No browser installed.
     }
 }
 

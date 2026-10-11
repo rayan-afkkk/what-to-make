@@ -43,6 +43,8 @@ android {
         buildConfigField("boolean", "USE_FAKE_BACKEND", useFake.toString())
         buildConfigField("String", "PRIVACY_URL", quoted(configValue("PRIVACY_URL", "https://example.com/privacy")))
         buildConfigField("String", "TERMS_URL", quoted(configValue("TERMS_URL", "https://example.com/terms")))
+        // TheMealDB key: "1" is the free development key. Get your own for a public release.
+        buildConfigField("String", "MEALDB_API_KEY", quoted(configValue("MEALDB_API_KEY", "1")))
         buildConfigField("String", "SUPPORT_EMAIL", quoted(configValue("SUPPORT_EMAIL", "support@example.com")))
     }
 
@@ -122,6 +124,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.billing.ktx)
+
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

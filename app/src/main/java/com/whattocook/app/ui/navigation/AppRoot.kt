@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
@@ -30,6 +31,8 @@ import androidx.navigation.navArgument
 import com.whattocook.app.ui.account.AccountScreen
 import com.whattocook.app.ui.discover.DiscoverScreen
 import com.whattocook.app.ui.home.HomeScreen
+import com.whattocook.app.ui.importer.ImportScreen
+import com.whattocook.app.ui.library.LibraryListScreen
 import com.whattocook.app.ui.onboarding.OnboardingScreen
 import com.whattocook.app.ui.pantry.PantryScreen
 import com.whattocook.app.ui.paywall.PaywallScreen
@@ -91,11 +94,22 @@ fun NavHostController.navigateToTab(route: String) {
 
 /** Main app shell: bottom navigation plus the navigation graph. */
 @Composable
-fun AppRoot() {
+fun AppRoot(
+    sharedLink: String? = null,
+    onSharedLinkHandled: () -> Unit = {},
+) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val currentTab = TopLevelDestination.entries.firstOrNull { it.route == currentRoute }
+
+    // A reel shared from Instagram / TikTok / YouTube opens the import screen.
+    LaunchedEffect(sharedLink) {
+        if (sharedLink != null) {
+            navController.navigate(Routes.import(sharedLink)) { launchSingleTop = true }
+            onSharedLinkHandled()
+        }
+    }
 
     Scaffold(
         containerColor = AppTheme.colors.background,
@@ -129,13 +143,19 @@ fun AppRoot() {
                     onOpenRecipe = { navController.navigate(Routes.recipe(it)) },
                     onOpenPantry = { navController.navigateToTab(Routes.PANTRY) },
                     onFindRecipes = { navController.navigate(Routes.generate()) },
+                    onImport = { navController.navigate(Routes.import()) },
+                    onOpenDiscover = { navController.navigateToTab(Routes.DISCOVER) },
                 )
             }
             composable(Routes.PANTRY) {
                 PantryScreen(onFindRecipes = { navController.navigate(Routes.generate()) })
             }
             composable(Routes.DISCOVER) {
-                DiscoverScreen(onStartRequest = { route -> navController.navigate(route) })
+                DiscoverScreen(
+                    onStartRequest = { route -> navController.navigate(route) },
+                    onOpenRecipe = { navController.navigate(Routes.recipe(it)) },
+                    onOpenLibrary = { source, title -> navController.navigate(Routes.library(source, title)) },
+                )
             }
             composable(Routes.SHOPPING) {
                 ShoppingScreen()
@@ -167,6 +187,48 @@ fun AppRoot() {
                     onLimitReached = { resetsAt ->
                         navController.navigate(Routes.paywall(resetsAt)) {
                             popUpTo(Routes.GENERATE) { inclusive = true }
+                        }
+                    },
+                )
+            }
+            composable(
+                route = Routes.LIBRARY,
+                arguments = listOf(
+                    navArgument(Routes.ARG_TYPE) { type = NavType.StringType },
+                    navArgument(Routes.ARG_VALUE) { type = NavType.StringType },
+                    navArgument(Routes.ARG_TITLE) { type = NavType.StringType; defaultValue = "" },
+                ),
+                enterTransition = pushEnter,
+                popExitTransition = popExit,
+            ) {
+                LibraryListScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenRecipe = { navController.navigate(Routes.recipe(it)) },
+                )
+            }
+            composable(
+                route = Routes.IMPORT,
+                arguments = listOf(
+                    navArgument(Routes.ARG_URL) { type = NavType.StringType; nullable = true; defaultValue = null },
+                ),
+                enterTransition = sheetEnter,
+                popExitTransition = sheetExit,
+            ) {
+                ImportScreen(
+                    onBack = { navController.popBackStack() },
+                    onRecipeReady = { id ->
+                        navController.navigate(Routes.recipe(id)) {
+                            popUpTo(Routes.IMPORT) { inclusive = true }
+                        }
+                    },
+                    onFindRecipes = {
+                        navController.navigate(Routes.generate()) {
+                            popUpTo(Routes.IMPORT) { inclusive = true }
+                        }
+                    },
+                    onLimitReached = { resetsAt ->
+                        navController.navigate(Routes.paywall(resetsAt)) {
+                            popUpTo(Routes.IMPORT) { inclusive = true }
                         }
                     },
                 )

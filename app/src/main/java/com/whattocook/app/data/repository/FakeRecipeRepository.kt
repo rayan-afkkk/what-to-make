@@ -3,6 +3,7 @@ package com.whattocook.app.data.repository
 import com.whattocook.app.data.catalog.IngredientCatalog
 import com.whattocook.app.domain.model.AppResult
 import com.whattocook.app.domain.model.Recipe
+import com.whattocook.app.domain.model.RecipeOrigin
 import com.whattocook.app.domain.model.RecipeRequest
 import java.util.UUID
 import javax.inject.Inject
@@ -32,6 +33,23 @@ class FakeRecipeRepository @Inject constructor(
         }
         store.saveAll(recipes)
         return AppResult.Success(recipes)
+    }
+
+    override suspend fun importFromLink(url: String): AppResult<Recipe> {
+        delay(2_500)
+        val consumed = usage.consumeOne()
+        if (consumed is AppResult.Failure) return consumed
+
+        val sample = FakeRecipes.pick(RecipeRequest(ingredients = emptyList(), allowMissing = 10), catalog.matcher(), count = 1)
+            .first()
+            .copy(
+                id = UUID.randomUUID().toString(),
+                createdAt = System.currentTimeMillis(),
+                origin = RecipeOrigin.LINK,
+                sourceUrl = url,
+            )
+        store.saveAll(listOf(sample))
+        return AppResult.Success(sample)
     }
 
     override fun observeAll(): Flow<List<Recipe>> = store.observeAll()

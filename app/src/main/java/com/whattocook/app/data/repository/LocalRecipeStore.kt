@@ -29,6 +29,13 @@ class LocalRecipeStore @Inject constructor(
 
     suspend fun setSaved(id: String, saved: Boolean) = dao.setSaved(id, saved)
 
+    suspend fun exists(id: String): Boolean = dao.count(id) > 0
+
+    /** Stores [recipe] unless it is already there (keeps the saved flag of an existing copy). */
+    suspend fun saveIfAbsent(recipe: Recipe) {
+        dao.insertIgnore(toEntity(recipe))
+    }
+
     private fun toDomain(entity: RecipeEntity): Recipe? = runCatching {
         json.decodeFromString(Recipe.serializer(), entity.payload)
             .copy(id = entity.id, createdAt = entity.createdAt, isSaved = entity.isSaved)

@@ -57,6 +57,12 @@
     <string name="error_limit_message">You’ve used this week’s free recipes. They’ll be back soon.</string>
     <string name="error_server_title">Something went wrong</string>
     <string name="error_server_message">Our server had a hiccup (error %1$d). Please try again.</string>
+    <string name="error_no_recipe_title">No recipe found</string>
+    <string name="error_no_recipe_message">We couldn’t find a recipe in that video. Try one where the dish is cooked step by step or the ingredients are listed.</string>
+    <string name="error_bad_link_title">That link didn’t work</string>
+    <string name="error_bad_link_message">Paste a link from Instagram, TikTok, YouTube, Facebook or a recipe website.</string>
+    <string name="error_not_found_title">Recipe not available</string>
+    <string name="error_not_found_message">This dish couldn’t be loaded right now. Try another one.</string>
     <string name="error_unknown_title">Something went wrong</string>
     <string name="error_unknown_message">An unexpected problem occurred. Please try again.</string>
 
@@ -101,7 +107,7 @@
 
     <!-- Home -->
     <string name="home_title">Home</string>
-    <string name="home_new_recipe">Find new recipes</string>
+    <string name="home_add_recipe">Add a recipe from a reel or link</string>
     <string name="home_show_saved">Show saved recipes</string>
     <string name="home_filter_all">All</string>
     <string name="home_filter_recipes">Recipes</string>
@@ -119,6 +125,10 @@
     <string name="home_start_recipe_subtitle">Turn your ingredients into ideas</string>
     <string name="home_start_save_title">Save a favourite</string>
     <string name="home_start_save_subtitle">Keep the ones you love close</string>
+    <string name="home_start_import_title">Turn a reel into a recipe</string>
+    <string name="home_start_import_subtitle">Share a cooking video and get the steps</string>
+    <string name="home_start_library_title">Browse the recipe library</string>
+    <string name="home_start_library_subtitle">Hundreds of dishes with photos, free</string>
 
     <!-- Pantry -->
     <string name="pantry_title">Pantry</string>
@@ -222,6 +232,60 @@
     <string name="recipe_cook_mode">Start cook mode</string>
     <string name="recipe_fewer_servings">Fewer servings</string>
     <string name="recipe_more_servings">More servings</string>
+
+    <string name="recipe_not_halal_warning">May contain pork or alcohol</string>
+    <string name="recipe_open_reel">Watch the original reel</string>
+    <string name="recipe_open_source">Watch the video</string>
+
+    <!-- Import from a reel or link -->
+    <string name="share_target_label">Get the recipe</string>
+    <string name="import_title">Add a recipe</string>
+    <string name="import_headline">Turn a reel into a recipe</string>
+    <string name="import_subtitle">Paste a link to a cooking reel, video or recipe page. We’ll write down the ingredients and steps for you.</string>
+    <string name="import_hint">Paste a reel or recipe link</string>
+    <string name="import_paste">Paste</string>
+    <string name="import_go">Get recipe</string>
+    <string name="import_tip_title">Even faster: share it</string>
+    <string name="import_tip_1">Open the reel in Instagram, TikTok or YouTube.</string>
+    <string name="import_tip_2">Tap Share, then pick What to Cook.</string>
+    <string name="import_tip_3">The recipe appears here in a few seconds.</string>
+    <string name="import_counts">Each reel uses one of your weekly recipes.</string>
+    <string name="import_cook_from_pantry">Or cook from my pantry</string>
+    <string name="import_progress_1">Watching the reel…</string>
+    <string name="import_progress_2">Writing down the ingredients…</string>
+    <string name="import_progress_3">Turning it into simple steps…</string>
+
+    <!-- Recipe library (Discover) -->
+    <string name="library_title">Recipe library</string>
+    <string name="library_subtitle">Real dishes with photos. Free, they don’t use your weekly recipes.</string>
+    <string name="library_search_hint">Search dishes, e.g. biryani</string>
+    <string name="library_random">Pick a random dish</string>
+    <string name="library_random_loading">Picking a dish…</string>
+    <string name="library_see_all">See all</string>
+    <string name="library_empty_title">No dishes found</string>
+    <string name="library_empty_message">Try another search or category.</string>
+    <string name="library_desi">Desi favourites</string>
+    <string name="library_chicken">Chicken</string>
+    <string name="library_beef">Beef</string>
+    <string name="library_seafood">Fish &amp; seafood</string>
+    <string name="library_vegetarian">Vegetarian</string>
+    <string name="library_pasta">Pasta</string>
+    <string name="library_breakfast">Breakfast</string>
+    <string name="library_dessert">Desserts</string>
+    <string name="library_lamb">Lamb</string>
+    <string name="library_italian">Italian</string>
+    <string name="library_chinese">Chinese</string>
+    <string name="library_turkish">Turkish</string>
+    <string name="library_mexican">Mexican</string>
+    <string name="library_thai">Thai</string>
+    <string name="library_japanese">Japanese</string>
+    <string name="library_moroccan">Moroccan</string>
+    <string name="library_greek">Greek</string>
+    <string name="library_french">French</string>
+    <string name="library_vegan">Vegan</string>
+    <string name="library_starters">Starters &amp; snacks</string>
+    <string name="library_sides">Sides</string>
+    <string name="library_goat">Goat &amp; mutton</string>
 
     <!-- Cook mode -->
     <string name="cook_exit">Exit cook mode</string>

@@ -1,5 +1,7 @@
 package com.whattocook.app.data.remote
 
+import com.whattocook.app.data.remote.dto.ImportRequestDto
+import com.whattocook.app.data.remote.dto.ImportResponseDto
 import com.whattocook.app.data.remote.dto.RecipeRequestDto
 import com.whattocook.app.data.remote.dto.RecipeResponseDto
 import com.whattocook.app.data.remote.dto.UsageResponseDto
@@ -20,6 +22,10 @@ interface ApiService {
 
     @POST("recipe")
     suspend fun generateRecipes(@Body body: RecipeRequestDto): Response<RecipeResponseDto>
+
+    /** Breaks a shared reel / video / recipe page down into one recipe. Counts as one AI recipe. */
+    @POST("recipe/from-link")
+    suspend fun importRecipe(@Body body: ImportRequestDto): Response<ImportResponseDto>
 
     @GET("usage")
     suspend fun usage(): Response<UsageResponseDto>

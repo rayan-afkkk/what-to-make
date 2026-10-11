@@ -1,5 +1,6 @@
 package com.whattocook.app.data.remote
 
+import com.whattocook.app.data.remote.dto.ErrorDto
 import com.whattocook.app.data.remote.dto.LimitReachedDto
 import com.whattocook.app.domain.UsageLimit
 import com.whattocook.app.domain.model.AppError
@@ -67,6 +68,10 @@ class ApiCaller @Inject constructor(
             AppError.LimitReached(UsageLimit.normalizeEpochMillis(resetsAt))
         }
         408, 504 -> AppError.Timeout
+        400, 404, 422 -> AppError.Unprocessable(
+            body?.let { runCatching { json.decodeFromString(ErrorDto.serializer(), it).error }.getOrNull() }
+                ?.takeIf { it.isNotBlank() } ?: "unprocessable",
+        )
         else -> AppError.Server(code)
     }
 }

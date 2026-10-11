@@ -1,6 +1,7 @@
 package com.whattocook.app
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
@@ -40,6 +41,18 @@ class MainActivity : ComponentActivity() {
      * when the phone's font size is maxed out. Applied to the activity context so dialogs and
      * bottom sheets (which live in their own windows) follow it too.
      */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleShareIntent(intent)
+    }
+
+    /** "Share" from Instagram, TikTok, YouTube, a browser... delivers the link as plain text. */
+    private fun handleShareIntent(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_SEND) return
+        if (intent.type?.startsWith("text/") != true) return
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let(appViewModel::onSharedText)
+    }
+
     override fun attachBaseContext(newBase: Context) {
         val configuration = newBase.resources.configuration
         if (configuration.fontScale > MAX_FONT_SCALE) {
@@ -53,9 +66,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (savedInstanceState == null) handleShareIntent(intent)
 
         setContent {
             val state by appViewModel.uiState.collectAsStateWithLifecycle()
+            val sharedLink by appViewModel.sharedLink.collectAsStateWithLifecycle()
             val darkTheme = isAppInDarkTheme(state.themeMode)
 
             // Keep status/navigation bar icons readable when the in-app theme changes.
@@ -82,7 +97,10 @@ class MainActivity : ComponentActivity() {
                         when (completed) {
                             null -> Box(Modifier.fillMaxSize()) // DataStore still loading
                             false -> OnboardingScreen(onFinished = appViewModel::completeOnboarding)
-                            true -> AppRoot()
+                            true -> AppRoot(
+                                sharedLink = sharedLink,
+                                onSharedLinkHandled = appViewModel::onSharedLinkHandled,
+                            )
                         }
                     }
                 }
