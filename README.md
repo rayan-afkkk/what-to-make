@@ -223,13 +223,6 @@ Unit tests live in `app/src/test` (ingredient matching, serving scaler, usage-li
 - Test smoothness on a **release** build (`./gradlew installRelease` with a signing config, or a Play
   internal-testing build). Debug builds of Compose apps are much slower.
 
-## Backend (optional starter)
-
-`backend/` contains a ready Cloudflare Worker + Turso implementation of the contract below
-(guest sign-in, Gemini recipes, weekly usage, Play verification, account deletion). From that folder run
-`npm run setup`; it installs packages, creates the tables, logs in to Cloudflare, deploys and stores the
-secrets. Delete the folder if you build the backend another way.
-
 ## Before release
 
 - [ ] Set `BACKEND_BASE_URL` and `USE_FAKE_BACKEND=false` in `local.properties` (or CI).
