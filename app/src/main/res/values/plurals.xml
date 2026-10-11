@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="date_days_ago">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <plurals name="discover_hint_pantry">
+        <item quantity="one">Using %1$d ingredient from your pantry.</item>
+        <item quantity="other">Using %1$d ingredients from your pantry.</item>
+    </plurals>
+    <plurals name="generate_results_count">
+        <item quantity="one">%1$d idea from what you have</item>
+        <item quantity="other">%1$d ideas from what you have</item>
+    </plurals>
+    <plurals name="recipe_added_to_list">
+        <item quantity="one">Added %1$d item to your shopping list</item>
+        <item quantity="other">Added %1$d items to your shopping list</item>
+    </plurals>
+    <plurals name="recipe_missing_count">
+        <item quantity="one">%1$d missing</item>
+        <item quantity="other">%1$d missing</item>
+    </plurals>
+    <plurals name="recipe_servings">
+        <item quantity="one">%1$d serving</item>
+        <item quantity="other">%1$d servings</item>
+    </plurals>
+    <!-- "X of 7 recipes left this week" -->
+    <plurals name="usage_left_this_week">
+        <item quantity="one">%1$d of %2$d recipe left this week</item>
+        <item quantity="other">%1$d of %2$d recipes left this week</item>
+    </plurals>
+    <plurals name="usage_remaining">
+        <item quantity="one">%1$d recipe remaining</item>
+        <item quantity="other">%1$d recipes remaining</item>
+    </plurals>
+    <plurals name="usage_resets_in_days">
+        <item quantity="one">Resets in %1$d day</item>
+        <item quantity="other">Resets in %1$d days</item>
+    </plurals>
+</resources>

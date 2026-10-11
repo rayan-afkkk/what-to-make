@@ -1,0 +1,15 @@
+# Copy this file to local.properties (which is gitignored) and fill in your values.
+# Android Studio also writes sdk.dir here automatically.
+
+# sdk.dir=/path/to/Android/sdk
+
+# HTTPS base URL of YOUR backend. Must end with a slash.
+BACKEND_BASE_URL=https://api.your-domain.com/
+
+# true  = sample data, no backend needed (good for UI work)
+# false = real backend at BACKEND_BASE_URL
+USE_FAKE_BACKEND=true
+
+PRIVACY_URL=https://your-domain.com/privacy
+TERMS_URL=https://your-domain.com/terms
+SUPPORT_EMAIL=support@your-domain.com

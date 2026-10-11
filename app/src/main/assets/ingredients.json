@@ -1,0 +1,2193 @@
+[
+ {
+  "name": "Onion",
+  "category": "produce",
+  "aliases": [
+   "pyaz",
+   "pyaaz"
+  ]
+ },
+ {
+  "name": "Red onion",
+  "category": "produce"
+ },
+ {
+  "name": "Spring onion",
+  "category": "produce",
+  "aliases": [
+   "scallion",
+   "green onion",
+   "hara pyaz"
+  ]
+ },
+ {
+  "name": "Shallot",
+  "category": "produce"
+ },
+ {
+  "name": "Garlic",
+  "category": "produce",
+  "aliases": [
+   "lehsun",
+   "lahsun"
+  ]
+ },
+ {
+  "name": "Ginger",
+  "category": "produce",
+  "aliases": [
+   "adrak"
+  ]
+ },
+ {
+  "name": "Ginger garlic paste",
+  "category": "produce",
+  "aliases": [
+   "adrak lehsun paste"
+  ]
+ },
+ {
+  "name": "Tomato",
+  "category": "produce",
+  "aliases": [
+   "tamatar"
+  ]
+ },
+ {
+  "name": "Cherry tomato",
+  "category": "produce"
+ },
+ {
+  "name": "Potato",
+  "category": "produce",
+  "aliases": [
+   "aloo",
+   "alu"
+  ]
+ },
+ {
+  "name": "Sweet potato",
+  "category": "produce",
+  "aliases": [
+   "shakarkandi"
+  ]
+ },
+ {
+  "name": "Carrot",
+  "category": "produce",
+  "aliases": [
+   "gajar"
+  ]
+ },
+ {
+  "name": "Cucumber",
+  "category": "produce",
+  "aliases": [
+   "kheera"
+  ]
+ },
+ {
+  "name": "Bell pepper",
+  "category": "produce",
+  "aliases": [
+   "capsicum",
+   "shimla mirch"
+  ]
+ },
+ {
+  "name": "Green chili",
+  "category": "produce",
+  "aliases": [
+   "hari mirch",
+   "green chilli"
+  ]
+ },
+ {
+  "name": "Red chili",
+  "category": "produce",
+  "aliases": [
+   "lal mirch"
+  ]
+ },
+ {
+  "name": "Jalapeño",
+  "category": "produce",
+  "aliases": [
+   "jalapeno"
+  ]
+ },
+ {
+  "name": "Eggplant",
+  "category": "produce",
+  "aliases": [
+   "aubergine",
+   "baingan",
+   "brinjal"
+  ]
+ },
+ {
+  "name": "Okra",
+  "category": "produce",
+  "aliases": [
+   "bhindi",
+   "ladyfinger"
+  ]
+ },
+ {
+  "name": "Cauliflower",
+  "category": "produce",
+  "aliases": [
+   "gobi",
+   "phool gobi"
+  ]
+ },
+ {
+  "name": "Cabbage",
+  "category": "produce",
+  "aliases": [
+   "band gobi",
+   "patta gobi"
+  ]
+ },
+ {
+  "name": "Red cabbage",
+  "category": "produce"
+ },
+ {
+  "name": "Broccoli",
+  "category": "produce"
+ },
+ {
+  "name": "Spinach",
+  "category": "produce",
+  "aliases": [
+   "palak"
+  ]
+ },
+ {
+  "name": "Mustard greens",
+  "category": "produce",
+  "aliases": [
+   "sarson"
+  ]
+ },
+ {
+  "name": "Fenugreek leaves",
+  "category": "produce",
+  "aliases": [
+   "methi",
+   "methi leaves"
+  ]
+ },
+ {
+  "name": "Lettuce",
+  "category": "produce"
+ },
+ {
+  "name": "Kale",
+  "category": "produce"
+ },
+ {
+  "name": "Zucchini",
+  "category": "produce",
+  "aliases": [
+   "courgette"
+  ]
+ },
+ {
+  "name": "Pumpkin",
+  "category": "produce",
+  "aliases": [
+   "kaddu"
+  ]
+ },
+ {
+  "name": "Butternut squash",
+  "category": "produce"
+ },
+ {
+  "name": "Bottle gourd",
+  "category": "produce",
+  "aliases": [
+   "lauki",
+   "ghiya",
+   "doodhi"
+  ]
+ },
+ {
+  "name": "Bitter gourd",
+  "category": "produce",
+  "aliases": [
+   "karela"
+  ]
+ },
+ {
+  "name": "Ridge gourd",
+  "category": "produce",
+  "aliases": [
+   "turai",
+   "tori"
+  ]
+ },
+ {
+  "name": "Tinda",
+  "category": "produce",
+  "aliases": [
+   "round gourd",
+   "apple gourd"
+  ]
+ },
+ {
+  "name": "Radish",
+  "category": "produce",
+  "aliases": [
+   "mooli"
+  ]
+ },
+ {
+  "name": "Beetroot",
+  "category": "produce",
+  "aliases": [
+   "chukandar",
+   "beet"
+  ]
+ },
+ {
+  "name": "Turnip",
+  "category": "produce",
+  "aliases": [
+   "shalgam"
+  ]
+ },
+ {
+  "name": "Peas",
+  "category": "produce",
+  "aliases": [
+   "matar",
+   "green peas"
+  ]
+ },
+ {
+  "name": "Green beans",
+  "category": "produce",
+  "aliases": [
+   "french beans"
+  ]
+ },
+ {
+  "name": "Corn",
+  "category": "produce",
+  "aliases": [
+   "sweetcorn",
+   "makai"
+  ]
+ },
+ {
+  "name": "Mushroom",
+  "category": "produce",
+  "aliases": [
+   "khumb"
+  ]
+ },
+ {
+  "name": "Celery",
+  "category": "produce"
+ },
+ {
+  "name": "Leek",
+  "category": "produce"
+ },
+ {
+  "name": "Asparagus",
+  "category": "produce"
+ },
+ {
+  "name": "Avocado",
+  "category": "produce"
+ },
+ {
+  "name": "Lemon",
+  "category": "produce",
+  "aliases": [
+   "nimbu"
+  ]
+ },
+ {
+  "name": "Lime",
+  "category": "produce"
+ },
+ {
+  "name": "Orange",
+  "category": "produce"
+ },
+ {
+  "name": "Apple",
+  "category": "produce",
+  "aliases": [
+   "seb"
+  ]
+ },
+ {
+  "name": "Banana",
+  "category": "produce",
+  "aliases": [
+   "kela"
+  ]
+ },
+ {
+  "name": "Mango",
+  "category": "produce",
+  "aliases": [
+   "aam"
+  ]
+ },
+ {
+  "name": "Raw mango",
+  "category": "produce",
+  "aliases": [
+   "kacha aam",
+   "kairi"
+  ]
+ },
+ {
+  "name": "Pineapple",
+  "category": "produce"
+ },
+ {
+  "name": "Strawberry",
+  "category": "produce"
+ },
+ {
+  "name": "Blueberry",
+  "category": "produce"
+ },
+ {
+  "name": "Grapes",
+  "category": "produce",
+  "aliases": [
+   "angoor"
+  ]
+ },
+ {
+  "name": "Pomegranate",
+  "category": "produce",
+  "aliases": [
+   "anar"
+  ]
+ },
+ {
+  "name": "Watermelon",
+  "category": "produce",
+  "aliases": [
+   "tarbooz"
+  ]
+ },
+ {
+  "name": "Guava",
+  "category": "produce",
+  "aliases": [
+   "amrood"
+  ]
+ },
+ {
+  "name": "Papaya",
+  "category": "produce",
+  "aliases": [
+   "papita"
+  ]
+ },
+ {
+  "name": "Dates",
+  "category": "produce",
+  "aliases": [
+   "khajoor",
+   "khajur"
+  ]
+ },
+ {
+  "name": "Coconut",
+  "category": "produce",
+  "aliases": [
+   "nariyal"
+  ]
+ },
+ {
+  "name": "Jackfruit",
+  "category": "produce",
+  "aliases": [
+   "kathal"
+  ]
+ },
+ {
+  "name": "Pear",
+  "category": "produce"
+ },
+ {
+  "name": "Peach",
+  "category": "produce"
+ },
+ {
+  "name": "Plum",
+  "category": "produce"
+ },
+ {
+  "name": "Kiwi",
+  "category": "produce"
+ },
+ {
+  "name": "Raisins",
+  "category": "produce",
+  "aliases": [
+   "kishmish"
+  ]
+ },
+ {
+  "name": "Dried apricot",
+  "category": "produce",
+  "aliases": [
+   "khubani"
+  ]
+ },
+ {
+  "name": "Lotus root",
+  "category": "produce",
+  "aliases": [
+   "kamal kakri"
+  ]
+ },
+ {
+  "name": "Colocasia",
+  "category": "produce",
+  "aliases": [
+   "arbi",
+   "taro"
+  ]
+ },
+ {
+  "name": "Drumstick",
+  "category": "produce",
+  "aliases": [
+   "moringa",
+   "saijan"
+  ]
+ },
+ {
+  "name": "Plantain",
+  "category": "produce",
+  "aliases": [
+   "raw banana",
+   "kacha kela"
+  ]
+ },
+ {
+  "name": "Yam",
+  "category": "produce",
+  "aliases": [
+   "jimikand"
+  ]
+ },
+ {
+  "name": "Coriander leaves",
+  "category": "herbs",
+  "aliases": [
+   "cilantro",
+   "dhania",
+   "hara dhania",
+   "coriander"
+  ]
+ },
+ {
+  "name": "Mint",
+  "category": "herbs",
+  "aliases": [
+   "pudina"
+  ]
+ },
+ {
+  "name": "Curry leaves",
+  "category": "herbs",
+  "aliases": [
+   "kari patta",
+   "kadi patta"
+  ]
+ },
+ {
+  "name": "Basil",
+  "category": "herbs"
+ },
+ {
+  "name": "Thai basil",
+  "category": "herbs"
+ },
+ {
+  "name": "Parsley",
+  "category": "herbs"
+ },
+ {
+  "name": "Dill",
+  "category": "herbs",
+  "aliases": [
+   "soya",
+   "suwa"
+  ]
+ },
+ {
+  "name": "Rosemary",
+  "category": "herbs"
+ },
+ {
+  "name": "Thyme",
+  "category": "herbs"
+ },
+ {
+  "name": "Oregano",
+  "category": "herbs"
+ },
+ {
+  "name": "Chives",
+  "category": "herbs"
+ },
+ {
+  "name": "Sage",
+  "category": "herbs"
+ },
+ {
+  "name": "Lemongrass",
+  "category": "herbs"
+ },
+ {
+  "name": "Bay leaf",
+  "category": "herbs",
+  "aliases": [
+   "tej patta"
+  ]
+ },
+ {
+  "name": "Eggs",
+  "category": "dairy",
+  "aliases": [
+   "anda",
+   "anday",
+   "egg"
+  ]
+ },
+ {
+  "name": "Milk",
+  "category": "dairy",
+  "aliases": [
+   "doodh"
+  ]
+ },
+ {
+  "name": "Yogurt",
+  "category": "dairy",
+  "aliases": [
+   "dahi",
+   "curd",
+   "yoghurt"
+  ]
+ },
+ {
+  "name": "Greek yogurt",
+  "category": "dairy"
+ },
+ {
+  "name": "Butter",
+  "category": "dairy",
+  "aliases": [
+   "makhan"
+  ]
+ },
+ {
+  "name": "Ghee",
+  "category": "dairy",
+  "aliases": [
+   "desi ghee",
+   "clarified butter"
+  ]
+ },
+ {
+  "name": "Cream",
+  "category": "dairy",
+  "aliases": [
+   "malai"
+  ]
+ },
+ {
+  "name": "Heavy cream",
+  "category": "dairy",
+  "aliases": [
+   "double cream"
+  ]
+ },
+ {
+  "name": "Sour cream",
+  "category": "dairy"
+ },
+ {
+  "name": "Cream cheese",
+  "category": "dairy"
+ },
+ {
+  "name": "Paneer",
+  "category": "dairy",
+  "aliases": [
+   "cottage cheese"
+  ]
+ },
+ {
+  "name": "Cheddar cheese",
+  "category": "dairy",
+  "aliases": [
+   "cheddar"
+  ]
+ },
+ {
+  "name": "Mozzarella",
+  "category": "dairy"
+ },
+ {
+  "name": "Parmesan",
+  "category": "dairy"
+ },
+ {
+  "name": "Feta cheese",
+  "category": "dairy",
+  "aliases": [
+   "feta"
+  ]
+ },
+ {
+  "name": "Halloumi",
+  "category": "dairy"
+ },
+ {
+  "name": "Khoya",
+  "category": "dairy",
+  "aliases": [
+   "mawa",
+   "khoa"
+  ]
+ },
+ {
+  "name": "Condensed milk",
+  "category": "dairy"
+ },
+ {
+  "name": "Evaporated milk",
+  "category": "dairy"
+ },
+ {
+  "name": "Buttermilk",
+  "category": "dairy",
+  "aliases": [
+   "lassi",
+   "chaas"
+  ]
+ },
+ {
+  "name": "Coconut milk",
+  "category": "dairy"
+ },
+ {
+  "name": "Almond milk",
+  "category": "dairy"
+ },
+ {
+  "name": "Oat milk",
+  "category": "dairy"
+ },
+ {
+  "name": "Soy milk",
+  "category": "dairy"
+ },
+ {
+  "name": "Tofu",
+  "category": "dairy"
+ },
+ {
+  "name": "Chicken",
+  "category": "meat",
+  "aliases": [
+   "murgh",
+   "murghi"
+  ]
+ },
+ {
+  "name": "Chicken breast",
+  "category": "meat"
+ },
+ {
+  "name": "Chicken thighs",
+  "category": "meat"
+ },
+ {
+  "name": "Chicken wings",
+  "category": "meat"
+ },
+ {
+  "name": "Chicken mince",
+  "category": "meat",
+  "aliases": [
+   "chicken keema"
+  ]
+ },
+ {
+  "name": "Beef",
+  "category": "meat",
+  "aliases": [
+   "gosht",
+   "bara gosht"
+  ]
+ },
+ {
+  "name": "Beef mince",
+  "category": "meat",
+  "aliases": [
+   "keema",
+   "qeema",
+   "ground beef"
+  ]
+ },
+ {
+  "name": "Lamb",
+  "category": "meat"
+ },
+ {
+  "name": "Mutton",
+  "category": "meat",
+  "aliases": [
+   "bakra",
+   "chhota gosht"
+  ]
+ },
+ {
+  "name": "Lamb mince",
+  "category": "meat"
+ },
+ {
+  "name": "Goat",
+  "category": "meat"
+ },
+ {
+  "name": "Turkey",
+  "category": "meat"
+ },
+ {
+  "name": "Duck",
+  "category": "meat"
+ },
+ {
+  "name": "Prawns",
+  "category": "meat",
+  "aliases": [
+   "jhinga",
+   "shrimp"
+  ]
+ },
+ {
+  "name": "Fish",
+  "category": "meat",
+  "aliases": [
+   "machli"
+  ]
+ },
+ {
+  "name": "Salmon",
+  "category": "meat"
+ },
+ {
+  "name": "Tuna",
+  "category": "meat"
+ },
+ {
+  "name": "Canned tuna",
+  "category": "meat"
+ },
+ {
+  "name": "Cod",
+  "category": "meat"
+ },
+ {
+  "name": "Tilapia",
+  "category": "meat"
+ },
+ {
+  "name": "Sardines",
+  "category": "meat"
+ },
+ {
+  "name": "Crab",
+  "category": "meat"
+ },
+ {
+  "name": "Squid",
+  "category": "meat"
+ },
+ {
+  "name": "Mussels",
+  "category": "meat"
+ },
+ {
+  "name": "Halal sausages",
+  "category": "meat",
+  "aliases": [
+   "sausages"
+  ]
+ },
+ {
+  "name": "Halal pepperoni",
+  "category": "meat",
+  "aliases": [
+   "pepperoni"
+  ]
+ },
+ {
+  "name": "Smoked turkey",
+  "category": "meat"
+ },
+ {
+  "name": "Rice",
+  "category": "grains",
+  "aliases": [
+   "chawal"
+  ]
+ },
+ {
+  "name": "Basmati rice",
+  "category": "grains"
+ },
+ {
+  "name": "Brown rice",
+  "category": "grains"
+ },
+ {
+  "name": "Jasmine rice",
+  "category": "grains"
+ },
+ {
+  "name": "Sela rice",
+  "category": "grains"
+ },
+ {
+  "name": "Cooked rice",
+  "category": "grains",
+  "aliases": [
+   "leftover rice"
+  ]
+ },
+ {
+  "name": "Pasta",
+  "category": "grains"
+ },
+ {
+  "name": "Spaghetti",
+  "category": "grains"
+ },
+ {
+  "name": "Penne",
+  "category": "grains"
+ },
+ {
+  "name": "Macaroni",
+  "category": "grains"
+ },
+ {
+  "name": "Noodles",
+  "category": "grains"
+ },
+ {
+  "name": "Egg noodles",
+  "category": "grains"
+ },
+ {
+  "name": "Rice noodles",
+  "category": "grains"
+ },
+ {
+  "name": "Vermicelli",
+  "category": "grains",
+  "aliases": [
+   "seviyan",
+   "sevaiyan"
+  ]
+ },
+ {
+  "name": "Bread",
+  "category": "grains"
+ },
+ {
+  "name": "Whole wheat bread",
+  "category": "grains"
+ },
+ {
+  "name": "Pita bread",
+  "category": "grains"
+ },
+ {
+  "name": "Naan",
+  "category": "grains"
+ },
+ {
+  "name": "Roti",
+  "category": "grains",
+  "aliases": [
+   "chapati",
+   "phulka"
+  ]
+ },
+ {
+  "name": "Paratha",
+  "category": "grains"
+ },
+ {
+  "name": "Tortillas",
+  "category": "grains",
+  "aliases": [
+   "wraps"
+  ]
+ },
+ {
+  "name": "Burger buns",
+  "category": "grains"
+ },
+ {
+  "name": "Bread crumbs",
+  "category": "grains",
+  "aliases": [
+   "breadcrumbs"
+  ]
+ },
+ {
+  "name": "Couscous",
+  "category": "grains"
+ },
+ {
+  "name": "Quinoa",
+  "category": "grains"
+ },
+ {
+  "name": "Bulgur",
+  "category": "grains",
+  "aliases": [
+   "daliya",
+   "dalia"
+  ]
+ },
+ {
+  "name": "Oats",
+  "category": "grains",
+  "aliases": [
+   "rolled oats",
+   "jai"
+  ]
+ },
+ {
+  "name": "Cornflakes",
+  "category": "grains"
+ },
+ {
+  "name": "Semolina",
+  "category": "grains",
+  "aliases": [
+   "sooji",
+   "suji",
+   "rava"
+  ]
+ },
+ {
+  "name": "Poha",
+  "category": "grains",
+  "aliases": [
+   "flattened rice",
+   "chiwda"
+  ]
+ },
+ {
+  "name": "Barley",
+  "category": "grains",
+  "aliases": [
+   "jau"
+  ]
+ },
+ {
+  "name": "Millet",
+  "category": "grains",
+  "aliases": [
+   "bajra"
+  ]
+ },
+ {
+  "name": "Sorghum",
+  "category": "grains",
+  "aliases": [
+   "jowar"
+  ]
+ },
+ {
+  "name": "Puffed rice",
+  "category": "grains",
+  "aliases": [
+   "murmura"
+  ]
+ },
+ {
+  "name": "Rice paper",
+  "category": "grains"
+ },
+ {
+  "name": "Red lentils",
+  "category": "legumes",
+  "aliases": [
+   "masoor dal",
+   "masoor"
+  ]
+ },
+ {
+  "name": "Yellow lentils",
+  "category": "legumes",
+  "aliases": [
+   "moong dal",
+   "mung dal"
+  ]
+ },
+ {
+  "name": "Split pigeon peas",
+  "category": "legumes",
+  "aliases": [
+   "toor dal",
+   "arhar dal",
+   "tuvar dal"
+  ]
+ },
+ {
+  "name": "Split chickpeas",
+  "category": "legumes",
+  "aliases": [
+   "chana dal"
+  ]
+ },
+ {
+  "name": "Black gram",
+  "category": "legumes",
+  "aliases": [
+   "urad dal",
+   "maash dal",
+   "mash dal"
+  ]
+ },
+ {
+  "name": "Whole green moong",
+  "category": "legumes",
+  "aliases": [
+   "sabut moong",
+   "green gram"
+  ]
+ },
+ {
+  "name": "Whole black urad",
+  "category": "legumes",
+  "aliases": [
+   "sabut urad",
+   "kali dal"
+  ]
+ },
+ {
+  "name": "Brown lentils",
+  "category": "legumes"
+ },
+ {
+  "name": "Chickpeas",
+  "category": "legumes",
+  "aliases": [
+   "kabuli chana",
+   "chole",
+   "garbanzo"
+  ]
+ },
+ {
+  "name": "Black chickpeas",
+  "category": "legumes",
+  "aliases": [
+   "kala chana"
+  ]
+ },
+ {
+  "name": "Kidney beans",
+  "category": "legumes",
+  "aliases": [
+   "rajma"
+  ]
+ },
+ {
+  "name": "Black-eyed peas",
+  "category": "legumes",
+  "aliases": [
+   "lobia",
+   "rongi"
+  ]
+ },
+ {
+  "name": "Black beans",
+  "category": "legumes"
+ },
+ {
+  "name": "White beans",
+  "category": "legumes",
+  "aliases": [
+   "cannellini beans"
+  ]
+ },
+ {
+  "name": "Baked beans",
+  "category": "legumes"
+ },
+ {
+  "name": "Lima beans",
+  "category": "legumes"
+ },
+ {
+  "name": "Edamame",
+  "category": "legumes"
+ },
+ {
+  "name": "Split peas",
+  "category": "legumes"
+ },
+ {
+  "name": "Moth beans",
+  "category": "legumes",
+  "aliases": [
+   "moth dal"
+  ]
+ },
+ {
+  "name": "Soy chunks",
+  "category": "legumes",
+  "aliases": [
+   "soya chunks",
+   "nutri"
+  ]
+ },
+ {
+  "name": "Salt",
+  "category": "spices",
+  "aliases": [
+   "namak"
+  ]
+ },
+ {
+  "name": "Black pepper",
+  "category": "spices",
+  "aliases": [
+   "kali mirch"
+  ]
+ },
+ {
+  "name": "White pepper",
+  "category": "spices"
+ },
+ {
+  "name": "Red chili powder",
+  "category": "spices",
+  "aliases": [
+   "lal mirch powder",
+   "chilli powder",
+   "chili powder"
+  ]
+ },
+ {
+  "name": "Kashmiri chili powder",
+  "category": "spices",
+  "aliases": [
+   "kashmiri mirch"
+  ]
+ },
+ {
+  "name": "Chili flakes",
+  "category": "spices",
+  "aliases": [
+   "kutti lal mirch",
+   "red pepper flakes"
+  ]
+ },
+ {
+  "name": "Turmeric",
+  "category": "spices",
+  "aliases": [
+   "haldi"
+  ]
+ },
+ {
+  "name": "Cumin seeds",
+  "category": "spices",
+  "aliases": [
+   "zeera",
+   "jeera"
+  ]
+ },
+ {
+  "name": "Ground cumin",
+  "category": "spices",
+  "aliases": [
+   "cumin powder",
+   "zeera powder"
+  ]
+ },
+ {
+  "name": "Coriander seeds",
+  "category": "spices",
+  "aliases": [
+   "sabut dhania"
+  ]
+ },
+ {
+  "name": "Ground coriander",
+  "category": "spices",
+  "aliases": [
+   "coriander powder",
+   "dhania powder"
+  ]
+ },
+ {
+  "name": "Garam masala",
+  "category": "spices"
+ },
+ {
+  "name": "Chaat masala",
+  "category": "spices"
+ },
+ {
+  "name": "Tandoori masala",
+  "category": "spices"
+ },
+ {
+  "name": "Biryani masala",
+  "category": "spices"
+ },
+ {
+  "name": "Chana masala",
+  "category": "spices"
+ },
+ {
+  "name": "Nihari masala",
+  "category": "spices"
+ },
+ {
+  "name": "Karahi masala",
+  "category": "spices"
+ },
+ {
+  "name": "Mango powder",
+  "category": "spices",
+  "aliases": [
+   "amchur",
+   "amchoor"
+  ]
+ },
+ {
+  "name": "Carom seeds",
+  "category": "spices",
+  "aliases": [
+   "ajwain"
+  ]
+ },
+ {
+  "name": "Asafoetida",
+  "category": "spices",
+  "aliases": [
+   "hing"
+  ]
+ },
+ {
+  "name": "Fenugreek seeds",
+  "category": "spices",
+  "aliases": [
+   "methi dana"
+  ]
+ },
+ {
+  "name": "Dried fenugreek leaves",
+  "category": "spices",
+  "aliases": [
+   "kasuri methi"
+  ]
+ },
+ {
+  "name": "Mustard seeds",
+  "category": "spices",
+  "aliases": [
+   "rai",
+   "sarson ke beej"
+  ]
+ },
+ {
+  "name": "Fennel seeds",
+  "category": "spices",
+  "aliases": [
+   "saunf"
+  ]
+ },
+ {
+  "name": "Nigella seeds",
+  "category": "spices",
+  "aliases": [
+   "kalonji"
+  ]
+ },
+ {
+  "name": "Green cardamom",
+  "category": "spices",
+  "aliases": [
+   "elaichi",
+   "choti elaichi"
+  ]
+ },
+ {
+  "name": "Black cardamom",
+  "category": "spices",
+  "aliases": [
+   "badi elaichi"
+  ]
+ },
+ {
+  "name": "Cloves",
+  "category": "spices",
+  "aliases": [
+   "laung"
+  ]
+ },
+ {
+  "name": "Cinnamon",
+  "category": "spices",
+  "aliases": [
+   "dalchini"
+  ]
+ },
+ {
+  "name": "Star anise",
+  "category": "spices",
+  "aliases": [
+   "badiyan"
+  ]
+ },
+ {
+  "name": "Nutmeg",
+  "category": "spices",
+  "aliases": [
+   "jaiphal"
+  ]
+ },
+ {
+  "name": "Mace",
+  "category": "spices",
+  "aliases": [
+   "javitri"
+  ]
+ },
+ {
+  "name": "Saffron",
+  "category": "spices",
+  "aliases": [
+   "zafran",
+   "kesar"
+  ]
+ },
+ {
+  "name": "Paprika",
+  "category": "spices"
+ },
+ {
+  "name": "Smoked paprika",
+  "category": "spices"
+ },
+ {
+  "name": "Ground ginger",
+  "category": "spices",
+  "aliases": [
+   "sonth"
+  ]
+ },
+ {
+  "name": "Garlic powder",
+  "category": "spices"
+ },
+ {
+  "name": "Onion powder",
+  "category": "spices"
+ },
+ {
+  "name": "Dried oregano",
+  "category": "spices"
+ },
+ {
+  "name": "Mixed herbs",
+  "category": "spices",
+  "aliases": [
+   "italian seasoning"
+  ]
+ },
+ {
+  "name": "Cajun seasoning",
+  "category": "spices"
+ },
+ {
+  "name": "Five spice",
+  "category": "spices"
+ },
+ {
+  "name": "Sumac",
+  "category": "spices"
+ },
+ {
+  "name": "Za'atar",
+  "category": "spices",
+  "aliases": [
+   "zaatar"
+  ]
+ },
+ {
+  "name": "Black salt",
+  "category": "spices",
+  "aliases": [
+   "kala namak"
+  ]
+ },
+ {
+  "name": "Pomegranate seeds dried",
+  "category": "spices",
+  "aliases": [
+   "anardana"
+  ]
+ },
+ {
+  "name": "Poppy seeds",
+  "category": "spices",
+  "aliases": [
+   "khaskhas"
+  ]
+ },
+ {
+  "name": "Dried red chilies",
+  "category": "spices",
+  "aliases": [
+   "sabut lal mirch"
+  ]
+ },
+ {
+  "name": "Allspice",
+  "category": "spices"
+ },
+ {
+  "name": "Soy sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Dark soy sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Oyster sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Fish sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Hoisin sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Sriracha",
+  "category": "condiments"
+ },
+ {
+  "name": "Chili sauce",
+  "category": "condiments",
+  "aliases": [
+   "chilli garlic sauce"
+  ]
+ },
+ {
+  "name": "Hot sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Tomato ketchup",
+  "category": "condiments",
+  "aliases": [
+   "ketchup"
+  ]
+ },
+ {
+  "name": "Tomato paste",
+  "category": "condiments",
+  "aliases": [
+   "tomato puree"
+  ]
+ },
+ {
+  "name": "Canned tomatoes",
+  "category": "condiments",
+  "aliases": [
+   "chopped tomatoes",
+   "tinned tomatoes"
+  ]
+ },
+ {
+  "name": "Passata",
+  "category": "condiments"
+ },
+ {
+  "name": "Mayonnaise",
+  "category": "condiments",
+  "aliases": [
+   "mayo"
+  ]
+ },
+ {
+  "name": "Mustard",
+  "category": "condiments"
+ },
+ {
+  "name": "Dijon mustard",
+  "category": "condiments"
+ },
+ {
+  "name": "Vinegar",
+  "category": "condiments",
+  "aliases": [
+   "sirka"
+  ]
+ },
+ {
+  "name": "White vinegar",
+  "category": "condiments"
+ },
+ {
+  "name": "Apple cider vinegar",
+  "category": "condiments"
+ },
+ {
+  "name": "Balsamic vinegar",
+  "category": "condiments"
+ },
+ {
+  "name": "Rice vinegar",
+  "category": "condiments"
+ },
+ {
+  "name": "Worcestershire sauce",
+  "category": "condiments"
+ },
+ {
+  "name": "Barbecue sauce",
+  "category": "condiments",
+  "aliases": [
+   "bbq sauce"
+  ]
+ },
+ {
+  "name": "Pesto",
+  "category": "condiments"
+ },
+ {
+  "name": "Tahini",
+  "category": "condiments"
+ },
+ {
+  "name": "Hummus",
+  "category": "condiments"
+ },
+ {
+  "name": "Honey",
+  "category": "condiments",
+  "aliases": [
+   "shehad"
+  ]
+ },
+ {
+  "name": "Maple syrup",
+  "category": "condiments"
+ },
+ {
+  "name": "Jam",
+  "category": "condiments"
+ },
+ {
+  "name": "Peanut butter",
+  "category": "condiments"
+ },
+ {
+  "name": "Tamarind",
+  "category": "condiments",
+  "aliases": [
+   "imli"
+  ]
+ },
+ {
+  "name": "Tamarind paste",
+  "category": "condiments",
+  "aliases": [
+   "imli paste"
+  ]
+ },
+ {
+  "name": "Green chutney",
+  "category": "condiments",
+  "aliases": [
+   "hari chutney"
+  ]
+ },
+ {
+  "name": "Mango pickle",
+  "category": "condiments",
+  "aliases": [
+   "achar"
+  ]
+ },
+ {
+  "name": "Mixed pickle",
+  "category": "condiments"
+ },
+ {
+  "name": "Coconut cream",
+  "category": "condiments"
+ },
+ {
+  "name": "Stock cubes",
+  "category": "condiments",
+  "aliases": [
+   "bouillon",
+   "chicken cube"
+  ]
+ },
+ {
+  "name": "Chicken stock",
+  "category": "condiments",
+  "aliases": [
+   "chicken broth"
+  ]
+ },
+ {
+  "name": "Vegetable stock",
+  "category": "condiments",
+  "aliases": [
+   "vegetable broth"
+  ]
+ },
+ {
+  "name": "Sambal oelek",
+  "category": "condiments"
+ },
+ {
+  "name": "Gochujang",
+  "category": "condiments"
+ },
+ {
+  "name": "Miso paste",
+  "category": "condiments",
+  "aliases": [
+   "miso"
+  ]
+ },
+ {
+  "name": "Harissa",
+  "category": "condiments"
+ },
+ {
+  "name": "Salsa",
+  "category": "condiments"
+ },
+ {
+  "name": "Olives",
+  "category": "condiments"
+ },
+ {
+  "name": "Capers",
+  "category": "condiments"
+ },
+ {
+  "name": "Sun-dried tomatoes",
+  "category": "condiments"
+ },
+ {
+  "name": "All-purpose flour",
+  "category": "baking",
+  "aliases": [
+   "maida",
+   "plain flour",
+   "flour"
+  ]
+ },
+ {
+  "name": "Whole wheat flour",
+  "category": "baking",
+  "aliases": [
+   "atta",
+   "chakki atta"
+  ]
+ },
+ {
+  "name": "Gram flour",
+  "category": "baking",
+  "aliases": [
+   "besan",
+   "chickpea flour"
+  ]
+ },
+ {
+  "name": "Rice flour",
+  "category": "baking",
+  "aliases": [
+   "chawal ka atta"
+  ]
+ },
+ {
+  "name": "Cornflour",
+  "category": "baking",
+  "aliases": [
+   "cornstarch",
+   "corn starch"
+  ]
+ },
+ {
+  "name": "Self-raising flour",
+  "category": "baking"
+ },
+ {
+  "name": "Sugar",
+  "category": "baking",
+  "aliases": [
+   "cheeni"
+  ]
+ },
+ {
+  "name": "Brown sugar",
+  "category": "baking"
+ },
+ {
+  "name": "Icing sugar",
+  "category": "baking",
+  "aliases": [
+   "powdered sugar"
+  ]
+ },
+ {
+  "name": "Jaggery",
+  "category": "baking",
+  "aliases": [
+   "gur",
+   "gurr"
+  ]
+ },
+ {
+  "name": "Baking powder",
+  "category": "baking"
+ },
+ {
+  "name": "Baking soda",
+  "category": "baking",
+  "aliases": [
+   "bicarbonate of soda",
+   "meetha soda"
+  ]
+ },
+ {
+  "name": "Yeast",
+  "category": "baking",
+  "aliases": [
+   "instant yeast"
+  ]
+ },
+ {
+  "name": "Vanilla extract",
+  "category": "baking",
+  "aliases": [
+   "vanilla essence"
+  ]
+ },
+ {
+  "name": "Cocoa powder",
+  "category": "baking"
+ },
+ {
+  "name": "Dark chocolate",
+  "category": "baking"
+ },
+ {
+  "name": "Chocolate chips",
+  "category": "baking"
+ },
+ {
+  "name": "Custard powder",
+  "category": "baking"
+ },
+ {
+  "name": "Gelatin",
+  "category": "baking"
+ },
+ {
+  "name": "Agar agar",
+  "category": "baking",
+  "aliases": [
+   "china grass"
+  ]
+ },
+ {
+  "name": "Food colouring",
+  "category": "baking"
+ },
+ {
+  "name": "Rose water",
+  "category": "baking",
+  "aliases": [
+   "gulab jal"
+  ]
+ },
+ {
+  "name": "Kewra water",
+  "category": "baking",
+  "aliases": [
+   "kewra"
+  ]
+ },
+ {
+  "name": "Desiccated coconut",
+  "category": "baking"
+ },
+ {
+  "name": "Sprinkles",
+  "category": "baking"
+ },
+ {
+  "name": "Vegetable oil",
+  "category": "oils",
+  "aliases": [
+   "cooking oil",
+   "oil"
+  ]
+ },
+ {
+  "name": "Olive oil",
+  "category": "oils"
+ },
+ {
+  "name": "Extra virgin olive oil",
+  "category": "oils"
+ },
+ {
+  "name": "Sunflower oil",
+  "category": "oils"
+ },
+ {
+  "name": "Canola oil",
+  "category": "oils"
+ },
+ {
+  "name": "Mustard oil",
+  "category": "oils",
+  "aliases": [
+   "sarson ka tel"
+  ]
+ },
+ {
+  "name": "Coconut oil",
+  "category": "oils"
+ },
+ {
+  "name": "Sesame oil",
+  "category": "oils"
+ },
+ {
+  "name": "Peanut oil",
+  "category": "oils"
+ },
+ {
+  "name": "Avocado oil",
+  "category": "oils"
+ },
+ {
+  "name": "Margarine",
+  "category": "oils"
+ },
+ {
+  "name": "Shortening",
+  "category": "oils"
+ },
+ {
+  "name": "Almonds",
+  "category": "nuts",
+  "aliases": [
+   "badam"
+  ]
+ },
+ {
+  "name": "Cashews",
+  "category": "nuts",
+  "aliases": [
+   "kaju"
+  ]
+ },
+ {
+  "name": "Peanuts",
+  "category": "nuts",
+  "aliases": [
+   "moongphali"
+  ]
+ },
+ {
+  "name": "Pistachios",
+  "category": "nuts",
+  "aliases": [
+   "pista"
+  ]
+ },
+ {
+  "name": "Walnuts",
+  "category": "nuts",
+  "aliases": [
+   "akhrot"
+  ]
+ },
+ {
+  "name": "Pine nuts",
+  "category": "nuts",
+  "aliases": [
+   "chilgoza"
+  ]
+ },
+ {
+  "name": "Hazelnuts",
+  "category": "nuts"
+ },
+ {
+  "name": "Pecans",
+  "category": "nuts"
+ },
+ {
+  "name": "Sesame seeds",
+  "category": "nuts",
+  "aliases": [
+   "til"
+  ]
+ },
+ {
+  "name": "Chia seeds",
+  "category": "nuts"
+ },
+ {
+  "name": "Flax seeds",
+  "category": "nuts",
+  "aliases": [
+   "alsi"
+  ]
+ },
+ {
+  "name": "Pumpkin seeds",
+  "category": "nuts"
+ },
+ {
+  "name": "Sunflower seeds",
+  "category": "nuts"
+ },
+ {
+  "name": "Melon seeds",
+  "category": "nuts",
+  "aliases": [
+   "magaz"
+  ]
+ },
+ {
+  "name": "Fox nuts",
+  "category": "nuts",
+  "aliases": [
+   "makhana",
+   "lotus seeds"
+  ]
+ },
+ {
+  "name": "Charoli",
+  "category": "nuts",
+  "aliases": [
+   "chironji"
+  ]
+ },
+ {
+  "name": "Frozen peas",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen mixed vegetables",
+  "category": "frozen",
+  "aliases": [
+   "frozen veg"
+  ]
+ },
+ {
+  "name": "Frozen corn",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen spinach",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen berries",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen paratha",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen chicken nuggets",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen fries",
+  "category": "frozen",
+  "aliases": [
+   "french fries"
+  ]
+ },
+ {
+  "name": "Ice cream",
+  "category": "frozen"
+ },
+ {
+  "name": "Puff pastry",
+  "category": "frozen"
+ },
+ {
+  "name": "Samosa sheets",
+  "category": "frozen",
+  "aliases": [
+   "samosa patti"
+  ]
+ },
+ {
+  "name": "Spring roll wrappers",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen shrimp",
+  "category": "frozen"
+ },
+ {
+  "name": "Frozen fish fillets",
+  "category": "frozen"
+ },
+ {
+  "name": "Water",
+  "category": "other"
+ },
+ {
+  "name": "Ice",
+  "category": "other"
+ },
+ {
+  "name": "Tea",
+  "category": "other",
+  "aliases": [
+   "chai patti"
+  ]
+ },
+ {
+  "name": "Green tea",
+  "category": "other"
+ },
+ {
+  "name": "Coffee",
+  "category": "other"
+ },
+ {
+  "name": "Instant coffee",
+  "category": "other"
+ },
+ {
+  "name": "Lemon juice",
+  "category": "other"
+ },
+ {
+  "name": "Orange juice",
+  "category": "other"
+ },
+ {
+  "name": "Coconut water",
+  "category": "other"
+ },
+ {
+  "name": "Rooh Afza",
+  "category": "other",
+  "aliases": [
+   "rose syrup"
+  ]
+ },
+ {
+  "name": "Tomato soup",
+  "category": "other"
+ },
+ {
+  "name": "Instant noodles",
+  "category": "other",
+  "aliases": [
+   "maggi"
+  ]
+ },
+ {
+  "name": "Crackers",
+  "category": "other"
+ },
+ {
+  "name": "Tortilla chips",
+  "category": "other"
+ },
+ {
+  "name": "Popcorn kernels",
+  "category": "other"
+ },
+ {
+  "name": "Marshmallows",
+  "category": "other"
+ },
+ {
+  "name": "Nutritional yeast",
+  "category": "other"
+ },
+ {
+  "name": "Seaweed",
+  "category": "other",
+  "aliases": [
+   "nori"
+  ]
+ },
+ {
+  "name": "Kimchi",
+  "category": "other"
+ },
+ {
+  "name": "Sauerkraut",
+  "category": "other"
+ },
+ {
+  "name": "Pickled onions",
+  "category": "other"
+ },
+ {
+  "name": "Papad",
+  "category": "other",
+  "aliases": [
+   "papadum",
+   "poppadom"
+  ]
+ },
+ {
+  "name": "Sev",
+  "category": "other",
+  "aliases": [
+   "bhujia"
+  ]
+ }
+]

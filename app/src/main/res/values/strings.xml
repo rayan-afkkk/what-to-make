@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name: change it here and it updates everywhere (launcher, onboarding, account). -->
+    <string name="app_name">What to Cook</string>
+
+    <!-- Common actions -->
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_close">Close</string>
+    <string name="action_create">Create</string>
+    <string name="action_decrease">Decrease</string>
+    <string name="action_increase">Increase</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_try_again">Try again</string>
+
+    <!-- Bottom navigation -->
+    <string name="tab_home">Home</string>
+    <string name="tab_pantry">Pantry</string>
+    <string name="tab_discover">Discover</string>
+    <string name="tab_shopping">Shopping</string>
+    <string name="tab_account">Account</string>
+
+    <!-- Dates -->
+    <string name="date_today">Today</string>
+    <string name="date_yesterday">Yesterday</string>
+
+    <!-- Plans -->
+    <string name="plan_free">Free</string>
+    <string name="plan_pro">Pro</string>
+
+    <!-- Ingredient categories -->
+    <string name="category_produce">Fruit &amp; veg</string>
+    <string name="category_herbs">Fresh herbs</string>
+    <string name="category_dairy">Dairy &amp; eggs</string>
+    <string name="category_meat">Meat &amp; fish</string>
+    <string name="category_grains">Grains, bread &amp; pasta</string>
+    <string name="category_legumes">Lentils &amp; beans</string>
+    <string name="category_spices">Spices</string>
+    <string name="category_condiments">Sauces &amp; condiments</string>
+    <string name="category_baking">Baking</string>
+    <string name="category_oils">Oils &amp; fats</string>
+    <string name="category_nuts">Nuts &amp; seeds</string>
+    <string name="category_frozen">Frozen</string>
+    <string name="category_other">Other</string>
+
+    <!-- Errors -->
+    <string name="error_no_network_title">You’re offline</string>
+    <string name="error_no_network_message">Check your connection and try again.</string>
+    <string name="error_timeout_title">That took too long</string>
+    <string name="error_timeout_message">The kitchen is busy right now. Give it another go in a moment.</string>
+    <string name="error_unauthorized_title">Couldn’t verify this device</string>
+    <string name="error_unauthorized_message">We couldn’t confirm your guest session. Please try again.</string>
+    <string name="error_not_configured_title">Not set up yet</string>
+    <string name="error_not_configured_message">This build isn’t connected to a server yet.</string>
+    <string name="error_limit_title">You’re out of free recipes</string>
+    <string name="error_limit_message">You’ve used this week’s free recipes. They’ll be back soon.</string>
+    <string name="error_server_title">Something went wrong</string>
+    <string name="error_server_message">Our server had a hiccup (error %1$d). Please try again.</string>
+    <string name="error_unknown_title">Something went wrong</string>
+    <string name="error_unknown_message">An unexpected problem occurred. Please try again.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_free_footer">7 free recipes every week</string>
+    <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
+    <string name="onboarding_1_title">What’s in your kitchen?</string>
+    <string name="onboarding_1_subtitle">Keep a simple list of what you already have at home.</string>
+    <string name="onboarding_2_title">Tell us what you have</string>
+    <string name="onboarding_2_subtitle">Type a few ingredients. We’ll handle the rest.</string>
+    <string name="onboarding_3_title">Get recipes in seconds</string>
+    <string name="onboarding_3_subtitle">See what you can cook now, what’s missing, and easy swaps.</string>
+    <string name="onboarding_4_title">Cook step by step</string>
+    <string name="onboarding_4_subtitle">Big text, built-in timers, and a screen that stays awake.</string>
+    <string name="onboarding_5_title">Free to start, no ads, ever</string>
+    <string name="onboarding_5_subtitle">Use your weekly recipes however you like: all at once or one a day.</string>
+    <string name="onboarding_chip_egg">Egg</string>
+    <string name="onboarding_chip_tomato">Tomato</string>
+    <string name="onboarding_chip_onion">Onion</string>
+    <string name="onboarding_chip_rice">Rice</string>
+    <string name="onboarding_typing_text">eggs, rice, onion</string>
+    <string name="onboarding_card_title">Tomato egg fried rice</string>
+    <string name="onboarding_card_meta">20 min · 2 servings</string>
+    <string name="onboarding_card_line_1">Rice</string>
+    <string name="onboarding_card_line_2">Eggs</string>
+    <string name="onboarding_card_line_3">Spring onion</string>
+    <string name="onboarding_card_line_4">Soy sauce</string>
+    <string name="onboarding_card_missing">2 missing</string>
+    <string name="onboarding_card_swap">Swap: chives for spring onion</string>
+    <string name="onboarding_cook_step_1">Rinse the rice until the water runs clear.</string>
+    <string name="onboarding_cook_step_2">Simmer for 5 minutes with the lid on.</string>
+    <string name="onboarding_cook_step_3">Fold in the eggs and serve hot.</string>
+    <string name="onboarding_cook_step_label">Step %1$d of %2$d</string>
+    <string name="onboarding_cook_screen_on">Screen stays on</string>
+    <string name="onboarding_counter_label">This week</string>
+    <string name="onboarding_counter_value">%1$d of %2$d</string>
+    <string name="onboarding_badge_title">No ads</string>
+    <string name="onboarding_badge_subtitle">ever</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+    <string name="home_new_recipe">Find new recipes</string>
+    <string name="home_show_saved">Show saved recipes</string>
+    <string name="home_filter_all">All</string>
+    <string name="home_filter_recipes">Recipes</string>
+    <string name="home_filter_saved">Saved</string>
+    <string name="home_loading">Loading your recipes…</string>
+    <string name="home_open_recipe">Open recipe</string>
+    <string name="home_ingredient_progress">%1$d/%2$d</string>
+    <string name="home_empty_title">Nothing cooking yet</string>
+    <string name="home_empty_message">Your recipes will show up here once you ask for a few ideas.</string>
+    <string name="home_empty_saved_title">No saved recipes</string>
+    <string name="home_empty_saved_message">Tap the heart on a recipe to keep it here.</string>
+    <string name="home_start_pantry_title">Stock your pantry</string>
+    <string name="home_start_pantry_subtitle">Add what you have at home</string>
+    <string name="home_start_recipe_title">Make your first recipe</string>
+    <string name="home_start_recipe_subtitle">Turn your ingredients into ideas</string>
+    <string name="home_start_save_title">Save a favourite</string>
+    <string name="home_start_save_subtitle">Keep the ones you love close</string>
+
+    <!-- Pantry -->
+    <string name="pantry_title">Pantry</string>
+    <string name="pantry_loading">Opening your pantry…</string>
+    <string name="pantry_search_hint">Search or add an ingredient</string>
+    <string name="pantry_add_custom">Add “%1$s”</string>
+    <string name="pantry_no_matches">No matches yet. Keep typing.</string>
+    <string name="pantry_added">%1$s added</string>
+    <string name="pantry_already_added">%1$s is already in your pantry</string>
+    <string name="pantry_find_recipes">Find recipes</string>
+    <string name="pantry_options">Recipe options</string>
+    <string name="pantry_create_group">New group</string>
+    <string name="pantry_group_hint">e.g. Weekend staples</string>
+    <string name="pantry_group_empty">Empty for now. Select this group above, then add ingredients.</string>
+    <string name="pantry_adding_to">Adding to</string>
+    <string name="pantry_target_all">My pantry</string>
+    <string name="pantry_delete_group_title">Delete this group?</string>
+    <string name="pantry_delete_group_message">The group will be removed. Its ingredients stay in your pantry.</string>
+    <string name="pantry_delete_group_cd">Delete group %1$s</string>
+    <string name="pantry_remove_cd">Remove %1$s</string>
+    <string name="pantry_empty_title">Your pantry is empty</string>
+    <string name="pantry_empty_message">Search above to add what you have. The more you add, the better your recipes.</string>
+
+    <!-- Recipe options sheet -->
+    <string name="options_title">Recipe options</string>
+    <string name="options_subtitle">Applied to every recipe you ask for.</string>
+    <string name="options_diet">Diet</string>
+    <string name="options_time">Max time</string>
+    <string name="options_missing">Missing ingredients</string>
+    <string name="options_missing_hint">How many can a recipe be missing?</string>
+    <string name="options_equipment">Equipment I have</string>
+    <string name="option_any">Any</string>
+    <string name="option_vegetarian">Vegetarian</string>
+    <string name="option_vegan">Vegan</string>
+    <string name="option_halal">Halal</string>
+    <string name="option_high_protein">High protein</string>
+    <string name="option_gluten_free">Gluten-free</string>
+    <string name="option_minutes">%1$d min</string>
+    <string name="equipment_oven">Oven</string>
+    <string name="equipment_stovetop">Stovetop</string>
+    <string name="equipment_microwave">Microwave</string>
+    <string name="equipment_air_fryer">Air fryer</string>
+    <string name="equipment_blender">Blender</string>
+    <string name="equipment_pressure_cooker">Pressure cooker</string>
+
+    <!-- Discover -->
+    <string name="discover_title">What are you in the mood for?</string>
+    <string name="discover_subtitle">Pick a vibe, a cuisine, or let us surprise you.</string>
+    <string name="discover_mode_pantry">My pantry</string>
+    <string name="discover_mode_anything">Anything</string>
+    <string name="discover_hint_empty_pantry">Your pantry is empty, so we’ll suggest from scratch.</string>
+    <string name="discover_hint_anything">Ideas from scratch, ignoring your pantry.</string>
+    <string name="discover_cuisine_label">Or pick a cuisine</string>
+    <string name="discover_surprise">Surprise me</string>
+    <string name="mood_quick">Quick</string>
+    <string name="mood_comfort">Comfort food</string>
+    <string name="mood_high_protein">High protein</string>
+    <string name="mood_one_pan">One pan</string>
+    <string name="mood_budget">Budget</string>
+    <string name="mood_no_oven">No oven</string>
+    <string name="mood_vegetarian">Vegetarian</string>
+    <string name="mood_halal">Halal</string>
+    <string name="mood_under_15">Under 15 min</string>
+    <string name="mood_vegan">Vegan</string>
+    <string name="mood_breakfast">Breakfast</string>
+    <string name="mood_spicy">Spicy</string>
+    <string name="mood_light">Light</string>
+    <string name="mood_kid_friendly">Kid friendly</string>
+    <string name="cuisine_desi">Desi</string>
+    <string name="cuisine_italian">Italian</string>
+    <string name="cuisine_asian">Asian</string>
+    <string name="cuisine_mediterranean">Mediterranean</string>
+
+    <!-- Generate -->
+    <string name="generate_title">Your recipes</string>
+    <string name="generate_loading_1">Checking your pantry…</string>
+    <string name="generate_loading_2">Balancing the flavours…</string>
+    <string name="generate_loading_3">Plating up some ideas…</string>
+    <string name="generate_pantry_empty_title">Your pantry is empty</string>
+    <string name="generate_pantry_empty_message">Add a few ingredients first so we know what you can cook.</string>
+    <string name="generate_go_to_pantry">Go to pantry</string>
+    <string name="generate_none_title">No recipes this time</string>
+    <string name="generate_none_message">Try allowing a few more missing ingredients in recipe options.</string>
+
+    <!-- Recipe detail -->
+    <string name="recipe_loading">Loading recipe…</string>
+    <string name="recipe_not_found_title">Recipe not found</string>
+    <string name="recipe_not_found_message">It may have been removed from this device.</string>
+    <string name="recipe_save">Save recipe</string>
+    <string name="recipe_unsave">Remove from saved</string>
+    <string name="recipe_minutes">%1$d min</string>
+    <string name="recipe_have_everything">You have everything</string>
+    <string name="recipe_ingredients">Ingredients</string>
+    <string name="recipe_in_pantry">In your pantry</string>
+    <string name="recipe_not_in_pantry">Not in your pantry</string>
+    <string name="recipe_missing">Missing</string>
+    <string name="recipe_swap">Swap: %1$s</string>
+    <string name="recipe_add_missing">Add missing to shopping list</string>
+    <string name="recipe_already_on_list">Already on your shopping list</string>
+    <string name="recipe_steps">Steps</string>
+    <string name="recipe_cook_mode">Start cook mode</string>
+    <string name="recipe_fewer_servings">Fewer servings</string>
+    <string name="recipe_more_servings">More servings</string>
+
+    <!-- Cook mode -->
+    <string name="cook_exit">Exit cook mode</string>
+    <string name="cook_step_of">Step %1$d of %2$d</string>
+    <string name="cook_previous">Back</string>
+    <string name="cook_next">Next</string>
+    <string name="cook_finish">Done</string>
+    <string name="cook_timer_done">Time’s up!</string>
+    <string name="cook_timer_start">Start timer</string>
+    <string name="cook_timer_stop">Stop timer</string>
+
+    <!-- Shopping -->
+    <string name="shopping_title">Shopping</string>
+    <string name="shopping_loading">Loading your list…</string>
+    <string name="shopping_add_hint">Add an item</string>
+    <string name="shopping_add">Add to list</string>
+    <string name="shopping_clear_completed">Clear done</string>
+    <string name="shopping_remove_cd">Remove %1$s</string>
+    <string name="shopping_empty_title">Your list is empty</string>
+    <string name="shopping_empty_message">Missing ingredients from recipes land here, or add your own above.</string>
+
+    <!-- Account -->
+    <string name="account_title">Account</string>
+    <string name="account_guest">Guest</string>
+    <string name="account_guest_subtitle">Signed in on this device</string>
+    <string name="account_guest_connecting">Connecting…</string>
+    <string name="account_guest_offline">Offline guest</string>
+    <string name="account_appearance">Appearance</string>
+    <string name="account_appearance_hint">Choose how %1$s looks. System matches your phone.</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="account_plan">Plan &amp; usage</string>
+    <string name="account_plan_pro_subtitle">You’re on Pro</string>
+    <string name="account_view_onboarding">View onboarding</string>
+    <string name="account_help">Help &amp; feedback</string>
+    <string name="account_feedback_subject">%1$s feedback (v%2$s)</string>
+    <string name="account_privacy_terms">Privacy &amp; terms</string>
+    <string name="account_legal_message">Read how we handle your data and the terms for using the app.</string>
+    <string name="legal_privacy">Privacy policy</string>
+    <string name="legal_terms">Terms of use</string>
+    <string name="account_sign_out">Sign out</string>
+    <string name="account_sign_out_title">Sign out?</string>
+    <string name="account_sign_out_message">You’re using a guest profile. Signing out starts a fresh guest session and clears your recipes, pantry and shopping list on this device.</string>
+    <string name="account_delete">Delete account</string>
+    <string name="account_delete_title">Delete your account?</string>
+    <string name="account_delete_message">This permanently deletes your data on our servers and on this device, including recipes, pantry and shopping list. An active subscription must be cancelled separately in Google Play. This can’t be undone.</string>
+    <string name="account_delete_confirm">Delete forever</string>
+    <string name="account_version">%1$s · version %2$s</string>
+
+    <!-- Usage -->
+    <string name="usage_free_label">This week’s free</string>
+    <string name="usage_pro_label">Pro allowance</string>
+    <string name="usage_fraction">%1$d/%2$d</string>
+    <string name="usage_resets_today">Resets today</string>
+    <string name="usage_resets_on">Resets on %1$s</string>
+    <string name="usage_resets_weekly">Resets every week</string>
+    <string name="usage_unavailable">Usage unavailable</string>
+
+    <!-- Paywall -->
+    <string name="paywall_title">Cook more with Pro</string>
+    <string name="paywall_subtitle">More recipe ideas every week, and you keep the app ad-free and independent.</string>
+    <string name="paywall_limit_title">You’ve used all %1$d free recipes this week</string>
+    <string name="paywall_limit_resets">Your free recipes reset on %1$s.</string>
+    <string name="paywall_row_recipes">AI recipes</string>
+    <string name="paywall_row_recipes_free">%1$d / week</string>
+    <string name="paywall_row_recipes_pro">More every week</string>
+    <string name="paywall_row_pantry">Pantry &amp; shopping list</string>
+    <string name="paywall_row_cook_mode">Cook mode &amp; timers</string>
+    <string name="paywall_row_no_ads">No ads</string>
+    <string name="paywall_row_support">Supports development</string>
+    <string name="paywall_included">Included</string>
+    <string name="paywall_yearly">Yearly</string>
+    <string name="paywall_monthly">Monthly</string>
+    <string name="paywall_per_year">year</string>
+    <string name="paywall_per_month">month</string>
+    <string name="paywall_price_per">%1$s / %2$s</string>
+    <string name="paywall_best_value">Best value</string>
+    <string name="paywall_save_percent">Save %1$d%%</string>
+    <string name="paywall_continue">Continue</string>
+    <string name="paywall_restore">Restore purchases</string>
+    <string name="paywall_restoring">Restoring…</string>
+    <string name="paywall_fine_print">Renews automatically until cancelled. Cancel anytime in Google Play under Subscriptions.</string>
+    <string name="paywall_already_pro">You’re on Pro. Thanks for supporting the app!</string>
+    <string name="paywall_unavailable_title">Plans aren’t available right now</string>
+    <string name="paywall_unavailable_message">Make sure Google Play is installed and you’re signed in, then try again.</string>
+    <string name="paywall_msg_success">Welcome to Pro!</string>
+    <string name="paywall_msg_pending">Your purchase is pending. We’ll unlock Pro once it completes.</string>
+    <string name="paywall_msg_failed">The purchase didn’t go through. You haven’t been charged.</string>
+    <string name="paywall_msg_verify_failed">We couldn’t confirm your purchase yet. Try “Restore purchases” in a moment.</string>
+    <string name="paywall_msg_restored">Your Pro plan has been restored.</string>
+    <string name="paywall_msg_nothing_to_restore">No active subscription found for this Google account.</string>
+    <string name="paywall_msg_restore_failed">Couldn’t restore purchases. Please try again.</string>
+    <string name="paywall_msg_unavailable">Purchases aren’t available on this device right now.</string>
+</resources>
