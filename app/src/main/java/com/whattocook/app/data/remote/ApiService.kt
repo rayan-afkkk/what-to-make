@@ -12,7 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
- * Your backend. Every call carries "Authorization: Bearer <Firebase ID token>"
+ * Your backend. Every call carries "Authorization: Bearer <session token>"
  * (added by [AuthInterceptor]). The app never talks to the AI provider or the
  * database directly.
  */

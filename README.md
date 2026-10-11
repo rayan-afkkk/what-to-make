@@ -16,7 +16,7 @@ Kotlin and Jetpack Compose. No ads, no analytics, text-only AI (no photo scannin
 | Architecture | MVVM, `ViewModel` + `StateFlow`, Hilt |
 | Network | Retrofit + OkHttp + kotlinx.serialization |
 | Local data | Room (pantry, recipes, shopping list), DataStore (theme, onboarding flag, recipe options) |
-| Auth | Firebase Anonymous Auth (users never create accounts) |
+| Auth | Guest sessions issued by your backend and stored in Turso (no Firebase, no sign-up) |
 | Payments | Google Play Billing Library 7 (one subscription, two base plans) |
 | Build | Gradle Kotlin DSL + version catalog (`gradle/libs.versions.toml`), minSdk 26, targetSdk 35 |
 | Animation | Compose animation APIs only (no Lottie, no animation files) |
@@ -28,7 +28,7 @@ Kotlin and Jetpack Compose. No ads, no analytics, text-only AI (no photo scannin
 3. Run the `app` configuration on a device or emulator (API 26+).
 
 Out of the box `USE_FAKE_BACKEND=true`, so every screen works with sample recipes and a local
-7-per-week counter. You don't need a backend or a Firebase project for this.
+7-per-week counter and a local guest session. You don't need a backend for this.
 
 Unit tests (from a terminal): `./gradlew testDebugUnitTest`
 
@@ -48,26 +48,71 @@ All values are read from `local.properties` first (gitignored), then `gradle.pro
 **The app never contains secrets.** There is no Turso token, database URL, or AI API key anywhere in
 the client. All AI calls and usage counting go through your backend.
 
-## Firebase (anonymous auth)
+## Sign-in (guest sessions in Turso)
 
-`google-services.json` is **not** in the repo and is listed in `.gitignore`. No fake key is included.
+There is no Firebase and no sign-up screen. Every install is a guest, like anonymous auth:
 
-1. Create a Firebase project and add an Android app with package name `com.whattocook.app`
-   (or your own `applicationId`, see "Renaming" below).
-2. In **Authentication > Sign-in method**, enable **Anonymous**.
-3. Download `google-services.json` and put it at `app/google-services.json`.
-4. Sync Gradle. The Google Services plugin is applied **only if that file exists**
-   (see the top of `app/build.gradle.kts`), so the project still builds without it.
+1. On first launch the app calls `POST /auth/guest` (no auth header).
+2. Your backend creates a user row and a session row in **Turso** and returns `{ userId, token }`.
+3. The app stores the token in its own DataStore file (`auth`) and sends
+   `Authorization: Bearer <token>` on every other request.
+4. If the server answers **401**, the app throws that session away, creates a new guest session
+   once, and retries the request (`TokenRefreshAuthenticator`).
+5. Sign out clears the token on the device and starts a fresh guest. Delete account calls
+   `DELETE /account` first, then does the same.
 
-Without the file, Firebase isn't initialised: the app runs, the profile shows "Offline guest", and
-requests to a real backend are sent without a token (your backend should answer 401).
+Backend side (the app never sees any of this):
+
+- Secrets on the server only: `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, your AI key, and a Google Play
+  service account for purchase checks.
+- Make the token a long random value (32+ bytes) and store only its **SHA-256 hash** in Turso.
+- On each request: hash the bearer token, look it up in `sessions`, and use that `user_id`.
+  Unknown token: return 401.
+- Rate-limit `POST /auth/guest` per IP, since anyone can call it.
+
+```sql
+CREATE TABLE users (
+  id             TEXT PRIMARY KEY,          -- the userId you return
+  plan           TEXT NOT NULL DEFAULT 'free',
+  pro_expires_at INTEGER,                   -- epoch ms
+  created_at     INTEGER NOT NULL
+);
+
+CREATE TABLE sessions (
+  token_hash   TEXT PRIMARY KEY,            -- sha256(token), never the raw token
+  user_id      TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at   INTEGER NOT NULL,
+  last_seen_at INTEGER
+);
+
+CREATE TABLE usage (
+  user_id    TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  week_start INTEGER NOT NULL,              -- epoch ms, e.g. Monday 00:00 UTC
+  used       INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (user_id, week_start)
+);
+
+CREATE TABLE purchases (
+  purchase_token TEXT PRIMARY KEY,
+  user_id        TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  product_id     TEXT NOT NULL,
+  expires_at     INTEGER,
+  created_at     INTEGER NOT NULL
+);
+```
+
+Count usage in one statement so two quick taps can't both take the last free recipe:
+`UPDATE usage SET used = used + 1 WHERE user_id = ? AND week_start = ? AND used < ? RETURNING used`
+(insert the week's row first with `INSERT OR IGNORE`). If no row comes back, answer 429.
 
 ## Backend contract
 
-Every request sends `Authorization: Bearer <Firebase ID token>`. On a 401 the client refreshes the
-token once and retries (`TokenRefreshAuthenticator`).
+Every request except `POST /auth/guest` sends `Authorization: Bearer <session token>`.
 
 ```
+POST /auth/guest         <- no Authorization header
+  200:  { userId: String, token: String }
+
 POST /recipe
   body: { ingredients: [String], diet: String?, timeMinutes: Int?, equipment: [String]?,
           cuisine: String?, allowMissing: Int }
@@ -86,7 +131,7 @@ POST /verify-purchase
   200:  { plan, expiresAt }
 
 DELETE /account          <- also needed (Google Play requires in-app account deletion)
-  2xx:  any body or none. Delete everything stored for the Firebase uid.
+  2xx:  any body or none. Delete the user and all their rows (sessions, usage, purchases).
 ```
 
 Notes for the server:
@@ -121,7 +166,7 @@ Notes for the server:
 ## Renaming
 
 - Display name: `app_name` in `res/values/strings.xml`.
-- Package / application ID: `namespace` and `applicationId` in `app/build.gradle.kts` (and the Firebase app).
+- Package / application ID: `namespace` and `applicationId` in `app/build.gradle.kts`.
 
 ## Fonts
 
@@ -146,7 +191,7 @@ app/src/main/java/com/whattocook/app/
 │                 StepTimerParser, IngredientSearch, moods/cuisines, models
 ├─ data/
 │  ├─ remote/     Retrofit API, DTOs, auth interceptor, error mapping
-│  ├─ auth/       Firebase anonymous auth
+│  ├─ auth/       Guest sign-in (token from POST /auth/guest)
 │  ├─ local/      Room database, entities, DAOs
 │  ├─ settings/   DataStore settings
 │  ├─ catalog/    Bundled ingredient list (assets/ingredients.json, 380+ items incl. South Asian staples)
@@ -174,7 +219,7 @@ Unit tests live in `app/src/test` (ingredient matching, serving scaler, usage-li
 ## Before release
 
 - [ ] Set `BACKEND_BASE_URL` and `USE_FAKE_BACKEND=false` in `local.properties` (or CI).
-- [ ] Add `app/google-services.json`.
+- [ ] Implement `POST /auth/guest` and the Turso tables above.
 - [ ] Create the subscription and base plans; check `BillingProducts.kt`.
 - [ ] Set real `PRIVACY_URL`, `TERMS_URL`, `SUPPORT_EMAIL`.
 - [ ] Implement `DELETE /account` on the backend.

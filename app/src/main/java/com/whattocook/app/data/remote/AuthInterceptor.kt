@@ -9,28 +9,31 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
-/** Adds the Firebase ID token to every request. OkHttp calls this on a background thread. */
+private const val BEARER = "Bearer "
+
+/** Adds the session token to every request. OkHttp calls this on a background thread. */
 class AuthInterceptor @Inject constructor(
     private val authRepository: AuthRepository,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = runBlocking { authRepository.getIdToken(forceRefresh = false) }
+        val token = runBlocking { authRepository.getToken() }
         val request = chain.request().newBuilder().apply {
-            if (token != null) header("Authorization", "Bearer $token")
+            if (token != null) header("Authorization", BEARER + token)
         }.build()
         return chain.proceed(request)
     }
 }
 
-/** On a 401, refreshes the ID token once and retries; gives up after that. */
+/** On a 401, swaps the rejected session for a new guest session once and retries. */
 class TokenRefreshAuthenticator @Inject constructor(
     private val authRepository: AuthRepository,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.priorResponse != null) return null
-        val token = runBlocking { authRepository.getIdToken(forceRefresh = true) } ?: return null
+        val rejected = response.request.header("Authorization")?.removePrefix(BEARER)
+        val token = runBlocking { authRepository.refreshToken(rejected) } ?: return null
         return response.request.newBuilder()
-            .header("Authorization", "Bearer $token")
+            .header("Authorization", BEARER + token)
             .build()
     }
 }

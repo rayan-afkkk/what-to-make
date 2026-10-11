@@ -77,3 +77,9 @@ data class VerifyPurchaseResponseDto(
     val plan: String,
     val expiresAt: Long = 0L,
 )
+
+@Serializable
+data class GuestSessionDto(
+    val userId: String,
+    val token: String,
+)

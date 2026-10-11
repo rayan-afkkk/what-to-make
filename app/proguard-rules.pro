@@ -1,6 +1,6 @@
 # ---------------------------------------------------------------------------
 # What to Cook - R8 / ProGuard rules
-# Most libraries (Retrofit, OkHttp, Room, Hilt, Billing, Firebase,
+# Most libraries (Retrofit, OkHttp, Room, Hilt, Billing,
 # kotlinx.serialization) ship their own consumer rules. The rules below cover
 # the app's own reflection-sensitive code and a few belt-and-braces keeps.
 # ---------------------------------------------------------------------------

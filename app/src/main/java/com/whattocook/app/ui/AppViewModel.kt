@@ -32,7 +32,7 @@ class AppViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Eagerly, AppUiState())
 
     init {
-        // Start the anonymous Firebase session early so the first request has a token.
+        // Create the guest session early so the first request has a token.
         viewModelScope.launch { authRepository.ensureSignedIn() }
     }
 

@@ -22,6 +22,11 @@ import kotlinx.serialization.json.Json
 @Retention(AnnotationRetention.BINARY)
 annotation class ApplicationScope
 
+/** The DataStore that holds the guest session token (separate from app settings). */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthStore
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -45,5 +50,13 @@ object AppModule {
     fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         PreferenceDataStoreFactory.create(
             produceFile = { context.preferencesDataStoreFile("settings") },
+        )
+
+    @Provides
+    @Singleton
+    @AuthStore
+    fun provideAuthDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile("auth") },
         )
 }

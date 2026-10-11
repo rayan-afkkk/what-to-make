@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 interface AccountRepository {
     /** Ends the guest session, wipes local data and starts a fresh guest session. */
     suspend fun signOut(): AppResult<Unit>
-    /** Deletes server-side data first, then the Firebase user and all local data. */
+    /** Deletes server-side data first, then the local session and all local data. */
     suspend fun deleteAccount(): AppResult<Unit>
 }
 

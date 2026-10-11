@@ -248,7 +248,7 @@
     <string name="account_guest">Guest</string>
     <string name="account_guest_subtitle">Signed in on this device</string>
     <string name="account_guest_connecting">Connecting…</string>
-    <string name="account_guest_offline">Offline guest</string>
+    <string name="account_guest_offline">Demo mode, not connected to a server</string>
     <string name="account_appearance">Appearance</string>
     <string name="account_appearance_hint">Choose how %1$s looks. System matches your phone.</string>
     <string name="theme_system">System</string>

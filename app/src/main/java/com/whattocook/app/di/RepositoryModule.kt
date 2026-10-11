@@ -2,7 +2,7 @@ package com.whattocook.app.di
 
 import com.whattocook.app.BuildConfig
 import com.whattocook.app.data.auth.AuthRepository
-import com.whattocook.app.data.auth.FirebaseAuthRepository
+import com.whattocook.app.data.auth.GuestAuthRepository
 import com.whattocook.app.data.billing.BillingRepository
 import com.whattocook.app.data.billing.PlayBillingRepository
 import com.whattocook.app.data.repository.AccountRepository
@@ -31,7 +31,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindAuthRepository(impl: FirebaseAuthRepository): AuthRepository
+    abstract fun bindAuthRepository(impl: GuestAuthRepository): AuthRepository
 
     @Binds
     @Singleton

@@ -11,13 +11,6 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
-// google-services.json is gitignored and added by you (see README).
-// The plugin is only applied when the file exists, so the project still
-// builds before Firebase is set up (auth is then simply disabled).
-if (file("google-services.json").exists()) {
-    apply(plugin = "com.google.gms.google-services")
-}
-
 // Values are read from local.properties first, then gradle.properties, then a placeholder.
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
@@ -127,10 +120,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
-
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
 
     implementation(libs.billing.ktx)
 
