@@ -1,0 +1,6 @@
+{
+  "name": "What to Cook",
+  "description": "Pantry tracker, recipe recommender, step-by-step cook mode, and shopping list app.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

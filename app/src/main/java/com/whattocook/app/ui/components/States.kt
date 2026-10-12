@@ -232,5 +232,5 @@ fun errorMessage(error: AppError): String = when (error) {
             else -> R.string.error_unknown_message
         },
     )
-    is AppError.Unknown -> stringResource(R.string.error_unknown_message)
+    is AppError.Unknown -> error.message?.takeIf { it.isNotBlank() } ?: stringResource(R.string.error_unknown_message)
 }

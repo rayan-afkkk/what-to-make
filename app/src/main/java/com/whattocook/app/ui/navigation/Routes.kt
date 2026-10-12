@@ -24,6 +24,7 @@ object Routes {
     const val SHOPPING = "shopping"
     const val ACCOUNT = "account"
     const val ONBOARDING = "onboarding"
+    const val AUTH = "auth"
 
     const val ARG_ID = "id"
     const val RECIPE = "recipe/{$ARG_ID}"

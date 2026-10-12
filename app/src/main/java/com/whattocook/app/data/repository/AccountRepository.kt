@@ -13,10 +13,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface AccountRepository {
-    /** Ends the guest session, wipes local data and starts a fresh guest session. */
+    /** Ends the current session, wipes local data and starts a fresh guest session. */
     suspend fun signOut(): AppResult<Unit>
     /** Deletes server-side data first, then the local session and all local data. */
     suspend fun deleteAccount(): AppResult<Unit>
+    suspend fun signInWithEmail(email: String, password: String): AppResult<Unit>
+    suspend fun signUpWithEmail(email: String, password: String): AppResult<Unit>
+    suspend fun testTursoConnection(url: String, token: String): AppResult<Unit>
+    suspend fun saveTursoCredentials(url: String, token: String): AppResult<Unit>
+    suspend fun clearTursoCredentials()
+    suspend fun getEffectiveDatabaseUrl(): String
 }
 
 @Singleton
@@ -47,6 +53,34 @@ class DefaultAccountRepository @Inject constructor(
         auth.ensureSignedIn()
         return AppResult.Success(Unit)
     }
+
+    override suspend fun signInWithEmail(email: String, password: String): AppResult<Unit> {
+        val result = auth.signInWithEmail(email, password)
+        if (result is AppResult.Success) {
+            usageRepository.refresh()
+        }
+        return result
+    }
+
+    override suspend fun signUpWithEmail(email: String, password: String): AppResult<Unit> {
+        val result = auth.signUpWithEmail(email, password)
+        if (result is AppResult.Success) {
+            usageRepository.refresh()
+        }
+        return result
+    }
+
+    override suspend fun testTursoConnection(url: String, token: String): AppResult<Unit> =
+        auth.testTursoConnection(url, token)
+
+    override suspend fun saveTursoCredentials(url: String, token: String): AppResult<Unit> =
+        auth.saveTursoCredentials(url, token)
+
+    override suspend fun clearTursoCredentials() =
+        auth.clearTursoCredentials()
+
+    override suspend fun getEffectiveDatabaseUrl(): String =
+        auth.getEffectiveDatabaseUrl()
 
     private suspend fun clearLocalData() {
         withContext(Dispatchers.IO) { database.clearAllTables() }

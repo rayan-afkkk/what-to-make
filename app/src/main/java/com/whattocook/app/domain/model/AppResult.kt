@@ -6,7 +6,6 @@ sealed interface AppError {
     data object Unauthorized : AppError
     data class LimitReached(val resetsAtMillis: Long) : AppError
     data class Server(val code: Int) : AppError
-
     /** The server understood the request but couldn't do it, e.g. "no_recipe_found". */
     data class Unprocessable(val reason: String) : AppError
     data object NotConfigured : AppError

@@ -46,8 +46,4 @@
         <item quantity="one">%1$d free · %2$d more with Pro</item>
         <item quantity="other">%1$d free · %2$d more with Pro</item>
     </plurals>
-    <plurals name="recipe_add_to_list">
-        <item quantity="one">Add %1$d item to shopping list</item>
-        <item quantity="other">Add %1$d items to shopping list</item>
-    </plurals>
 </resources>

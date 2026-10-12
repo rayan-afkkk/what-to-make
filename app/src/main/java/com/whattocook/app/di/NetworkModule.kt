@@ -1,24 +1,24 @@
 package com.whattocook.app.di
 
+import android.content.Context
 import com.whattocook.app.BuildConfig
 import com.whattocook.app.data.remote.ApiService
 import com.whattocook.app.data.remote.AuthApi
-import com.whattocook.app.data.remote.MealDbApi
 import com.whattocook.app.data.remote.AuthInterceptor
+import com.whattocook.app.data.remote.MealDbApi
 import com.whattocook.app.data.remote.TokenRefreshAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Cache
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -90,6 +90,11 @@ object NetworkModule {
             }
         }
         .build()
+
+    @Provides
+    @Singleton
+    @Named("auth")
+    fun provideAuthOkHttpClient(@Named("plain") client: OkHttpClient): OkHttpClient = client
 
     /** TheMealDB client (plain: no auth header). */
     @Provides

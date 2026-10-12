@@ -107,17 +107,6 @@
 
     <!-- Home -->
     <string name="home_title">Home</string>
-    <string name="home_greeting_morning">Good morning. What are we cooking?</string>
-    <string name="home_greeting_afternoon">Good afternoon. What are we cooking?</string>
-    <string name="home_greeting_evening">Good evening. What’s for dinner?</string>
-    <string name="home_pro_badge">Pro plan</string>
-    <string name="home_your_recipes">Your recipes</string>
-    <string name="home_tile_pantry">From my pantry</string>
-    <string name="home_tile_pantry_sub">Use what you have</string>
-    <string name="home_tile_reel">From a reel</string>
-    <string name="home_tile_reel_sub">Paste or share a video</string>
-    <string name="home_tile_browse">Browse dishes</string>
-    <string name="home_tile_browse_sub">Photos &amp; ideas</string>
     <string name="home_add_recipe">Add a recipe from a reel or link</string>
     <string name="home_show_saved">Show saved recipes</string>
     <string name="home_filter_all">All</string>
@@ -132,8 +121,14 @@
     <string name="home_empty_saved_message">Tap the heart on a recipe to keep it here.</string>
     <string name="home_start_pantry_title">Stock your pantry</string>
     <string name="home_start_pantry_subtitle">Add what you have at home</string>
+    <string name="home_start_recipe_title">Make your first recipe</string>
+    <string name="home_start_recipe_subtitle">Turn your ingredients into ideas</string>
     <string name="home_start_save_title">Save a favourite</string>
     <string name="home_start_save_subtitle">Keep the ones you love close</string>
+    <string name="home_start_import_title">Turn a reel into a recipe</string>
+    <string name="home_start_import_subtitle">Share a cooking video and get the steps</string>
+    <string name="home_start_library_title">Browse the recipe library</string>
+    <string name="home_start_library_subtitle">Hundreds of dishes with photos, free</string>
 
     <!-- Pantry -->
     <string name="pantry_title">Pantry</string>
@@ -226,32 +221,17 @@
     <string name="recipe_unsave">Remove from saved</string>
     <string name="recipe_minutes">%1$d min</string>
     <string name="recipe_have_everything">You have everything</string>
+    <string name="recipe_ingredients">Ingredients</string>
     <string name="recipe_in_pantry">In your pantry</string>
     <string name="recipe_not_in_pantry">Not in your pantry</string>
+    <string name="recipe_missing">Missing</string>
     <string name="recipe_swap">Swap: %1$s</string>
+    <string name="recipe_add_missing">Add missing to shopping list</string>
     <string name="recipe_already_on_list">Already on your shopping list</string>
+    <string name="recipe_steps">Steps</string>
     <string name="recipe_cook_mode">Start cook mode</string>
-    <string name="recipe_tab_ingredients">Ingredients · %1$d</string>
-    <string name="recipe_tab_steps">Steps · %1$d</string>
-    <string name="recipe_fact_time">Time</string>
-    <string name="recipe_fact_servings">Serves</string>
-    <string name="recipe_fact_level">Level</string>
-    <string name="recipe_fact_steps">Steps</string>
-    <string name="difficulty_easy">Easy</string>
-    <string name="difficulty_medium">Medium</string>
-    <string name="difficulty_hard">Hard</string>
-    <string name="recipe_have_progress">You have %1$d of %2$d ingredients</string>
-    <string name="recipe_ready_to_cook">Ready to cook</string>
-    <string name="recipe_servings_for">Cooking for</string>
-    <string name="recipe_you_need">You need · %1$d</string>
-    <string name="recipe_you_have">You have · %1$d</string>
-    <string name="recipe_steps_done">%1$d of %2$d steps done</string>
-    <string name="recipe_step_tip">Tap a step when you’ve finished it. Times and temperatures are highlighted.</string>
-    <string name="recipe_step_done">Done</string>
-    <string name="recipe_step_not_done">Not done yet</string>
     <string name="recipe_fewer_servings">Fewer servings</string>
     <string name="recipe_more_servings">More servings</string>
-
     <string name="recipe_not_halal_warning">May contain pork or alcohol</string>
     <string name="recipe_open_reel">Watch the original reel</string>
     <string name="recipe_open_source">Watch the video</string>
@@ -334,6 +314,13 @@
     <string name="account_guest_subtitle">Signed in on this device</string>
     <string name="account_guest_connecting">Connecting…</string>
     <string name="account_guest_offline">Demo mode, not connected to a server</string>
+    <string name="account_turso_connected">Turso Database Connected</string>
+    <string name="account_turso_demo">Turso Demo Mode</string>
+    <string name="account_turso_sign_in_title">Turso Cloud Sync</string>
+    <string name="account_turso_sign_in_subtitle">Sign in or create an account with email and password to sync your kitchen across devices.</string>
+    <string name="account_turso_sign_in_action">Sign In / Sign Up</string>
+    <string name="account_turso_switch_account">Switch account</string>
+    <string name="account_turso_secrets_title">Turso Database Secrets</string>
     <string name="account_appearance">Appearance</string>
     <string name="account_appearance_hint">Choose how %1$s looks. System matches your phone.</string>
     <string name="theme_system">System</string>

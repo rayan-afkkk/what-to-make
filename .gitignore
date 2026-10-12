@@ -5,6 +5,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 
 # Local configuration & secrets
+.env
 local.properties
 *.keystore
 *.jks

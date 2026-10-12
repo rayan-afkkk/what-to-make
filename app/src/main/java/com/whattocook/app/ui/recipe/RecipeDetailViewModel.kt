@@ -9,7 +9,6 @@ import com.whattocook.app.data.repository.PantryRepository
 import com.whattocook.app.data.repository.RecipeRepository
 import com.whattocook.app.data.repository.ShoppingRepository
 import com.whattocook.app.domain.LibraryIds
-import com.whattocook.app.domain.RecipeReading
 import com.whattocook.app.domain.RecipeText
 import com.whattocook.app.domain.ServingScaler
 import com.whattocook.app.domain.model.AppResult
@@ -59,10 +58,6 @@ data class RecipeDetailUiState(
     val message: DetailMessage? = null,
     /** Heads-up when an ingredient looks like pork or alcohol. */
     val mayNotBeHalal: Boolean = false,
-    val haveCount: Int = 0,
-    val difficulty: RecipeReading.Difficulty = RecipeReading.Difficulty.EASY,
-    /** Steps the cook has ticked off. */
-    val doneSteps: Set<Int> = emptySet(),
 )
 
 @HiltViewModel
@@ -79,7 +74,6 @@ class RecipeDetailViewModel @Inject constructor(
 
     /** 0 means "use the recipe's own serving count". Survives process death. */
     private val servingsOverride = savedStateHandle.getStateFlow(KEY_SERVINGS, 0)
-    private val doneSteps = savedStateHandle.getStateFlow(KEY_DONE_STEPS, IntArray(0))
     private val message = MutableStateFlow<DetailMessage?>(null)
 
     /** Library recipes are downloaded on first open; this tracks that download. */
@@ -88,10 +82,10 @@ class RecipeDetailViewModel @Inject constructor(
     val uiState: StateFlow<RecipeDetailUiState> = combine(
         recipeRepository.observeRecipe(recipeId),
         pantryRepository.observeItems(),
-        combine(servingsOverride, doneSteps) { override, done -> override to done.toSet() },
+        servingsOverride,
         message,
         libraryLoad,
-    ) { recipe, pantry, (override, done), msg, load ->
+    ) { recipe, pantry, override, msg, load ->
         if (recipe == null) {
             return@combine when (load) {
                 LibraryLoad.Loading -> RecipeDetailUiState(isLoading = true)
@@ -134,9 +128,6 @@ class RecipeDetailViewModel @Inject constructor(
             missing = missing,
             message = msg,
             mayNotBeHalal = RecipeText.mayNotBeHalal(recipe.ingredients.map { it.name } + recipe.title),
-            haveCount = rows.count { it.inPantry },
-            difficulty = RecipeReading.difficulty(recipe.steps.size, recipe.ingredients.size, recipe.timeMinutes),
-            doneSteps = done,
         )
     }
         .catch { emit(RecipeDetailUiState(isLoading = false, error = AppError.Unknown(it.message))) }
@@ -165,13 +156,6 @@ class RecipeDetailViewModel @Inject constructor(
         savedStateHandle[KEY_SERVINGS] = (current + delta).coerceIn(1, MAX_SERVINGS)
     }
 
-    /** Tick a step off (or back on) while cooking from the recipe screen. */
-    fun toggleStep(index: Int) {
-        val current = doneSteps.value.toMutableSet()
-        if (!current.add(index)) current.remove(index)
-        savedStateHandle[KEY_DONE_STEPS] = current.sorted().toIntArray()
-    }
-
     fun toggleSaved() {
         val recipe = uiState.value.recipe ?: return
         viewModelScope.launch { recipeRepository.setSaved(recipe.id, !recipe.isSaved) }
@@ -192,7 +176,6 @@ class RecipeDetailViewModel @Inject constructor(
 
     private companion object {
         const val KEY_SERVINGS = "servings"
-        const val KEY_DONE_STEPS = "done_steps"
         const val MAX_SERVINGS = 24
     }
 }

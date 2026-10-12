@@ -22,16 +22,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.HelpOutline
+import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Bolt
+import androidx.compose.material.icons.outlined.CloudSync
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.PhoneAndroid
 import androidx.compose.material.icons.outlined.PlayCircleOutline
+import androidx.compose.material.icons.outlined.SwitchAccount
+import androidx.compose.material.icons.outlined.VpnKey
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -81,6 +87,7 @@ import com.whattocook.app.ui.theme.Spacing
 fun AccountScreen(
     onOpenPlan: () -> Unit,
     onViewOnboarding: () -> Unit,
+    onOpenAuth: () -> Unit = {},
     viewModel: AccountViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -98,6 +105,14 @@ fun AccountScreen(
         }
     }
 
+    val actionSuccess = state.actionSuccess
+    LaunchedEffect(actionSuccess) {
+        if (actionSuccess != null) {
+            snackbarHostState.showSnackbar(actionSuccess)
+            viewModel.actionSuccessShown()
+        }
+    }
+
     val appName = stringResource(R.string.app_name)
     val feedbackSubject = stringResource(R.string.account_feedback_subject, appName, BuildConfig.VERSION_NAME)
 
@@ -110,7 +125,69 @@ fun AccountScreen(
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = Spacing.screen, vertical = Spacing.lg),
             ) {
-                ProfileCard(plan = state.plan, signedIn = state.isSignedIn, configured = state.authConfigured)
+                ProfileCard(
+                    plan = state.plan,
+                    userEmail = state.userEmail,
+                    isTursoConfigured = state.isTursoConfigured,
+                )
+
+                if (state.userEmail == null) {
+                    Spacer(Modifier.height(Spacing.md))
+                    AppCard(Modifier.fillMaxWidth()) {
+                        Column(Modifier.padding(16.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(42.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(colors.pastels.blue.container),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.CloudSync,
+                                        contentDescription = null,
+                                        tint = colors.pastels.blue.content,
+                                        modifier = Modifier.size(24.dp),
+                                    )
+                                }
+                                Spacer(Modifier.width(12.dp))
+                                Column(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.account_turso_sign_in_title),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = colors.textPrimary,
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.account_turso_sign_in_subtitle),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = colors.textSecondary,
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(14.dp))
+                            Button(
+                                onClick = onOpenAuth,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(42.dp),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = colors.accent,
+                                    contentColor = colors.onAccent,
+                                ),
+                            ) {
+                                Icon(Icons.AutoMirrored.Outlined.Login, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Spacer(Modifier.width(8.dp))
+                                Text(
+                                    text = stringResource(R.string.account_turso_sign_in_action),
+                                    fontWeight = FontWeight.SemiBold,
+                                )
+                            }
+                        }
+                    }
+                }
+
                 Spacer(Modifier.height(Spacing.lg))
                 UsageCard(
                     usage = state.usage,
@@ -166,6 +243,19 @@ fun AccountScreen(
                     onClick = { dialog = AccountDialog.LEGAL },
                 )
                 SettingsRow(
+                    icon = Icons.Outlined.VpnKey,
+                    title = stringResource(R.string.account_turso_secrets_title),
+                    subtitle = if (state.isTursoConfigured) "Connected" else "Configure secrets & keys",
+                    onClick = { dialog = AccountDialog.TURSO_SECRETS },
+                )
+                if (state.userEmail != null) {
+                    SettingsRow(
+                        icon = Icons.Outlined.SwitchAccount,
+                        title = stringResource(R.string.account_turso_switch_account),
+                        onClick = onOpenAuth,
+                    )
+                }
+                SettingsRow(
                     icon = Icons.AutoMirrored.Outlined.Logout,
                     title = stringResource(R.string.account_sign_out),
                     destructive = true,
@@ -204,6 +294,38 @@ fun AccountScreen(
 
     when (dialog) {
         AccountDialog.NONE -> Unit
+        AccountDialog.TURSO_SECRETS -> {
+            var url by remember { mutableStateOf("") }
+            LaunchedEffect(Unit) {
+                viewModel.getEffectiveTursoUrl { url = it }
+            }
+            TursoSecretsDialog(
+                isTursoConfigured = state.isTursoConfigured,
+                initialUrl = url,
+                onDismiss = { dialog = AccountDialog.NONE },
+                onTestConnection = { testUrl, testToken, onResult ->
+                    viewModel.testTursoConnection(testUrl, testToken, onResult)
+                },
+                onSaveCredentials = { saveUrl, saveToken, onComplete ->
+                    viewModel.saveTursoCredentials(saveUrl, saveToken, onComplete)
+                },
+                onClearCredentials = {
+                    viewModel.clearTursoCredentials()
+                },
+            )
+        }
+        AccountDialog.TURSO_AUTH -> TursoAuthDialog(
+            isTursoConfigured = state.isTursoConfigured,
+            isBusy = state.busy,
+            onDismiss = { dialog = AccountDialog.NONE },
+            onSignIn = { email, pass ->
+                viewModel.signInWithEmail(email, pass) { dialog = AccountDialog.NONE }
+            },
+            onSignUp = { email, pass ->
+                viewModel.signUpWithEmail(email, pass) { dialog = AccountDialog.NONE }
+            },
+            onConfigureSecrets = { dialog = AccountDialog.TURSO_SECRETS },
+        )
         AccountDialog.LEGAL -> AlertDialog(
             onDismissRequest = { dialog = AccountDialog.NONE },
             containerColor = colors.card,
@@ -245,7 +367,7 @@ fun AccountScreen(
     }
 }
 
-private enum class AccountDialog { NONE, LEGAL, SIGN_OUT, DELETE }
+private enum class AccountDialog { NONE, LEGAL, SIGN_OUT, DELETE, TURSO_AUTH, TURSO_SECRETS }
 
 @Composable
 private fun ConfirmDialog(
@@ -274,37 +396,50 @@ private fun ConfirmDialog(
 }
 
 @Composable
-private fun ProfileCard(plan: Plan, signedIn: Boolean, configured: Boolean) {
+private fun ProfileCard(
+    plan: Plan,
+    userEmail: String?,
+    isTursoConfigured: Boolean,
+) {
     val colors = AppTheme.colors
     AppCard(Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val initial = userEmail?.firstOrNull()?.uppercaseChar()?.toString()
             Box(
                 modifier = Modifier
                     .size(54.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(colors.pastels.amber.container),
+                    .background(if (userEmail != null) colors.pastels.blue.container else colors.pastels.amber.container),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(Icons.Filled.Person, contentDescription = null, tint = colors.pastels.amber.content, modifier = Modifier.size(30.dp))
+                if (initial != null) {
+                    Text(
+                        text = initial,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = colors.pastels.blue.content,
+                    )
+                } else {
+                    Icon(Icons.Filled.Person, contentDescription = null, tint = colors.pastels.amber.content, modifier = Modifier.size(30.dp))
+                }
             }
             Spacer(Modifier.width(16.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    stringResource(R.string.account_guest),
+                    text = userEmail ?: stringResource(R.string.account_guest),
                     style = MaterialTheme.typography.headlineSmall,
                     color = colors.textPrimary,
+                    maxLines = 1,
                 )
                 Text(
-                    stringResource(
-                        when {
-                            !configured -> R.string.account_guest_offline
-                            signedIn -> R.string.account_guest_subtitle
-                            else -> R.string.account_guest_connecting
-                        },
-                    ),
+                    text = when {
+                        userEmail != null && isTursoConfigured -> stringResource(R.string.account_turso_connected)
+                        userEmail != null -> stringResource(R.string.account_turso_demo)
+                        else -> stringResource(R.string.account_guest_subtitle)
+                    },
                     style = MaterialTheme.typography.bodyMedium,
                     color = colors.textSecondary,
                 )

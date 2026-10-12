@@ -49,11 +49,11 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindLibraryRepository(impl: MealDbLibraryRepository): LibraryRepository
+    abstract fun bindBillingRepository(impl: PlayBillingRepository): BillingRepository
 
     @Binds
     @Singleton
-    abstract fun bindBillingRepository(impl: PlayBillingRepository): BillingRepository
+    abstract fun bindLibraryRepository(impl: MealDbLibraryRepository): LibraryRepository
 
     companion object {
         /** USE_FAKE_BACKEND=true swaps in sample data so the UI runs without a server. */

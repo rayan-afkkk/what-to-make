@@ -23,7 +23,9 @@ import kotlinx.coroutines.launch
 
 data class AccountUiState(
     val authConfigured: Boolean = false,
+    val isTursoConfigured: Boolean = false,
     val isSignedIn: Boolean = false,
+    val userEmail: String? = null,
     val plan: Plan = Plan.FREE,
     val usage: UsageSummary? = null,
     val usageLoading: Boolean = true,
@@ -31,6 +33,7 @@ data class AccountUiState(
     val themeMode: ThemeMode = ThemeMode.DEFAULT,
     val busy: Boolean = false,
     val actionError: AppError? = null,
+    val actionSuccess: String? = null,
 )
 
 private data class Transient(
@@ -38,6 +41,7 @@ private data class Transient(
     val usageError: AppError? = null,
     val busy: Boolean = false,
     val actionError: AppError? = null,
+    val actionSuccess: String? = null,
 )
 
 @HiltViewModel
@@ -54,11 +58,14 @@ class AccountViewModel @Inject constructor(
         usageRepository.usage,
         settings.themeMode,
         auth.userId,
+        auth.userEmail,
         transient,
-    ) { usage, theme, userId, t ->
+    ) { usage, theme, userId, userEmail, t ->
         AccountUiState(
             authConfigured = auth.isConfigured,
-            isSignedIn = userId != null,
+            isTursoConfigured = auth.isTursoConfigured,
+            isSignedIn = userEmail != null,
+            userEmail = userEmail,
             plan = usage?.plan ?: Plan.FREE,
             usage = usage?.let { UsageLimit.summarize(it, System.currentTimeMillis()) },
             usageLoading = t.usageLoading && usage == null,
@@ -66,6 +73,7 @@ class AccountViewModel @Inject constructor(
             themeMode = theme,
             busy = t.busy,
             actionError = t.actionError,
+            actionSuccess = t.actionSuccess,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AccountUiState())
 
@@ -88,12 +96,106 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch { settings.setThemeMode(mode) }
     }
 
-    fun signOut() = runAccountAction { accountRepository.signOut() }
+    fun signInWithEmail(email: String, pass: String, onSuccess: () -> Unit) {
+        if (transient.value.busy) return
+        viewModelScope.launch {
+            transient.value = transient.value.copy(busy = true, actionError = null)
+            val result = accountRepository.signInWithEmail(email, pass)
+            when (result) {
+                is AppResult.Success -> {
+                    transient.value = transient.value.copy(
+                        busy = false,
+                        actionSuccess = "Welcome back! Signed in as $email",
+                    )
+                    onSuccess()
+                }
+                is AppResult.Failure -> {
+                    transient.value = transient.value.copy(
+                        busy = false,
+                        actionError = result.error,
+                    )
+                }
+            }
+        }
+    }
 
-    fun deleteAccount() = runAccountAction { accountRepository.deleteAccount() }
+    fun signUpWithEmail(email: String, pass: String, onSuccess: () -> Unit) {
+        if (transient.value.busy) return
+        viewModelScope.launch {
+            transient.value = transient.value.copy(busy = true, actionError = null)
+            val result = accountRepository.signUpWithEmail(email, pass)
+            when (result) {
+                is AppResult.Success -> {
+                    transient.value = transient.value.copy(
+                        busy = false,
+                        actionSuccess = "Account created! Signed in as $email",
+                    )
+                    onSuccess()
+                }
+                is AppResult.Failure -> {
+                    transient.value = transient.value.copy(
+                        busy = false,
+                        actionError = result.error,
+                    )
+                }
+            }
+        }
+    }
+
+    fun signOut() = runAccountAction {
+        val result = accountRepository.signOut()
+        if (result is AppResult.Success) {
+            transient.value = transient.value.copy(actionSuccess = "Signed out. You are now using a guest session.")
+        }
+        result
+    }
+
+    fun deleteAccount() = runAccountAction {
+        val result = accountRepository.deleteAccount()
+        if (result is AppResult.Success) {
+            transient.value = transient.value.copy(actionSuccess = "Account deleted successfully.")
+        }
+        result
+    }
 
     fun actionErrorShown() {
         transient.value = transient.value.copy(actionError = null)
+    }
+
+    fun actionSuccessShown() {
+        transient.value = transient.value.copy(actionSuccess = null)
+    }
+
+    fun testTursoConnection(url: String, token: String, onResult: (AppResult<Unit>) -> Unit) {
+        viewModelScope.launch {
+            val result = accountRepository.testTursoConnection(url, token)
+            onResult(result)
+        }
+    }
+
+    fun saveTursoCredentials(url: String, token: String, onComplete: (AppResult<Unit>) -> Unit) {
+        viewModelScope.launch {
+            transient.value = transient.value.copy(busy = true, actionError = null)
+            val result = accountRepository.saveTursoCredentials(url, token)
+            transient.value = transient.value.copy(busy = false)
+            if (result is AppResult.Success) {
+                transient.value = transient.value.copy(actionSuccess = "Turso database connected successfully!")
+            }
+            onComplete(result)
+        }
+    }
+
+    fun clearTursoCredentials() {
+        viewModelScope.launch {
+            accountRepository.clearTursoCredentials()
+            transient.value = transient.value.copy(actionSuccess = "Turso credentials reset to defaults.")
+        }
+    }
+
+    fun getEffectiveTursoUrl(onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            onResult(accountRepository.getEffectiveDatabaseUrl())
+        }
     }
 
     private fun runAccountAction(action: suspend () -> AppResult<Unit>) {

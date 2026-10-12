@@ -1,4 +1,3 @@
-import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -9,17 +8,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-}
-
-// Values are read from local.properties first, then gradle.properties, then a placeholder.
-val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) file.inputStream().use { load(it) }
+    alias(libs.plugins.secrets)
 }
 
 fun configValue(key: String, default: String): String =
-    localProperties.getProperty(key)?.trim()?.takeIf { it.isNotEmpty() }
-        ?: (project.findProperty(key) as? String)?.trim()?.takeIf { it.isNotEmpty() }
+    (project.findProperty(key) as? String)?.trim()?.takeIf { it.isNotEmpty() }
         ?: default
 
 fun quoted(value: String): String = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
@@ -43,12 +36,23 @@ android {
         buildConfigField("boolean", "USE_FAKE_BACKEND", useFake.toString())
         buildConfigField("String", "PRIVACY_URL", quoted(configValue("PRIVACY_URL", "https://example.com/privacy")))
         buildConfigField("String", "TERMS_URL", quoted(configValue("TERMS_URL", "https://example.com/terms")))
-        // TheMealDB key: "1" is the free development key. Get your own for a public release.
         buildConfigField("String", "MEALDB_API_KEY", quoted(configValue("MEALDB_API_KEY", "1")))
         buildConfigField("String", "SUPPORT_EMAIL", quoted(configValue("SUPPORT_EMAIL", "support@example.com")))
     }
 
+    signingConfigs {
+        create("debugConfig") {
+            storeFile = file("${rootDir}/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debugConfig")
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -78,6 +82,11 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
+}
+
+secrets {
+    propertiesFileName = ".env"
+    defaultPropertiesFileName = ".env.example"
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -124,7 +133,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.billing.ktx)
-
     implementation(libs.coil.compose)
 
     testImplementation(libs.junit)

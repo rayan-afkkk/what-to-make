@@ -4,8 +4,8 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.whattocook.app.ui.account.AccountScreen
+import com.whattocook.app.ui.account.AuthScreen
 import com.whattocook.app.ui.discover.DiscoverScreen
 import com.whattocook.app.ui.home.HomeScreen
 import com.whattocook.app.ui.importer.ImportScreen
@@ -165,6 +166,16 @@ fun AppRoot(
                 AccountScreen(
                     onOpenPlan = { navController.navigate(Routes.paywall()) },
                     onViewOnboarding = { navController.navigate(Routes.ONBOARDING) },
+                    onOpenAuth = { navController.navigate(Routes.AUTH) },
+                )
+            }
+            composable(
+                route = Routes.AUTH,
+                enterTransition = sheetEnter,
+                popExitTransition = sheetExit,
+            ) {
+                AuthScreen(
+                    onBack = { navController.popBackStack() },
                 )
             }
             composable(
@@ -265,11 +276,7 @@ fun AppRoot(
             ) {
                 PaywallScreen(onClose = { navController.popBackStack() })
             }
-            composable(
-                route = Routes.ONBOARDING,
-                enterTransition = sheetEnter,
-                popExitTransition = sheetExit,
-            ) {
+            composable(Routes.ONBOARDING) {
                 OnboardingScreen(onFinished = { navController.popBackStack() })
             }
         }
